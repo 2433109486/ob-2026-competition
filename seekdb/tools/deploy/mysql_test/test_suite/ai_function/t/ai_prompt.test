@@ -7,9 +7,17 @@ connection default;
 # 正确
 select ai_prompt('{0}+{1}={2} 吗？请回答true或false','1');
 
-# not support
---error 1235 
+# a json object argument is accepted and kept in the prompt object
 select ai_prompt('{0}+{1}={2} 吗？请回答true或false',json_object("a","1"));
+
+# a json array argument is accepted as well
+select ai_prompt('{0}+{1}={2} 吗？请回答true或false',json_array("a","b"));
+
+# a placeholder index that is out of range keeps the placeholder verbatim
+select ai_prompt('{9}','1');
+
+# a nested prompt
+select ai_prompt('{0}', ai_prompt('inner {0}','v'));
 
 
 # 无参数

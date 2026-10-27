@@ -1,0 +1,206 @@
+#owner: tjqs
+#owner group: shenzhen
+
+### root
+# The test needs a Mock AI Service listening on 0.0.0.0:8000, see
+# mock_ai_service.py in the repository root of this competition workspace.
+connection default;
+
+--disable_warnings
+drop database if exists ai_func_test;
+--enable_warnings
+create database ai_func_test;
+use ai_func_test;
+
+### ------------------------------------------------------------------
+### prepare the models and the endpoints
+### ------------------------------------------------------------------
+
+call DBMS_AI_SERVICE.CREATE_AI_MODEL(
+  'emb_model', '{
+    "type": "dense_embedding",
+    "model_name": "mock-embedding"
+  }');
+
+call DBMS_AI_SERVICE.CREATE_AI_MODEL(
+  'cmp_model', '{
+    "type": "completion",
+    "model_name": "mock-completion"
+  }');
+
+call DBMS_AI_SERVICE.CREATE_AI_MODEL(
+  'rr_model', '{
+    "type": "rerank",
+    "model_name": "mock-rerank"
+  }');
+
+# an OpenAI compatible endpoint
+call DBMS_AI_SERVICE.CREATE_AI_MODEL_ENDPOINT (
+  'emb_endpoint', '{
+    "ai_model_name": "emb_model",
+    "url": "http://127.0.0.1:8000/v1/embeddings",
+    "access_key": "sk-mock",
+    "request_model_name": "mock-embedding",
+    "provider": "openai"
+  }');
+
+call DBMS_AI_SERVICE.CREATE_AI_MODEL_ENDPOINT (
+  'cmp_endpoint', '{
+    "ai_model_name": "cmp_model",
+    "url": "http://127.0.0.1:8000/v1/chat/completions",
+    "access_key": "sk-mock",
+    "request_model_name": "mock-completion",
+    "provider": "openai"
+  }');
+
+call DBMS_AI_SERVICE.CREATE_AI_MODEL_ENDPOINT (
+  'rr_endpoint', '{
+    "ai_model_name": "rr_model",
+    "url": "http://127.0.0.1:8000/v1/rerank",
+    "access_key": "sk-mock",
+    "request_model_name": "mock-rerank",
+    "provider": "siliconflow"
+  }');
+
+### ------------------------------------------------------------------
+### AI_PROMPT: type and template enhancement
+### ------------------------------------------------------------------
+
+# a JSON object argument is accepted and kept in the prompt object
+select JSON_EXTRACT(ai_prompt('hello {0}', json_object('a', '1')), '$.args[0].a');
+
+# a JSON array argument is accepted as well
+select JSON_EXTRACT(ai_prompt('hello {0}', json_array('a', 'b')), '$.args[0][1]');
+
+# the template and the arguments are kept as they are
+select JSON_UNQUOTE(JSON_EXTRACT(ai_prompt('a {0} b {1}', 'x', 'y'), '$.template'));
+select JSON_UNQUOTE(JSON_EXTRACT(ai_prompt('a {0} b {1}', 'x', 'y'), '$.args[0]'));
+
+# a repeated placeholder is replaced every time it appears
+select JSON_UNQUOTE(JSON_EXTRACT(ai_prompt('{0} and {0}', 'x'), '$.args[0]'));
+
+# a placeholder index that is out of range does not abort the statement, the
+# placeholder is kept verbatim
+select JSON_UNQUOTE(JSON_EXTRACT(ai_prompt('{9}', 'x'), '$.template'));
+
+# a nested prompt, the inner prompt object is used as the argument of the
+# outer one
+select JSON_UNQUOTE(JSON_EXTRACT(
+  ai_prompt('{0}', ai_prompt('inner {0}', 'v')), '$.args[0].args[0]'));
+
+# a long text template and a long text argument are supported
+select JSON_UNQUOTE(JSON_EXTRACT(
+  ai_prompt(cast('long {0}' as char(100000)), cast('v' as char(100000))),
+  '$.args[0]'));
+
+# a null argument is still rejected
+--error 5083
+select ai_prompt('a {0}', null);
+
+### ------------------------------------------------------------------
+### AI_EMBED: single row semantics
+### ------------------------------------------------------------------
+
+# the default dimension
+select JSON_LENGTH(JSON_EXTRACT(ai_embed('emb_model', 'hello'), '$'));
+
+# an explicit dimension
+select JSON_LENGTH(JSON_EXTRACT(ai_embed('emb_model', 'hello', 16), '$'));
+
+# the dimension has to be a positive integer
+--error 1235
+select ai_embed('emb_model', 'hello', 0);
+--error 1235
+select ai_embed('emb_model', 'hello', -1);
+
+# the result is a json array of numbers
+select JSON_TYPE(JSON_EXTRACT(ai_embed('emb_model', 'hello', 4), '$'));
+
+### ------------------------------------------------------------------
+### AI_COMPLETE: request and response
+### ------------------------------------------------------------------
+
+# a plain prompt
+select ai_complete('cmp_model', 'what is the answer?') is not null;
+
+# a prompt object
+select ai_complete('cmp_model', ai_prompt('say {0}', 'hi')) is not null;
+
+# a json configuration
+select ai_complete('cmp_model', 'hello', '{"temperature":0.5,"max_tokens":16}') is not null;
+
+# a null configuration is the same as no configuration
+select ai_complete('cmp_model', 'hello', null) is not null;
+
+# a configuration member with an unexpected type is rejected
+--error 1235
+select ai_complete('cmp_model', 'hello', '{"temperature":"hot"}');
+
+### ------------------------------------------------------------------
+### Ollama provider
+### ------------------------------------------------------------------
+
+# an endpoint without an access key is accepted for a keyless provider
+call DBMS_AI_SERVICE.CREATE_AI_MODEL_ENDPOINT (
+  'ollama_emb_endpoint', '{
+    "ai_model_name": "emb_model",
+    "url": "http://127.0.0.1:8000/api/embeddings",
+    "request_model_name": "mock-embedding",
+    "provider": "ollama"
+  }');
+
+# the provider name is case insensitive
+select PROVIDER from oceanbase.DBA_OB_AI_MODEL_ENDPOINTS
+  where ENDPOINT_NAME = 'ollama_emb_endpoint';
+
+call DBMS_AI_SERVICE.ALTER_AI_MODEL_ENDPOINT (
+  'ollama_emb_endpoint', '{
+    "provider" : "OLLAMA"
+  }');
+
+select PROVIDER from oceanbase.DBA_OB_AI_MODEL_ENDPOINTS
+  where ENDPOINT_NAME = 'ollama_emb_endpoint';
+
+# the endpoint can be dropped again
+call DBMS_AI_SERVICE.DROP_AI_MODEL_ENDPOINT('ollama_emb_endpoint');
+
+### ------------------------------------------------------------------
+### AI_RERANK: result correctness
+### ------------------------------------------------------------------
+
+# an array of strings
+select JSON_LENGTH(ai_rerank('rr_model', 'query', '["a","b","c"]'));
+
+# an array of objects, the text is taken from the given key
+select JSON_LENGTH(ai_rerank('rr_model', 'query', '[{"id":1,"text":"a"},{"id":2,"text":"b"}]', 'text'));
+
+# the result keeps the number of the documents
+select JSON_LENGTH(ai_rerank('rr_model', 'query', '["a","b","c","d","e"]'));
+
+### ------------------------------------------------------------------
+### AI_EMBED across rows
+### ------------------------------------------------------------------
+
+create table t_embed (id int primary key, content varchar(64), dim int);
+insert into t_embed values (1, 'first row', 4), (2, 'second row', 4), (3, null, 4);
+
+# every row gets its own embedding, a null content gives a null result
+select id, JSON_LENGTH(JSON_EXTRACT(ai_embed('emb_model', content, dim), '$')) from t_embed order by id;
+
+# the dimension is the one the caller asked for
+select id, JSON_LENGTH(JSON_EXTRACT(ai_embed('emb_model', content, 8), '$')) from t_embed order by id;
+
+drop table t_embed;
+
+### ------------------------------------------------------------------
+### clean up
+### ------------------------------------------------------------------
+
+call DBMS_AI_SERVICE.DROP_AI_MODEL_ENDPOINT('emb_endpoint');
+call DBMS_AI_SERVICE.DROP_AI_MODEL_ENDPOINT('cmp_endpoint');
+call DBMS_AI_SERVICE.DROP_AI_MODEL_ENDPOINT('rr_endpoint');
+call DBMS_AI_SERVICE.DROP_AI_MODEL('emb_model');
+call DBMS_AI_SERVICE.DROP_AI_MODEL('cmp_model');
+call DBMS_AI_SERVICE.DROP_AI_MODEL('rr_model');
+
+drop database ai_func_test;

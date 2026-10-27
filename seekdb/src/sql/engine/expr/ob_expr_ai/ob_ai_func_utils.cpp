@@ -180,6 +180,65 @@ int ObOpenAIUtils::ObOpenAIComplete::parse_output(common::ObIAllocator &allocato
   return ret;
 }
 
+int ObAIFuncUtils::check_complete_result_not_empty(ObIJsonBase *result)
+{
+  int ret = OB_SUCCESS;
+  if (OB_ISNULL(result)) {
+    ret = OB_INVALID_DATA;
+    LOG_USER_ERROR(OB_INVALID_DATA, "ai_complete, response is empty");
+  } else if (result->json_type() != ObJsonNodeType::J_STRING) {
+    ret = OB_INVALID_DATA;
+    LOG_USER_ERROR(OB_INVALID_DATA, "ai_complete, response is not a string");
+  } else {
+    ObJsonString *content = static_cast<ObJsonString *>(result);
+    ObString text;
+    if (OB_ISNULL(content->get_str())) {
+      ret = OB_INVALID_DATA;
+      LOG_USER_ERROR(OB_INVALID_DATA, "ai_complete, response is empty");
+    } else {
+      text = content->get_str();
+      if (text.empty()) {
+        ret = OB_INVALID_DATA;
+        LOG_USER_ERROR(OB_INVALID_DATA, "ai_complete, response is empty");
+      }
+    }
+  }
+  return ret;
+}
+
+int ObAIFuncUtils::check_complete_config(ObJsonObject *config)
+{
+  int ret = OB_SUCCESS;
+  if (OB_ISNULL(config)) {
+    // no configuration at all
+  } else {
+    // The numeric members of the configuration have to be numbers, the
+    // service would reject a value of another type.
+    static const char *NUMERIC_KEYS[] = {
+      "temperature",
+      "max_tokens",
+      "top_p",
+      "top_k",
+      "n"
+    };
+    for (int64_t i = 0; OB_SUCC(ret) && i < ARRAYSIZEOF(NUMERIC_KEYS); i++) {
+      ObJsonNode *node = config->get_value(NUMERIC_KEYS[i]);
+      if (OB_NOT_NULL(node)) {
+        const ObJsonNodeType node_type = node->json_type();
+        if (node_type != ObJsonNodeType::J_INT
+            && node_type != ObJsonNodeType::J_UINT
+            && node_type != ObJsonNodeType::J_DOUBLE
+            && node_type != ObJsonNodeType::J_DECIMAL) {
+          ret = OB_INVALID_ARGUMENT;
+          LOG_USER_ERROR(OB_INVALID_ARGUMENT,
+                         "ai_complete, configuration member is not a number");
+        }
+      }
+    }
+  }
+  return ret;
+}
+
 int ObOpenAIUtils::ObOpenAIEmbed::get_header(common::ObIAllocator &allocator,
                                              ObString &api_key,
                                              common::ObArray<ObString> &headers) 
@@ -1354,9 +1413,11 @@ int ObAIFuncModel::call_completion(ObString &prompt, ObJsonObject *config, ObStr
   } else if (OB_FAIL(ObAIFuncUtils::get_complete_provider(*allocator_, endpoint_info_.get_provider(), complete_provider))) {
   } else if (OB_FAIL(endpoint_info_.get_unencrypted_access_key(*allocator_, unencrypted_access_key))) {
   } else if (OB_FAIL(complete_provider->get_header(*allocator_, unencrypted_access_key, headers))) {
+  } else if (OB_FAIL(ObAIFuncUtils::check_complete_config(config))) {
   } else if (OB_FAIL(complete_provider->get_body(*allocator_, request_model_name, prompt_str, prompt, config, body))) {
   } else if (OB_FAIL(client.send_post(*allocator_, endpoint_info_.get_url(), headers, body, response))) {
   } else if (OB_FAIL(complete_provider->parse_output(*allocator_, response, result_base))) {
+  } else if (OB_FAIL(ObAIFuncUtils::check_complete_result_not_empty(result_base))) {
   } else if (OB_FAIL(ObAIFuncJsonUtils::print_json_to_str(*allocator_, result_base, result_str))) {
   } else {
     result = result_str;

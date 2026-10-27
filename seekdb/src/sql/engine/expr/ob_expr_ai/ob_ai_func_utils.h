@@ -330,6 +330,13 @@ public:
                                 const share::ObAiModelEndpointInfo &endpoint_info,
                                 ObJsonObject *http_response,
                                 ObIJsonBase *&result);
+  // The completion result has to carry a non empty text, an empty response
+  // is an error instead of an empty string.
+  static int check_complete_result_not_empty(common::ObIJsonBase *result);
+  // Validate the well known numeric members of a completion configuration.
+  // A member with an unexpected type is rejected instead of being sent to the
+  // service as is.
+  static int check_complete_config(common::ObJsonObject *config);
   static int parse_rerank_output(ObIAllocator &allocator, 
                                  const share::ObAiModelEndpointInfo &endpoint_info,
                                  ObJsonObject *http_response,

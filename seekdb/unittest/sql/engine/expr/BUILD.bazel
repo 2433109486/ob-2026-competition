@@ -1,0 +1,30 @@
+load("@rules_cc//cc:cc_test.bzl", "cc_test")
+load("//bazel:defs.bzl", "cc_library")
+
+package(default_testonly = True)
+
+cc_library(
+    name = "ai_expr_cases",
+    srcs = [
+        "ob_expr_ai_prompt_test.cpp",
+        "test_ob_openai_utils.cpp",
+    ],
+    alwayslink = True,
+    deps = [
+        "//bazel/third_party:gtest",
+        "//src/sql:sql_runtime_internal_headers",
+    ],
+)
+
+cc_test(
+    name = "test_ai_expr",
+    size = "small",
+    linkstatic = True,
+    # liboceanbase supplies the C++ runtime; select rules_cc's $ORIGIN rpath.
+    features = ["-static_cpp_runtime", "-static_link_cpp_runtimes"],
+    deps = [
+        ":ai_expr_cases",
+        "//src/observer:liboceanbase",
+    ],
+    target_compatible_with = ["@platforms//os:linux"],
+)
