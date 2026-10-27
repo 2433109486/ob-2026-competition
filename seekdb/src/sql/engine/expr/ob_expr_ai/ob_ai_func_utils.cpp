@@ -231,8 +231,14 @@ int ObOpenAIUtils::ObOpenAIEmbed::parse_output(common::ObIAllocator &allocator,
       ret = OB_INVALID_DATA;
     } else {
       ObJsonArray *data_array = static_cast<ObJsonArray *>(data_node);
+      const int64_t data_count = data_array->element_count();
       ObJsonNode *embedding_node = nullptr;
-      for (int64_t i = 0; OB_SUCC(ret) && i < data_array->element_count(); i++) {
+      // The service is allowed to answer out of order, every element carries
+      // the index of the input it belongs to. The embeddings are placed at the
+      // position given by that index so that the result keeps the order of
+      // the request.
+      ObSEArray<ObJsonNode *, 8> ordered_embeddings;
+      for (int64_t i = 0; OB_SUCC(ret) && i < data_count; i++) {
         if (OB_ISNULL(embedding_node = data_array->get_value(i))) {
           ret = OB_INVALID_DATA;
         } else if (embedding_node->json_type() != ObJsonNodeType::J_OBJECT) {
@@ -242,7 +248,40 @@ int ObOpenAIUtils::ObOpenAIEmbed::parse_output(common::ObIAllocator &allocator,
           ObJsonNode *embedding = embedding_obj->get_value("embedding");
           if (OB_ISNULL(embedding)) {
             ret = OB_INVALID_DATA;
-          } else if (OB_FAIL(result_array->append(embedding))) {
+          } else {
+            ObJsonNode *index_node = embedding_obj->get_value("index");
+            int64_t position = i;
+            if (OB_NOT_NULL(index_node) && index_node->json_type() == ObJsonNodeType::J_INT) {
+              position = static_cast<ObJsonInt *>(index_node)->value();
+              if (position < 0 || position >= data_count) {
+                ret = OB_INVALID_DATA;
+                LOG_USER_ERROR(OB_INVALID_DATA,
+                               "ai_embed, response index is out of range");
+              }
+            }
+            if (OB_SUCC(ret)) {
+              if (position >= ordered_embeddings.count()) {
+                // Grow the array so that the embedding can be placed at its
+                // own position.
+                while (ordered_embeddings.count() <= position) {
+                  if (OB_FAIL(ordered_embeddings.push_back(nullptr))) {
+                    break;
+                  }
+                }
+              }
+              if (OB_SUCC(ret)) {
+                ordered_embeddings.at(position) = embedding;
+              }
+            }
+          }
+        }
+      }
+      if (OB_SUCC(ret)) {
+        for (int64_t i = 0; OB_SUCC(ret) && i < ordered_embeddings.count(); i++) {
+          if (OB_ISNULL(ordered_embeddings.at(i))) {
+            ret = OB_INVALID_DATA;
+            LOG_USER_ERROR(OB_INVALID_DATA, "ai_embed, response misses an embedding");
+          } else if (OB_FAIL(result_array->append(ordered_embeddings.at(i)))) {
           }
         }
       }
@@ -942,6 +981,18 @@ int ObAIFuncJsonUtils::get_json_int(ObIAllocator &allocator, int64_t num, ObJson
     ret = OB_ALLOCATE_MEMORY_FAILED;
   } else {
     int_node = j_int;
+  }
+  return ret;
+}
+
+int ObAIFuncJsonUtils::get_json_double(ObIAllocator &allocator, double num, ObJsonDouble *&double_node)
+{
+  int ret = OB_SUCCESS;
+  ObJsonDouble *j_double = OB_NEWx(ObJsonDouble, &allocator, num);
+  if (OB_ISNULL(j_double)) {
+    ret = OB_ALLOCATE_MEMORY_FAILED;
+  } else {
+    double_node = j_double;
   }
   return ret;
 }

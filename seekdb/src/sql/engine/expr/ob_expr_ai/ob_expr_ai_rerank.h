@@ -59,6 +59,15 @@ private:
   static int construct_batch_document_array(common::ObIAllocator &allocator, common::ObJsonArray *document_array, int64_t start_idx, int64_t end_idx, common::ObJsonArray *&batch_document_array);
   static int batch_result_add_base(common::ObIAllocator &allocator, common::ObJsonArray *array, int64_t start_idx);
   static int compact_json_array_by_key(common::ObIAllocator &allocator, common::ObJsonArray *array1, common::ObJsonArray *array2, common::ObString &score_key, common::ObJsonArray *&compact_array);
+  // Read the "index" field of one model result element. The field has to be an
+  // integer and has to address an existing document, otherwise the model
+  // result cannot be mapped back to the original documents.
+  static int get_result_index(common::ObJsonObject *result_obj, int64_t doc_count, int64_t &index);
+  // Read the "relevance_score" field of one model result element. The field
+  // has to be a number.
+  static int get_result_score(common::ObJsonObject *result_obj, double &score);
+  // Read a numeric field of one model result element under an arbitrary key.
+  static int get_score_by_key(common::ObJsonObject *result_obj, common::ObString &score_key, double &score);
   static constexpr int MODEL_IDX = 0;
   static constexpr int QUERY_IDX = 1;
   static constexpr int DOCUMENTS_IDX = 2;
