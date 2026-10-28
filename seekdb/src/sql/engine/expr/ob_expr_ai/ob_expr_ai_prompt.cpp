@@ -142,7 +142,7 @@ int ObExprAIPrompt::eval_ai_prompt(const ObExpr &expr, ObEvalCtx &ctx, ObDatum &
         } else if (OB_ISNULL(arg_json_node)) {
           ret = OB_ERR_INVALID_TYPE_FOR_OP;
           LOG_USER_ERROR(OB_ERR_INVALID_TYPE_FOR_OP, "ai_prompt, argument is null");
-        } else if (OB_FAIL(args_array->append(arg_json_node))) {
+        } else if (OB_FAIL(args_array->append(static_cast<ObJsonNode *>(arg_json_node)))) {
         }
       } else if (OB_FAIL(tmp_allocator.eval_arg(arg, ctx, datum))) {
       } else if (datum->is_null()) {

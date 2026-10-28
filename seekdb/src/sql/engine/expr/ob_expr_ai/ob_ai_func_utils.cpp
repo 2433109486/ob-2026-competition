@@ -1788,7 +1788,7 @@ int ObAIFuncPromptObjectUtils::replace_all_str_args_in_template(ObIAllocator &al
                  || arg_node->json_type() == ObJsonNodeType::J_ARRAY) {
         // A JSON argument is substituted with its JSON text so that the
         // resulting prompt keeps the structure the caller passed in.
-        ObStringBuffer arg_buf(allocator);
+        ObStringBuffer arg_buf(&allocator);
         if (OB_FAIL(arg_node->print(arg_buf, 0))) {
           ret = OB_ERR_UNEXPECTED;
         } else {

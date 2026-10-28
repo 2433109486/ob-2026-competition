@@ -315,9 +315,19 @@ int ObExprAIRerank::get_result_score(ObJsonObject *result_obj, double &score)
       } else if (score_type == ObJsonNodeType::J_INT) {
         score = static_cast<double>(static_cast<ObJsonInt *>(score_node)->value());
       } else if (score_type == ObJsonNodeType::J_UINT) {
-        score = static_cast<double>(static_cast<ObJsonUInt *>(score_node)->value());
+        score = static_cast<double>(static_cast<ObJsonUint *>(score_node)->value());
       } else if (score_type == ObJsonNodeType::J_DECIMAL) {
-        score = static_cast<double>(static_cast<ObJsonDecimal *>(score_node)->value());
+        // A decimal score is converted through its text form, the number type
+        // does not provide a direct conversion to a double.
+        number::ObNumber num = static_cast<ObJsonDecimal *>(score_node)->value();
+        char num_buf[number::ObNumber::MAX_PRINTABLE_SIZE];
+        int64_t num_pos = num.to_string(num_buf, static_cast<int64_t>(sizeof(num_buf)));
+        if (num_pos < 0 || num_pos >= static_cast<int64_t>(sizeof(num_buf))) {
+          ret = OB_ERR_UNEXPECTED;
+        } else {
+          num_buf[num_pos] = '\0';
+          score = strtod(num_buf, NULL);
+        }
       } else {
         ret = OB_ERR_UNEXPECTED;
         LOG_USER_ERROR(OB_ERR_UNEXPECTED, "ai_rerank, model result score is not a number");
@@ -345,9 +355,19 @@ int ObExprAIRerank::get_score_by_key(ObJsonObject *result_obj, ObString &score_k
       } else if (score_type == ObJsonNodeType::J_INT) {
         score = static_cast<double>(static_cast<ObJsonInt *>(score_node)->value());
       } else if (score_type == ObJsonNodeType::J_UINT) {
-        score = static_cast<double>(static_cast<ObJsonUInt *>(score_node)->value());
+        score = static_cast<double>(static_cast<ObJsonUint *>(score_node)->value());
       } else if (score_type == ObJsonNodeType::J_DECIMAL) {
-        score = static_cast<double>(static_cast<ObJsonDecimal *>(score_node)->value());
+        // A decimal score is converted through its text form, the number type
+        // does not provide a direct conversion to a double.
+        number::ObNumber num = static_cast<ObJsonDecimal *>(score_node)->value();
+        char num_buf[number::ObNumber::MAX_PRINTABLE_SIZE];
+        int64_t num_pos = num.to_string(num_buf, static_cast<int64_t>(sizeof(num_buf)));
+        if (num_pos < 0 || num_pos >= static_cast<int64_t>(sizeof(num_buf))) {
+          ret = OB_ERR_UNEXPECTED;
+        } else {
+          num_buf[num_pos] = '\0';
+          score = strtod(num_buf, NULL);
+        }
       } else {
         ret = OB_ERR_UNEXPECTED;
         LOG_USER_ERROR(OB_ERR_UNEXPECTED, "ai_rerank, model result score is not a number");
