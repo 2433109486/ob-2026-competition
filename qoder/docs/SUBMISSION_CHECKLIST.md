@@ -31,7 +31,7 @@
 ```text
 repository: https://github.com/2433109486/ob-2026-competition
 branch:     submission-2026
-commit:     80a36d812b60b510a6f37d3bda005fd6de70578e
+commit:     96b04f45821e134da20f52cb8496bba00e6e7ed3
 asset dir:  qoder/
 ```
 
