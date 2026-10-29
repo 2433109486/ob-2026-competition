@@ -1,0 +1,98 @@
+--- before/booknest/service.py
++++ after/booknest/service.py
+@@ -1,11 +1,8 @@
+-"""Product search service.
+-
+-The price-range parameters are intentionally a stub in the baseline snapshot:
+-the task's target tests fail until the feature is implemented.
+-"""
++"""Product search service."""
+ 
+ from __future__ import annotations
+ 
++import math
+ from typing import Iterable, Sequence
+ 
+ from .models import Product
+@@ -27,10 +24,21 @@
+ 
+     Existing behaviour: category matching is case-insensitive, keyword matching
+     covers title/tags/category, and ``limit`` must be between 1 and 100.
++    Price filtering uses inclusive lower and upper bounds.
+     """
+ 
+     if min_price is not None or max_price is not None:
+-        raise NotImplementedError("price-range filtering is not implemented yet")
++        if any(
++            value is not None and not math.isfinite(value)
++            for value in (min_price, max_price)
++        ):
++            raise ValueError("min_price and max_price must be finite numbers")
++        if (min_price is not None and min_price < 0) or (
++            max_price is not None and max_price < 0
++        ):
++            raise ValueError("min_price and max_price must be non-negative")
++        if min_price is not None and max_price is not None and min_price > max_price:
++            raise ValueError("min_price must be less than or equal to max_price")
+ 
+     if sort not in _SORT_CHOICES:
+         raise ValueError(f"unsupported sort: {sort}")
+@@ -52,6 +60,12 @@
+             or needle in item.category.lower()
+             or any(needle in tag.lower() for tag in item.tags)
+         ]
++
++    if min_price is not None:
++        items = [item for item in items if item.price >= min_price]
++
++    if max_price is not None:
++        items = [item for item in items if item.price <= max_price]
+ 
+     if sort == "price_asc":
+         items.sort(key=lambda item: (item.price, item.id))
+--- before/booknest/api.py
++++ after/booknest/api.py
+@@ -7,6 +7,7 @@
+ from __future__ import annotations
+ 
+ import json
++import math
+ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+ from typing import Any
+ from urllib.parse import parse_qs, urlparse
+@@ -37,12 +38,16 @@
+             keyword = _single(params, "keyword")
+             sort = _single(params, "sort") or "relevance"
+             limit = _parse_int(_single(params, "limit"), default=20, field="limit")
++            min_price = _parse_float(_single(params, "min_price"), field="min_price")
++            max_price = _parse_float(_single(params, "max_price"), field="max_price")
+             items = search_products(
+                 self.products,
+                 category=category,
+                 keyword=keyword,
+                 sort=sort,
+                 limit=limit,
++                min_price=min_price,
++                max_price=max_price,
+             )
+         except ValueError as error:
+             self._send_json(400, {"error": str(error)})
+@@ -83,6 +88,18 @@
+         raise ValueError(f"{field} must be an integer") from error
+ 
+ 
++def _parse_float(raw: str | None, *, field: str) -> float | None:
++    if raw is None or raw == "":
++        return None
++    try:
++        value = float(raw)
++    except ValueError as error:
++        raise ValueError(f"{field} must be a number") from error
++    if not math.isfinite(value):
++        raise ValueError(f"{field} must be a finite number")
++    return value
++
++
+ def create_server(
+     host: str = "127.0.0.1",
+     port: int = 8080,

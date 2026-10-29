@@ -1,0 +1,10 @@
+command: D:\agent\sandbox\comp\comp\minimax\.venv\Scripts\python.exe -m pytest -q
+cwd: D:\agent\sandbox\comp\comp\minimax
+phase: after
+code_version: sha256:0397caf0486d84e2905142f54fce78f6ceee30ac2fa2ffc4968a74ad6734d351
+exit_code: 0
+timestamp: 2026-10-29T08:41:57.602054+00:00
+pytest_summary: 20 passed in 3.13s
+---- output ----
+....................                                                                                             [100%]
+20 passed in 3.13s

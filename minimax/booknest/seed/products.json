@@ -1,0 +1,12 @@
+[
+  {"id": "BK-1001", "title": "Deep Work", "category": "Business", "price": 68.0, "rating": 4.7, "stock": 12, "tags": ["productivity", "career"]},
+  {"id": "BK-1002", "title": "Clean Code", "category": "Technology", "price": 128.0, "rating": 4.8, "stock": 8, "tags": ["programming", "craft"]},
+  {"id": "BK-1003", "title": "The Pragmatic Programmer", "category": "Technology", "price": 99.0, "rating": 4.9, "stock": 5, "tags": ["programming", "career"]},
+  {"id": "BK-1004", "title": "Designing Data-Intensive Applications", "category": "Technology", "price": 168.0, "rating": 4.9, "stock": 3, "tags": ["data", "distributed"]},
+  {"id": "BK-1005", "title": "Atomic Habits", "category": "Lifestyle", "price": 58.0, "rating": 4.6, "stock": 20, "tags": ["habits", "self-help"]},
+  {"id": "BK-1006", "title": "The Lean Startup", "category": "Business", "price": 88.0, "rating": 4.4, "stock": 0, "tags": ["startup", "product"]},
+  {"id": "BK-1007", "title": "Free Culture", "category": "Culture", "price": 0.0, "rating": 4.1, "stock": 100, "tags": ["open", "internet"]},
+  {"id": "BK-1008", "title": "Refactoring", "category": "Technology", "price": 148.0, "rating": 4.8, "stock": 6, "tags": ["programming", "refactoring"]},
+  {"id": "BK-1009", "title": "Zero to One", "category": "Business", "price": 45.0, "rating": 4.3, "stock": 15, "tags": ["startup", "strategy"]},
+  {"id": "BK-1010", "title": "The Art of War", "category": "Culture", "price": 25.0, "rating": 4.0, "stock": 30, "tags": ["strategy", "classic"]}
+]

@@ -1,0 +1,6 @@
+{"ts": "2026-10-29T08:41:19.643024+00:00", "provider": "minimax", "model": "embo-01", "purpose": "db", "text_count": 31, "dimensions": 1536, "requests": 4, "input_tokens": 7208, "elapsed_ms": 2649}
+{"ts": "2026-10-29T08:41:20.277887+00:00", "provider": "minimax", "model": "embo-01", "purpose": "query", "text_count": 1, "dimensions": 1536, "requests": 1, "input_tokens": 296, "elapsed_ms": 367}
+{"ts": "2026-10-29T08:41:24.914133+00:00", "provider": "minimax", "model": "embo-01", "purpose": "query", "text_count": 1, "dimensions": 1536, "requests": 1, "input_tokens": 296, "elapsed_ms": 460}
+{"ts": "2026-10-29T08:41:59.912764+00:00", "provider": "minimax", "model": "embo-01", "purpose": "db", "text_count": 31, "dimensions": 1536, "requests": 4, "input_tokens": 7832, "elapsed_ms": 2089}
+{"ts": "2026-10-29T08:42:00.692359+00:00", "provider": "minimax", "model": "embo-01", "purpose": "query", "text_count": 1, "dimensions": 1536, "requests": 1, "input_tokens": 296, "elapsed_ms": 407}
+{"ts": "2026-10-29T08:42:14.487493+00:00", "provider": "minimax", "model": "embo-01", "purpose": "query", "text_count": 1, "dimensions": 1536, "requests": 1, "input_tokens": 296, "elapsed_ms": 421}

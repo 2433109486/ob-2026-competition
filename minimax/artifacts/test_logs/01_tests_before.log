@@ -1,0 +1,314 @@
+command: D:\agent\sandbox\comp\comp\minimax\.venv\Scripts\python.exe -m pytest -q
+cwd: D:\agent\sandbox\comp\comp\minimax
+phase: before
+code_version: sha256:ac5d907f8ff183cfae5309110d23763eacca464da973cbe944ba2c544b9f0327
+exit_code: 1
+timestamp: 2026-10-29T08:41:24.294125+00:00
+pytest_summary: 11 failed, 9 passed in 3.18s
+---- output ----
+FFFFFFFFFFF.........                                                                                             [100%]
+====================================================== FAILURES =======================================================
+___________________________________________ test_api_filters_by_price_range ___________________________________________
+
+live_api = 'http://127.0.0.1:1437'
+
+    def test_api_filters_by_price_range(live_api):
+        status, body = get_json(live_api, "/api/products?min_price=58&max_price=99&sort=price_asc")
+        assert status == 200
+>       assert body["count"] == 4
+E       assert 10 == 4
+
+tests\test_api_price_filter.py:14: AssertionError
+_________________________________________ test_api_rejects_non_numeric_price __________________________________________
+
+live_api = 'http://127.0.0.1:1440'
+
+    def test_api_rejects_non_numeric_price(live_api):
+        status, body = get_json(live_api, "/api/products?min_price=cheap")
+>       assert status == 400
+E       assert 200 == 400
+
+tests\test_api_price_filter.py:22: AssertionError
+___________________________________________ test_api_rejects_inverted_range ___________________________________________
+
+live_api = 'http://127.0.0.1:1444'
+
+    def test_api_rejects_inverted_range(live_api):
+        status, body = get_json(live_api, "/api/products?min_price=100&max_price=50")
+>       assert status == 400
+E       assert 200 == 400
+
+tests\test_api_price_filter.py:30: AssertionError
+__________________________________________ test_api_accepts_zero_upper_bound __________________________________________
+
+live_api = 'http://127.0.0.1:1458'
+
+    def test_api_accepts_zero_upper_bound(live_api):
+        status, body = get_json(live_api, "/api/products?max_price=0")
+        assert status == 200
+>       assert body["count"] == 1
+E       assert 10 == 1
+
+tests\test_api_price_filter.py:40: AssertionError
+____________________________________________ test_price_range_is_inclusive ____________________________________________
+
+products = [Product(id='BK-1001', title='Deep Work', category='Business', price=68.0, rating=4.7, stock=12, tags=('productivity',...06', title='The Lean Startup', category='Business', price=88.0, rating=4.4, stock=0, tags=('startup', 'product')), ...]
+
+    def test_price_range_is_inclusive(products):
+>       items = search_products(
+            products,
+            min_price=58.0,
+            max_price=99.0,
+            sort="price_asc",
+        )
+
+tests\test_price_filter.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+products = [Product(id='BK-1001', title='Deep Work', category='Business', price=68.0, rating=4.7, stock=12, tags=('productivity',...06', title='The Lean Startup', category='Business', price=88.0, rating=4.4, stock=0, tags=('startup', 'product')), ...]
+category = None, keyword = None, sort = 'price_asc', limit = 20, min_price = 58.0, max_price = 99.0
+
+    def search_products(
+        products: Iterable[Product],
+        *,
+        category: str | None = None,
+        keyword: str | None = None,
+        sort: str = "relevance",
+        limit: int = 20,
+        min_price: float | None = None,
+        max_price: float | None = None,
+    ) -> list[Product]:
+        """Return products matching the supported filters.
+    
+        Existing behaviour: category matching is case-insensitive, keyword matching
+        covers title/tags/category, and ``limit`` must be between 1 and 100.
+        """
+    
+        if min_price is not None or max_price is not None:
+>           raise NotImplementedError("price-range filtering is not implemented yet")
+E           NotImplementedError: price-range filtering is not implemented yet
+
+booknest\service.py:33: NotImplementedError
+________________________________________ test_max_price_zero_selects_free_item ________________________________________
+
+products = [Product(id='BK-1001', title='Deep Work', category='Business', price=68.0, rating=4.7, stock=12, tags=('productivity',...06', title='The Lean Startup', category='Business', price=88.0, rating=4.4, stock=0, tags=('startup', 'product')), ...]
+
+    def test_max_price_zero_selects_free_item(products):
+>       items = search_products(products, max_price=0.0)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_price_filter.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+products = [Product(id='BK-1001', title='Deep Work', category='Business', price=68.0, rating=4.7, stock=12, tags=('productivity',...06', title='The Lean Startup', category='Business', price=88.0, rating=4.4, stock=0, tags=('startup', 'product')), ...]
+category = None, keyword = None, sort = 'relevance', limit = 20, min_price = None, max_price = 0.0
+
+    def search_products(
+        products: Iterable[Product],
+        *,
+        category: str | None = None,
+        keyword: str | None = None,
+        sort: str = "relevance",
+        limit: int = 20,
+        min_price: float | None = None,
+        max_price: float | None = None,
+    ) -> list[Product]:
+        """Return products matching the supported filters.
+    
+        Existing behaviour: category matching is case-insensitive, keyword matching
+        covers title/tags/category, and ``limit`` must be between 1 and 100.
+        """
+    
+        if min_price is not None or max_price is not None:
+>           raise NotImplementedError("price-range filtering is not implemented yet")
+E           NotImplementedError: price-range filtering is not implemented yet
+
+booknest\service.py:33: NotImplementedError
+_______________________________________ test_min_price_only_filters_lower_bound _______________________________________
+
+products = [Product(id='BK-1001', title='Deep Work', category='Business', price=68.0, rating=4.7, stock=12, tags=('productivity',...06', title='The Lean Startup', category='Business', price=88.0, rating=4.4, stock=0, tags=('startup', 'product')), ...]
+
+    def test_min_price_only_filters_lower_bound(products):
+>       items = search_products(products, min_price=128.0, sort="price_asc")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_price_filter.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+products = [Product(id='BK-1001', title='Deep Work', category='Business', price=68.0, rating=4.7, stock=12, tags=('productivity',...06', title='The Lean Startup', category='Business', price=88.0, rating=4.4, stock=0, tags=('startup', 'product')), ...]
+category = None, keyword = None, sort = 'price_asc', limit = 20, min_price = 128.0, max_price = None
+
+    def search_products(
+        products: Iterable[Product],
+        *,
+        category: str | None = None,
+        keyword: str | None = None,
+        sort: str = "relevance",
+        limit: int = 20,
+        min_price: float | None = None,
+        max_price: float | None = None,
+    ) -> list[Product]:
+        """Return products matching the supported filters.
+    
+        Existing behaviour: category matching is case-insensitive, keyword matching
+        covers title/tags/category, and ``limit`` must be between 1 and 100.
+        """
+    
+        if min_price is not None or max_price is not None:
+>           raise NotImplementedError("price-range filtering is not implemented yet")
+E           NotImplementedError: price-range filtering is not implemented yet
+
+booknest\service.py:33: NotImplementedError
+____________________________________ test_equal_min_and_max_selects_exact_boundary ____________________________________
+
+products = [Product(id='BK-1001', title='Deep Work', category='Business', price=68.0, rating=4.7, stock=12, tags=('productivity',...06', title='The Lean Startup', category='Business', price=88.0, rating=4.4, stock=0, tags=('startup', 'product')), ...]
+
+    def test_equal_min_and_max_selects_exact_boundary(products):
+>       items = search_products(products, min_price=99.0, max_price=99.0)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_price_filter.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+products = [Product(id='BK-1001', title='Deep Work', category='Business', price=68.0, rating=4.7, stock=12, tags=('productivity',...06', title='The Lean Startup', category='Business', price=88.0, rating=4.4, stock=0, tags=('startup', 'product')), ...]
+category = None, keyword = None, sort = 'relevance', limit = 20, min_price = 99.0, max_price = 99.0
+
+    def search_products(
+        products: Iterable[Product],
+        *,
+        category: str | None = None,
+        keyword: str | None = None,
+        sort: str = "relevance",
+        limit: int = 20,
+        min_price: float | None = None,
+        max_price: float | None = None,
+    ) -> list[Product]:
+        """Return products matching the supported filters.
+    
+        Existing behaviour: category matching is case-insensitive, keyword matching
+        covers title/tags/category, and ``limit`` must be between 1 and 100.
+        """
+    
+        if min_price is not None or max_price is not None:
+>           raise NotImplementedError("price-range filtering is not implemented yet")
+E           NotImplementedError: price-range filtering is not implemented yet
+
+booknest\service.py:33: NotImplementedError
+_________________________________________ test_empty_range_returns_empty_list _________________________________________
+
+products = [Product(id='BK-1001', title='Deep Work', category='Business', price=68.0, rating=4.7, stock=12, tags=('productivity',...06', title='The Lean Startup', category='Business', price=88.0, rating=4.4, stock=0, tags=('startup', 'product')), ...]
+
+    def test_empty_range_returns_empty_list(products):
+>       assert search_products(products, min_price=500.0) == []
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_price_filter.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+products = [Product(id='BK-1001', title='Deep Work', category='Business', price=68.0, rating=4.7, stock=12, tags=('productivity',...06', title='The Lean Startup', category='Business', price=88.0, rating=4.4, stock=0, tags=('startup', 'product')), ...]
+category = None, keyword = None, sort = 'relevance', limit = 20, min_price = 500.0, max_price = None
+
+    def search_products(
+        products: Iterable[Product],
+        *,
+        category: str | None = None,
+        keyword: str | None = None,
+        sort: str = "relevance",
+        limit: int = 20,
+        min_price: float | None = None,
+        max_price: float | None = None,
+    ) -> list[Product]:
+        """Return products matching the supported filters.
+    
+        Existing behaviour: category matching is case-insensitive, keyword matching
+        covers title/tags/category, and ``limit`` must be between 1 and 100.
+        """
+    
+        if min_price is not None or max_price is not None:
+>           raise NotImplementedError("price-range filtering is not implemented yet")
+E           NotImplementedError: price-range filtering is not implemented yet
+
+booknest\service.py:33: NotImplementedError
+___________________________________________ test_negative_price_is_rejected ___________________________________________
+
+products = [Product(id='BK-1001', title='Deep Work', category='Business', price=68.0, rating=4.7, stock=12, tags=('productivity',...06', title='The Lean Startup', category='Business', price=88.0, rating=4.4, stock=0, tags=('startup', 'product')), ...]
+
+    def test_negative_price_is_rejected(products):
+        with pytest.raises(ValueError, match="min_price"):
+>           search_products(products, min_price=-0.01)
+
+tests\test_price_filter.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+products = [Product(id='BK-1001', title='Deep Work', category='Business', price=68.0, rating=4.7, stock=12, tags=('productivity',...06', title='The Lean Startup', category='Business', price=88.0, rating=4.4, stock=0, tags=('startup', 'product')), ...]
+category = None, keyword = None, sort = 'relevance', limit = 20, min_price = -0.01, max_price = None
+
+    def search_products(
+        products: Iterable[Product],
+        *,
+        category: str | None = None,
+        keyword: str | None = None,
+        sort: str = "relevance",
+        limit: int = 20,
+        min_price: float | None = None,
+        max_price: float | None = None,
+    ) -> list[Product]:
+        """Return products matching the supported filters.
+    
+        Existing behaviour: category matching is case-insensitive, keyword matching
+        covers title/tags/category, and ``limit`` must be between 1 and 100.
+        """
+    
+        if min_price is not None or max_price is not None:
+>           raise NotImplementedError("price-range filtering is not implemented yet")
+E           NotImplementedError: price-range filtering is not implemented yet
+
+booknest\service.py:33: NotImplementedError
+___________________________________________ test_inverted_range_is_rejected ___________________________________________
+
+products = [Product(id='BK-1001', title='Deep Work', category='Business', price=68.0, rating=4.7, stock=12, tags=('productivity',...06', title='The Lean Startup', category='Business', price=88.0, rating=4.4, stock=0, tags=('startup', 'product')), ...]
+
+    def test_inverted_range_is_rejected(products):
+        with pytest.raises(ValueError, match="min_price"):
+>           search_products(products, min_price=100.0, max_price=50.0)
+
+tests\test_price_filter.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+products = [Product(id='BK-1001', title='Deep Work', category='Business', price=68.0, rating=4.7, stock=12, tags=('productivity',...06', title='The Lean Startup', category='Business', price=88.0, rating=4.4, stock=0, tags=('startup', 'product')), ...]
+category = None, keyword = None, sort = 'relevance', limit = 20, min_price = 100.0, max_price = 50.0
+
+    def search_products(
+        products: Iterable[Product],
+        *,
+        category: str | None = None,
+        keyword: str | None = None,
+        sort: str = "relevance",
+        limit: int = 20,
+        min_price: float | None = None,
+        max_price: float | None = None,
+    ) -> list[Product]:
+        """Return products matching the supported filters.
+    
+        Existing behaviour: category matching is case-insensitive, keyword matching
+        covers title/tags/category, and ``limit`` must be between 1 and 100.
+        """
+    
+        if min_price is not None or max_price is not None:
+>           raise NotImplementedError("price-range filtering is not implemented yet")
+E           NotImplementedError: price-range filtering is not implemented yet
+
+booknest\service.py:33: NotImplementedError
+=============================================== short test summary info ===============================================
+FAILED tests/test_api_price_filter.py::test_api_filters_by_price_range - assert 10 == 4
+FAILED tests/test_api_price_filter.py::test_api_rejects_non_numeric_price - assert 200 == 400
+FAILED tests/test_api_price_filter.py::test_api_rejects_inverted_range - assert 200 == 400
+FAILED tests/test_api_price_filter.py::test_api_accepts_zero_upper_bound - assert 10 == 1
+FAILED tests/test_price_filter.py::test_price_range_is_inclusive - NotImplementedError: price-range filtering is not ...
+FAILED tests/test_price_filter.py::test_max_price_zero_selects_free_item - NotImplementedError: price-range filtering...
+FAILED tests/test_price_filter.py::test_min_price_only_filters_lower_bound - NotImplementedError: price-range filteri...
+FAILED tests/test_price_filter.py::test_equal_min_and_max_selects_exact_boundary - NotImplementedError: price-range f...
+FAILED tests/test_price_filter.py::test_empty_range_returns_empty_list - NotImplementedError: price-range filtering i...
+FAILED tests/test_price_filter.py::test_negative_price_is_rejected - NotImplementedError: price-range filtering is no...
+FAILED tests/test_price_filter.py::test_inverted_range_is_rejected - NotImplementedError: price-range filtering is no...
+11 failed, 9 passed in 3.18s

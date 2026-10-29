@@ -1,0 +1,19 @@
+{
+  "run_id": "ingest-20261029164115-9173b8",
+  "counts": {
+    "specs": 4,
+    "code": 7,
+    "tests": 20,
+    "changed": 31,
+    "retired": 0
+  },
+  "embedding_provider": "minimax",
+  "embedding_tokens": 7208,
+  "specs": [
+    "decision:BOOK-DEC-001",
+    "spec:BOOK-SPEC-001",
+    "spec:BOOK-SPEC-002",
+    "spec:BOOK-SPEC-003"
+  ],
+  "links": 78
+}
