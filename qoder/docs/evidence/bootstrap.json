@@ -1,0 +1,628 @@
+{
+  "greeting": "下午好",
+  "person": {
+    "name": "林然",
+    "field": "教育技术学",
+    "stage": "文献综述"
+  },
+  "profile": {
+    "name": "林然",
+    "field": "教育技术学",
+    "stage": "文献综述",
+    "goal": "3 周内完成「生成式 AI 辅助编程学习」开题综述",
+    "methods": [
+      "随机对照实验",
+      "准实验",
+      "混合方法"
+    ],
+    "preferences": [
+      "先看方法与局限",
+      "中文笔记",
+      "保留 DOI 可追溯"
+    ],
+    "focus_tags": [
+      "生成式AI",
+      "编程教育",
+      "初学者",
+      "学习迁移",
+      "实证研究"
+    ],
+    "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+    "updated_at": "2026-10-29T09:44:57.535250+00:00",
+    "saved_at": "2026-10-29T09:44:57.541479+00:00"
+  },
+  "memory_available": true,
+  "memory_health": {
+    "ok": true,
+    "enabled": true,
+    "url": "http://127.0.0.1:8765",
+    "latency_ms": 14,
+    "scope_id": "scp_27ayk5ztvdpbyn91a0kgkpmya0"
+  },
+  "memory_count": 10,
+  "scope_id": "scp_27ayk5ztvdpbyn91a0kgkpmya0",
+  "counts": {
+    "papers": 10,
+    "chunks": 34,
+    "notes": 5,
+    "search_log": 30,
+    "activity": 62,
+    "read": 5,
+    "reading": 2,
+    "to_read": 3
+  },
+  "reading_counts": {
+    "read": 5,
+    "reading": 2,
+    "to_read": 3
+  },
+  "continue_reading": {
+    "paper_id": "prather2023",
+    "title": "机器人已至：计算教育中的生成式 AI 变革",
+    "title_en": "The Robots Are Here: Navigating the Generative AI Revolution in Computing Education",
+    "authors": "James Prather, Paul Denny, Brett A. Becker, et al.",
+    "year": 2023,
+    "venue": "ITiCSE-WGR 2023",
+    "doi": "10.1145/3623762.3633499",
+    "url": "https://dl.acm.org/doi/10.1145/3623762.3633499",
+    "abstract": "这是一份面向计算教育共同体的工作组报告，系统梳理生成式 AI 对教学、评估、课程与公平性的冲击。报告既列举个性化反馈、代码解释和教学效率等机会，也讨论学术诚信、错误信息、过度依赖与教师负担等风险，并提出评估重构、过程性证据和政策建设等建议。",
+    "tags": [
+      "生成式AI",
+      "编程教育",
+      "综述",
+      "评估",
+      "公平性",
+      "工具设计"
+    ],
+    "status": "reading",
+    "priority": 2,
+    "read_minutes": 28,
+    "source_type": "paper",
+    "cite_text": "Prather, J., Denny, P., Becker, B. A., et al. (2023). The Robots Are Here: Navigating the Generative AI Revolution in Computing Education. ITiCSE-WGR '23.",
+    "last_read_at": "2026-10-29 09:22:24",
+    "updated_at": "2026-10-29 09:22:24",
+    "review_problem": "生成式 AI 进入计算教育后，课程、评估、教学角色与公平性应如何调整？",
+    "review_method": "国际工作组报告：专家研讨与文献综合，非原始实证研究。",
+    "review_sample": "计算教育研究者与教师组成的工作组，覆盖多国经验。",
+    "review_finding": "机会与风险并存；需要从“禁止/允许”转向评估设计与 AI 素养教育，重视过程证据和教师支持。",
+    "review_limitation": "属于观点与证据综合，缺少统一干预和效果量；生成式 AI 发展快，部分建议可能迅速过时。",
+    "review_reuse": "用其风险清单组织综述背景；把“评估方式”作为调节变量；引用其政策建议时明确是专家共识而非实验结论。",
+    "memory": {
+      "paper_id": "prather2023",
+      "title": "机器人已至：计算教育中的生成式 AI 变革",
+      "status": "reading",
+      "takeaway": "用工作组报告的风险清单组织综述背景。",
+      "tags": [
+        "生成式AI",
+        "编程教育",
+        "综述",
+        "评估",
+        "公平性",
+        "工具设计"
+      ],
+      "updated_at": "2026-10-29T09:44:57.680712+00:00",
+      "saved_at": "2026-10-29T09:44:57.696801+00:00",
+      "memory": {
+        "artifact_id": "art_18f912786a65436f97c56ba876ac7b04",
+        "revision": 1,
+        "saved_at": "2026-10-29T09:44:57.696801+00:00"
+      }
+    }
+  },
+  "recommended": [
+    {
+      "paper": {
+        "paper_id": "denny2024",
+        "title": "生成式 AI 时代的计算教育",
+        "title_en": "Computing Education in the Era of Generative AI",
+        "authors": "Paul Denny, James Prather, Brett A. Becker, et al.",
+        "year": 2024,
+        "venue": "Communications of the ACM",
+        "doi": "10.1145/3624720",
+        "url": "https://dl.acm.org/doi/10.1145/3624720",
+        "abstract": "文章讨论生成式 AI 对计算教育目标和评价方式的根本影响。作者主张，当代码生成变得廉价，教育重点应从“能否写出代码”转向“能否说明、验证与改进代码”，并用过程性证据、口头评估和 AI 协作规范替代单一的产物式考核。",
+        "tags": [
+          "生成式AI",
+          "编程教育",
+          "评估",
+          "工具设计",
+          "综述"
+        ],
+        "status": "reading",
+        "priority": 2,
+        "read_minutes": 20,
+        "source_type": "paper",
+        "cite_text": "Denny, P., Prather, J., Becker, B. A., et al. (2024). Computing Education in the Era of Generative AI. Communications of the ACM.",
+        "last_read_at": "2026-10-29 09:22:24",
+        "updated_at": "2026-10-29 09:22:24",
+        "review_problem": "当 AI 能生成大部分入门代码时，计算教育应教什么、如何评价学习？",
+        "review_method": "观点与分析文章，结合既有研究和教学实践提出课程与评估框架。",
+        "review_sample": "无实验样本；面向计算教育共同体。",
+        "review_finding": "教育目标应转向代码解释、验证、调试与协作能力；评估应重视过程和口头说明，而非只看最终产物。",
+        "review_limitation": "分析性文章，未提供因果证据；评估重构的成本与可规模化程度未充分讨论。",
+        "review_reuse": "把“解释与验证能力”纳入结果变量；设计过程性证据（对话日志、修改记录、口头答辩）作为补充数据。"
+      },
+      "score": 6.5,
+      "why": [
+        "命中画像：生成式ai、编程教育",
+        "正在精读"
+      ]
+    },
+    {
+      "paper": {
+        "paper_id": "prather2023",
+        "title": "机器人已至：计算教育中的生成式 AI 变革",
+        "title_en": "The Robots Are Here: Navigating the Generative AI Revolution in Computing Education",
+        "authors": "James Prather, Paul Denny, Brett A. Becker, et al.",
+        "year": 2023,
+        "venue": "ITiCSE-WGR 2023",
+        "doi": "10.1145/3623762.3633499",
+        "url": "https://dl.acm.org/doi/10.1145/3623762.3633499",
+        "abstract": "这是一份面向计算教育共同体的工作组报告，系统梳理生成式 AI 对教学、评估、课程与公平性的冲击。报告既列举个性化反馈、代码解释和教学效率等机会，也讨论学术诚信、错误信息、过度依赖与教师负担等风险，并提出评估重构、过程性证据和政策建设等建议。",
+        "tags": [
+          "生成式AI",
+          "编程教育",
+          "综述",
+          "评估",
+          "公平性",
+          "工具设计"
+        ],
+        "status": "reading",
+        "priority": 2,
+        "read_minutes": 28,
+        "source_type": "paper",
+        "cite_text": "Prather, J., Denny, P., Becker, B. A., et al. (2023). The Robots Are Here: Navigating the Generative AI Revolution in Computing Education. ITiCSE-WGR '23.",
+        "last_read_at": "2026-10-29 09:22:24",
+        "updated_at": "2026-10-29 09:22:24",
+        "review_problem": "生成式 AI 进入计算教育后，课程、评估、教学角色与公平性应如何调整？",
+        "review_method": "国际工作组报告：专家研讨与文献综合，非原始实证研究。",
+        "review_sample": "计算教育研究者与教师组成的工作组，覆盖多国经验。",
+        "review_finding": "机会与风险并存；需要从“禁止/允许”转向评估设计与 AI 素养教育，重视过程证据和教师支持。",
+        "review_limitation": "属于观点与证据综合，缺少统一干预和效果量；生成式 AI 发展快，部分建议可能迅速过时。",
+        "review_reuse": "用其风险清单组织综述背景；把“评估方式”作为调节变量；引用其政策建议时明确是专家共识而非实验结论。"
+      },
+      "score": 6.5,
+      "why": [
+        "命中画像：生成式ai、编程教育",
+        "正在精读"
+      ]
+    },
+    {
+      "paper": {
+        "paper_id": "guo2018",
+        "title": "非英语母语者学习编程：障碍、愿望与设计机会",
+        "title_en": "Non-native English speakers learning computer programming: Barriers, desires, and design opportunities",
+        "authors": "Philip J. Guo",
+        "year": 2018,
+        "venue": "CHI 2018",
+        "doi": "10.1145/3173574.3173970",
+        "url": "https://dl.acm.org/doi/10.1145/3173574.3173970",
+        "abstract": "研究通过问卷与访谈考察非英语母语者学习编程时遇到的障碍。参与者普遍提到英文文档、错误信息、技术词汇和英文社区参与的门槛，并希望通过母语解释、双语术语表和更友好的错误提示降低负担。研究据此提出工具与教学的设计机会。",
+        "tags": [
+          "编程教育",
+          "公平性",
+          "初学者",
+          "工具设计",
+          "教学设计"
+        ],
+        "status": "to_read",
+        "priority": 3,
+        "read_minutes": 0,
+        "source_type": "paper",
+        "cite_text": "Guo, P. J. (2018). Non-native English speakers learning computer programming: Barriers, desires, and design opportunities. CHI '18.",
+        "last_read_at": null,
+        "updated_at": "2026-10-29 09:22:24",
+        "review_problem": "非英语母语者在学习编程时面临哪些额外障碍，工具可以如何支持？",
+        "review_method": "混合方法：大规模问卷与后续访谈，聚焦学习者的主观障碍与设计需求。",
+        "review_sample": "以非英语母语编程学习者为对象的问卷与访谈样本（论文报告为数百人规模）。",
+        "review_finding": "英文文档、错误信息、术语和社区参与是主要障碍；母语解释、双语资源与更易读的错误信息被反复提及。",
+        "review_limitation": "以自我报告为主，未直接测量学习结果；样本来自特定在线社区，可能高估工具熟悉度。",
+        "review_reuse": "把“语言负担”作为公平性调节变量；在 AI 辅助研究中记录学生使用母语解释的行为。"
+      },
+      "score": 5,
+      "why": [
+        "命中画像：初学者、编程教育"
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "工具设计",
+      "count": 7
+    },
+    {
+      "name": "生成式AI",
+      "count": 6
+    },
+    {
+      "name": "公平性",
+      "count": 4
+    },
+    {
+      "name": "学习迁移",
+      "count": 4
+    },
+    {
+      "name": "实证研究",
+      "count": 4
+    },
+    {
+      "name": "教学设计",
+      "count": 4
+    },
+    {
+      "name": "编程教育",
+      "count": 4
+    },
+    {
+      "name": "评估",
+      "count": 4
+    },
+    {
+      "name": "综述",
+      "count": 3
+    },
+    {
+      "name": "初学者",
+      "count": 2
+    },
+    {
+      "name": "教育",
+      "count": 2
+    },
+    {
+      "name": "理论框架",
+      "count": 2
+    },
+    {
+      "name": "认知负荷",
+      "count": 2
+    },
+    {
+      "name": "AI素养",
+      "count": 1
+    },
+    {
+      "name": "主动学习",
+      "count": 1
+    },
+    {
+      "name": "内部资料",
+      "count": 1
+    },
+    {
+      "name": "开发效率",
+      "count": 1
+    },
+    {
+      "name": "研究设计",
+      "count": 1
+    }
+  ],
+  "usage": {
+    "days": 7,
+    "searches": 30,
+    "avg_latency_ms": 229,
+    "memory_searches": 30,
+    "top_queries": [
+      {
+        "query": "AI 编程助手对初学者学习迁移的影响",
+        "count": 22
+      },
+      {
+        "query": "怎么避免学生直接抄答案",
+        "count": 4
+      },
+      {
+        "query": "AI 编程助手 对初学者 学习迁移 的影响",
+        "count": 1
+      },
+      {
+        "query": "主动学习 认知参与 框架",
+        "count": 1
+      },
+      {
+        "query": "开发效率 Copilot",
+        "count": 1
+      }
+    ]
+  },
+  "recent_searches": [
+    {
+      "search_id": "srch_7c33e6039316",
+      "query": "AI 编程助手对初学者学习迁移的影响",
+      "result_count": 10,
+      "latency_ms": 224,
+      "mode": "hybrid-vector-fulltext",
+      "memory_used": true,
+      "created_at": "2026-10-29 09:46:38"
+    },
+    {
+      "search_id": "srch_1a94e64e6271",
+      "query": "AI 编程助手对初学者学习迁移的影响",
+      "result_count": 6,
+      "latency_ms": 241,
+      "mode": "hybrid-vector-fulltext",
+      "memory_used": true,
+      "created_at": "2026-10-29 09:46:30"
+    },
+    {
+      "search_id": "srch_7902c62bfb71",
+      "query": "AI 编程助手对初学者学习迁移的影响",
+      "result_count": 10,
+      "latency_ms": 207,
+      "mode": "hybrid-vector-fulltext",
+      "memory_used": true,
+      "created_at": "2026-10-29 09:45:06"
+    },
+    {
+      "search_id": "srch_f5c6ada3e130",
+      "query": "AI 编程助手对初学者学习迁移的影响",
+      "result_count": 8,
+      "latency_ms": 221,
+      "mode": "hybrid-vector-fulltext",
+      "memory_used": true,
+      "created_at": "2026-10-29 09:44:58"
+    },
+    {
+      "search_id": "srch_a21ef64c2d16",
+      "query": "AI 编程助手对初学者学习迁移的影响",
+      "result_count": 8,
+      "latency_ms": 202,
+      "mode": "hybrid-vector-fulltext",
+      "memory_used": true,
+      "created_at": "2026-10-29 09:44:52"
+    },
+    {
+      "search_id": "srch_050a9ce12fb0",
+      "query": "AI 编程助手对初学者学习迁移的影响",
+      "result_count": 8,
+      "latency_ms": 230,
+      "mode": "hybrid-vector-fulltext",
+      "memory_used": true,
+      "created_at": "2026-10-29 09:44:43"
+    }
+  ],
+  "recent_activity": [
+    {
+      "activity_id": 62,
+      "kind": "review",
+      "title": "生成综述矩阵（4 篇）",
+      "created_at": "2026-10-29 09:46:43",
+      "detail": {
+        "coverage": 100,
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "memory_saved": true
+      }
+    },
+    {
+      "activity_id": 61,
+      "kind": "search",
+      "title": "检索「AI 编程助手对初学者学习迁移的影响」",
+      "created_at": "2026-10-29 09:46:38",
+      "detail": {
+        "results": 10,
+        "latency_ms": 224,
+        "search_id": "srch_7c33e6039316"
+      }
+    },
+    {
+      "activity_id": 60,
+      "kind": "review",
+      "title": "生成综述矩阵（4 篇）",
+      "created_at": "2026-10-29 09:46:31",
+      "detail": {
+        "coverage": 100,
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "memory_saved": false
+      }
+    },
+    {
+      "activity_id": 59,
+      "kind": "review",
+      "title": "生成综述矩阵（4 篇）",
+      "created_at": "2026-10-29 09:46:30",
+      "detail": {
+        "coverage": 100,
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "memory_saved": false
+      }
+    },
+    {
+      "activity_id": 58,
+      "kind": "search",
+      "title": "检索「AI 编程助手对初学者学习迁移的影响」",
+      "created_at": "2026-10-29 09:46:30",
+      "detail": {
+        "results": 6,
+        "latency_ms": 241,
+        "search_id": "srch_1a94e64e6271"
+      }
+    },
+    {
+      "activity_id": 57,
+      "kind": "review",
+      "title": "生成综述矩阵（4 篇）",
+      "created_at": "2026-10-29 09:45:11",
+      "detail": {
+        "coverage": 100,
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "memory_saved": true
+      }
+    },
+    {
+      "activity_id": 56,
+      "kind": "search",
+      "title": "检索「AI 编程助手对初学者学习迁移的影响」",
+      "created_at": "2026-10-29 09:45:06",
+      "detail": {
+        "results": 10,
+        "latency_ms": 207,
+        "search_id": "srch_7902c62bfb71"
+      }
+    },
+    {
+      "activity_id": 55,
+      "kind": "memory",
+      "title": "写入研究记忆",
+      "created_at": "2026-10-29 09:44:59",
+      "detail": {
+        "kind": "research_note"
+      }
+    }
+  ],
+  "timeline": [
+    {
+      "id": "art_7cd6122b01c04821b2b51767103f2739",
+      "kind": "review_board",
+      "label": "综述决策",
+      "text": "综述矩阵：4 篇文献 · 生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+      "data": {
+        "paper_ids": [
+          "kazemitabaar2023",
+          "bastani2025",
+          "prather2023",
+          "denny2024"
+        ],
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "note": "从综述矩阵页面生成",
+        "updated_at": "2026-10-29T09:46:43.655251+00:00",
+        "saved_at": "2026-10-29T09:46:43.679663+00:00"
+      },
+      "saved_at": "2026-10-29T09:46:43.679663+00:00",
+      "artifact_id": "art_7cd6122b01c04821b2b51767103f2739",
+      "revision": 1,
+      "state": "active"
+    },
+    {
+      "id": "art_601e2c94caeb44799244a2d405cd6756",
+      "kind": "review_board",
+      "label": "综述决策",
+      "text": "综述矩阵：4 篇文献 · 生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+      "data": {
+        "paper_ids": [
+          "kazemitabaar2023",
+          "bastani2025",
+          "prather2023",
+          "denny2024"
+        ],
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "note": "从综述矩阵页面生成",
+        "updated_at": "2026-10-29T09:45:11.180895+00:00",
+        "saved_at": "2026-10-29T09:45:11.207027+00:00"
+      },
+      "saved_at": "2026-10-29T09:45:11.207027+00:00",
+      "artifact_id": "art_601e2c94caeb44799244a2d405cd6756",
+      "revision": 1,
+      "state": "active"
+    },
+    {
+      "id": "art_81175fb06f0d4d20812c0170e6ed6d92",
+      "kind": "research_note",
+      "label": "研究笔记",
+      "text": "验收记录：主终点坚持用延迟迁移，不用课堂练习成绩替代。",
+      "data": {
+        "text": "验收记录：主终点坚持用延迟迁移，不用课堂练习成绩替代。",
+        "paper_id": "",
+        "note_kind": "research_note",
+        "updated_at": "2026-10-29T09:44:59.159800+00:00",
+        "saved_at": "2026-10-29T09:44:59.178438+00:00"
+      },
+      "saved_at": "2026-10-29T09:44:59.178438+00:00",
+      "artifact_id": "art_81175fb06f0d4d20812c0170e6ed6d92",
+      "revision": 1,
+      "state": "active"
+    },
+    {
+      "id": "art_f9544e500d934204ae3dcd01ec28c0d8",
+      "kind": "review_board",
+      "label": "综述决策",
+      "text": "综述矩阵：4 篇文献 · 生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+      "data": {
+        "paper_ids": [
+          "kazemitabaar2023",
+          "bastani2025",
+          "prather2023",
+          "denny2024"
+        ],
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "note": "acceptance.py 自动验收",
+        "updated_at": "2026-10-29T09:44:59.068227+00:00",
+        "saved_at": "2026-10-29T09:44:59.085939+00:00"
+      },
+      "saved_at": "2026-10-29T09:44:59.085939+00:00",
+      "artifact_id": "art_f9544e500d934204ae3dcd01ec28c0d8",
+      "revision": 1,
+      "state": "active"
+    },
+    {
+      "id": "art_8093f9182cd54ab5a75bde6fd0c24570",
+      "kind": "review_board",
+      "label": "综述决策",
+      "text": "综述矩阵：4 篇文献 · 生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+      "data": {
+        "paper_ids": [
+          "kazemitabaar2023",
+          "bastani2025",
+          "prather2023",
+          "denny2024"
+        ],
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "note": "先搭建“效果证据—工具设计—评估方式”三列骨架。",
+        "updated_at": "2026-10-29T09:44:57.789392+00:00",
+        "saved_at": "2026-10-29T09:44:57.806316+00:00"
+      },
+      "saved_at": "2026-10-29T09:44:57.806316+00:00",
+      "artifact_id": "art_8093f9182cd54ab5a75bde6fd0c24570",
+      "revision": 1,
+      "state": "active"
+    },
+    {
+      "id": "art_42cc184c3a4d461695350cc6052c2ba7",
+      "kind": "reading_progress",
+      "label": "阅读进度",
+      "text": "组会纪要：AI 编程助手研究设计讨论 · read · 主终点坚持用延迟迁移，不用课堂练习成绩替代。",
+      "data": {
+        "paper_id": "groupnote2026",
+        "title": "组会纪要：AI 编程助手研究设计讨论",
+        "status": "read",
+        "takeaway": "主终点坚持用延迟迁移，不用课堂练习成绩替代。",
+        "tags": [
+          "研究设计",
+          "学习迁移",
+          "认知负荷",
+          "实证研究",
+          "内部资料"
+        ],
+        "updated_at": "2026-10-29T09:44:57.728957+00:00",
+        "saved_at": "2026-10-29T09:44:57.760388+00:00"
+      },
+      "saved_at": "2026-10-29T09:44:57.760388+00:00",
+      "artifact_id": "art_42cc184c3a4d461695350cc6052c2ba7",
+      "revision": 1,
+      "state": "active"
+    }
+  ],
+  "system": {
+    "seekdb": {
+      "ok": true,
+      "version": "5.7.25-OceanBase seekdb-v1.4.0.0",
+      "database": "yanmai",
+      "latency_ms": 32
+    },
+    "powercontext": {
+      "ok": true,
+      "enabled": true,
+      "url": "http://127.0.0.1:8765",
+      "latency_ms": 14,
+      "scope_id": "scp_27ayk5ztvdpbyn91a0kgkpmya0"
+    },
+    "embedding": {
+      "provider": "local-signed-feature-hash",
+      "dimension": 768,
+      "tokenizer": "cjk-char-uni-bi-tri + english-word",
+      "hashes_per_token": 4,
+      "offline": true
+    }
+  }
+}

@@ -1,0 +1,40 @@
+seekdb: {'ok': True, 'version': '5.7.25-OceanBase seekdb-v1.4.0.0', 'database': 'yanmai', 'latency_ms': 34}
+
+tables:
+  papers: 10
+  chunks: 34
+  notes: 5
+  search_log: 31
+  activity: 63
+
+--- SHOW CREATE TABLE papers ---
+papers
+
+--- SHOW CREATE TABLE chunks ---
+chunks
+
+--- SHOW CREATE TABLE notes ---
+notes
+
+--- SHOW CREATE TABLE search_log ---
+search_log
+
+sample chunks:
+  bastani2025-c1 | bastani2025 | 研究问题 | p.1 | 生成式 AI 已被证明能提高任务表现，但是否促进技能习得仍不清楚。研究区分“练习时的表现”和“撤掉 AI 后的独立考试表
+  bastani2025-c2 | bastani2025 | 方法 | p.3 | 在土耳其一所高中开展随机对照实验，覆盖近 1000 名 9–11 年级学生。每个 90 分钟会话包含教师复习、AI 辅助
+  bastani2025-c3 | bastani2025 | 发现 | p.5 | 练习阶段，GPT Base 组比对照组高 48%，GPT Tutor 组高 127%。但在无 AI 的考试中，GPT B
+  bastani2025-c4 | bastani2025 | 机制 | p.8 | 交互日志显示，GPT Base 学生更常直接索取答案并复制，把 AI 当作拐杖；GPT Tutor 学生更常请求提示、解
+  bastani2025-c5 | bastani2025 | 局限 | p.11 | 研究聚焦高中数学，干预时间较短，且来自单一学校。练习与考试题目概念配对，可能高估迁移；长期、跨学科和真实项目中的效果仍需
+  chi2014-c1 | chi2014 | 框架 | p.1 | ICAP 用可观察的外显行为区分四种参与：被动接收信息、主动操作材料、建构新解释、与他人互动共创。参与越深，学习者需要调
+  chi2014-c2 | chi2014 | 证据 | p.8 | 作者综合多项研究指出，学习结果总体上遵循被动低于主动、主动低于建构、建构低于互动的模式。互动之所以有效，是因为它要求学习
+  chi2014-c3 | chi2014 | 应用 | p.15 | ICAP 可用于设计课堂活动与评估参与质量。教师不应只问学生是否“动手”，还要判断学生是否在解释、建构或与他人共同修正理
+
+recent search_log:
+  2026-10-29 09:47:38 | 8 results | 193 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
+  2026-10-29 09:46:38 | 10 results | 224 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
+  2026-10-29 09:46:30 | 6 results | 241 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
+  2026-10-29 09:45:06 | 10 results | 207 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
+  2026-10-29 09:44:58 | 8 results | 221 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
+  2026-10-29 09:44:52 | 8 results | 202 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
+  2026-10-29 09:44:43 | 8 results | 230 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
+  2026-10-29 09:43:59 | 10 results | 222 ms | memory=1 | 怎么避免学生直接抄答案

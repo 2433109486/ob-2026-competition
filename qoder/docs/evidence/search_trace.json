@@ -1,0 +1,631 @@
+{
+  "search_id": "srch_827773867f6e",
+  "query": "AI 编程助手对初学者学习迁移的影响",
+  "results": [
+    {
+      "paper": {
+        "paper_id": "groupnote2026",
+        "title": "组会纪要：AI 编程助手研究设计讨论",
+        "title_en": "Lab Meeting Note: Research Design for AI Coding Assistants",
+        "authors": "研脉项目组（内置演示笔记）",
+        "year": 2026,
+        "venue": "课题组内部笔记",
+        "doi": "",
+        "url": "",
+        "abstract": "这是一份内置的研究设计笔记，用于演示非论文资料如何进入同一检索与综述流程。组会围绕“AI 编程助手是否促进初学者学习迁移”展开，决定把延迟迁移任务作为主终点，把认知负荷、自我效能和求助行为作为过程变量，并采用 2×2 设计比较 AI 可用性与提示脚手架。",
+        "tags": [
+          "研究设计",
+          "学习迁移",
+          "认知负荷",
+          "实证研究",
+          "内部资料"
+        ],
+        "status": "read",
+        "priority": 1,
+        "read_minutes": 8,
+        "source_type": "note",
+        "cite_text": "研脉项目组. (2026). 组会纪要：AI 编程助手研究设计讨论 [内部笔记]."
+      },
+      "score": 0.6099,
+      "channels": [
+        "vector",
+        "text"
+      ],
+      "reasons": [
+        "语义相似度 0.39",
+        "全文相关度 1.00",
+        "记忆主题命中：学习迁移、实证研究"
+      ],
+      "best_chunk": {
+        "chunk_id": "groupnote2026-c1",
+        "section": "研究设计",
+        "page": "笔记",
+        "snippet": "组会决定采用 2×2 设计：因素一为是否允许使用 AI 编程助手，因素二为是否提供提示脚手架。主终点是延迟一周的无 AI 迁移任务，而不是课堂练习成绩。",
+        "snippet_html": "组会决定采用 2×2 设计：因素一为是否允许使用 <mark>AI</mark> 编程助手，因素二为是否提供提示脚手架。主终点是延迟一周的无 <mark>AI</mark> 迁移任务，而不是课堂练习成绩。",
+        "vector_similarity": 0.386,
+        "text_score": 2.062
+      },
+      "evidence": [
+        {
+          "chunk_id": "groupnote2026-c1",
+          "section": "研究设计",
+          "page": "笔记",
+          "snippet": "组会决定采用 2×2 设计：因素一为是否允许使用 AI 编程助手，因素二为是否提供提示脚手架。主终点是延迟一周的无 AI 迁移任务，而不是课堂练习成绩。",
+          "snippet_html": "组会决定采用 2×2 设计：因素一为是否允许使用 <mark>AI</mark> 编程助手，因素二为是否提供提示脚手架。主终点是延迟一周的无 <mark>AI</mark> 迁移任务，而不是课堂练习成绩。",
+          "score": 0.6099
+        },
+        {
+          "chunk_id": "groupnote2026-c3",
+          "section": "待办",
+          "page": "笔记",
+          "snippet": "下一步需要补充非英语母语学习者的公平性维度，并核对 ICAP 编码方案能否稳定区分复制、解释和互动三类 AI 使用行为。",
+          "snippet_html": "下一步需要补充非英语母语学习者的公平性维度，并核对 ICAP 编码方案能否稳定区分复制、解释和互动三类 <mark>AI</mark> 使用行为。",
+          "score": 0.5148
+        }
+      ],
+      "memory_used": true
+    },
+    {
+      "paper": {
+        "paper_id": "kazemitabaar2023",
+        "title": "AI 代码生成器如何支持编程入门学习者",
+        "title_en": "Studying the Effect of AI Code Generators on Supporting Novice Learners in Introductory Programming",
+        "authors": "Majeed Kazemitabaar, Justin Chow, Carl Ka To Ma, Barbara J. Ericson, David Weintrop, Tovi Grossman",
+        "year": 2023,
+        "venue": "CHI 2023",
+        "doi": "10.1145/3544548.3580919",
+        "url": "https://arxiv.org/abs/2302.07427",
+        "abstract": "研究用随机分组实验考察 OpenAI Codex 对 10–17 岁初学者编程学习的影响。69 名学习者完成 45 个 Python 编程任务，其中一半可使用 Codex。结果显示，使用 Codex 的学习者任务完成率提高约 1.15 倍、任务得分提高约 1.8 倍，且手动修改代码的表现没有下降。一周后的延迟后测中，Codex 组略好但差异不显著；先前 Scratch 基础较好的学习者在保留测验中表现更好。",
+        "tags": [
+          "生成式AI",
+          "编程教育",
+          "初学者",
+          "学习迁移",
+          "实证研究",
+          "工具设计"
+        ],
+        "status": "read",
+        "priority": 1,
+        "read_minutes": 42,
+        "source_type": "paper",
+        "cite_text": "Kazemitabaar, M., Chow, J., Ma, C. K. T., Ericson, B. J., Weintrop, D., & Grossman, T. (2023). Studying the Effect of AI Code Generators on Supporting Novice Learners in Introductory Programming. CHI '23."
+      },
+      "score": 0.5775,
+      "channels": [
+        "vector",
+        "text"
+      ],
+      "reasons": [
+        "语义相似度 0.51",
+        "全文相关度 0.48",
+        "记忆主题命中：初学者、学习迁移、实证研究、生成式ai、编程教育"
+      ],
+      "best_chunk": {
+        "chunk_id": "kazemitabaar2023-c5",
+        "section": "局限",
+        "page": "p.13",
+        "snippet": "研究只持续约一周，样本为 10–17 岁初学者，且仅使用一种代码生成工具。延迟后测的差异不显著，因此不能据此断言 AI 工具带来了长期学习增益。",
+        "snippet_html": "研究只持续约一周，样本为 10–17 岁<mark>初学者</mark>，且仅使用一种代码生成工具。延迟后测的差异不显著，因此不能据此断言 <mark>AI</mark> 工具带来了长期学习增益。",
+        "vector_similarity": 0.506,
+        "text_score": 0.718
+      },
+      "evidence": [
+        {
+          "chunk_id": "kazemitabaar2023-c5",
+          "section": "局限",
+          "page": "p.13",
+          "snippet": "研究只持续约一周，样本为 10–17 岁初学者，且仅使用一种代码生成工具。延迟后测的差异不显著，因此不能据此断言 AI 工具带来了长期学习增益。",
+          "snippet_html": "研究只持续约一周，样本为 10–17 岁<mark>初学者</mark>，且仅使用一种代码生成工具。延迟后测的差异不显著，因此不能据此断言 <mark>AI</mark> 工具带来了长期学习增益。",
+          "score": 0.5775
+        },
+        {
+          "chunk_id": "kazemitabaar2023-c2",
+          "section": "方法",
+          "page": "p.4",
+          "snippet": "采用受控实验，69 名 10–17 岁初学者完成 45 个 Python 代码编写任务。一半学习者在训练阶段可以使用 Codex，每个编写任务之后都跟随一个代码修改任务，用于观察独立理解。",
+          "snippet_html": "采用受控实验，69 名 10–17 岁<mark>初学者</mark>完成 45 个 Python 代码编写任务。一半学习者在训练阶段可以使用 Codex，每个编写任务之后都跟随一个代码修改任务，用于观察独立理解。",
+          "score": 0.5444
+        }
+      ],
+      "memory_used": true
+    },
+    {
+      "paper": {
+        "paper_id": "bastani2025",
+        "title": "没有护栏的生成式 AI 可能损害学习：高中数学证据",
+        "title_en": "Generative AI without guardrails can harm learning: Evidence from high school mathematics",
+        "authors": "Hamsa Bastani, Osbert Bastani, Alp Sungu, Haosen Ge, Özge Kabakcı, Rei Mariman",
+        "year": 2025,
+        "venue": "PNAS",
+        "doi": "10.1073/pnas.2422633122",
+        "url": "https://www.pnas.org/doi/10.1073/pnas.2422633122",
+        "abstract": "研究在土耳其一所高中开展大规模随机对照实验，为近 1000 名数学学生提供 GPT-4 辅导。相比对照组，普通聊天界面（GPT Base）使练习成绩提高 48%，带教师提示的 GPT Tutor 提高 127%。但在随后无 AI 的闭卷考试中，GPT Base 组成绩比对照组低 17%，而 GPT Tutor 组与对照组无显著差异。研究表明，缺乏护栏的 AI 访问会把工具变成“拐杖”，而提示式脚手架可以缓解负面影响。",
+        "tags": [
+          "生成式AI",
+          "学习迁移",
+          "实证研究",
+          "工具设计",
+          "教学设计",
+          "评估"
+        ],
+        "status": "read",
+        "priority": 1,
+        "read_minutes": 55,
+        "source_type": "paper",
+        "cite_text": "Bastani, H., Bastani, O., Sungu, A., Ge, H., Kabakcı, Ö., & Mariman, R. (2025). Generative AI without guardrails can harm learning: Evidence from high school mathematics. PNAS, 122(26), e2422633122."
+      },
+      "score": 0.4249,
+      "channels": [
+        "vector",
+        "text"
+      ],
+      "reasons": [
+        "语义相似度 0.38",
+        "全文相关度 0.29",
+        "记忆主题命中：学习迁移、实证研究、生成式ai"
+      ],
+      "best_chunk": {
+        "chunk_id": "bastani2025-c1",
+        "section": "研究问题",
+        "page": "p.1",
+        "snippet": "生成式 AI 已被证明能提高任务表现，但是否促进技能习得仍不清楚。研究区分“练习时的表现”和“撤掉 AI 后的独立考试表现”，以识别工具对学习的真实影响。",
+        "snippet_html": "生成式 <mark>AI</mark> 已被证明能提高任务表现，但是否促进技能习得仍不清楚。研究区分“练习时的表现”和“撤掉 <mark>AI</mark> 后的独立考试表现”，以识别工具对学习的真实影响。",
+        "vector_similarity": 0.381,
+        "text_score": 0.384
+      },
+      "evidence": [
+        {
+          "chunk_id": "bastani2025-c1",
+          "section": "研究问题",
+          "page": "p.1",
+          "snippet": "生成式 AI 已被证明能提高任务表现，但是否促进技能习得仍不清楚。研究区分“练习时的表现”和“撤掉 AI 后的独立考试表现”，以识别工具对学习的真实影响。",
+          "snippet_html": "生成式 <mark>AI</mark> 已被证明能提高任务表现，但是否促进技能习得仍不清楚。研究区分“练习时的表现”和“撤掉 <mark>AI</mark> 后的独立考试表现”，以识别工具对学习的真实影响。",
+          "score": 0.4249
+        },
+        {
+          "chunk_id": "bastani2025-c3",
+          "section": "发现",
+          "page": "p.5",
+          "snippet": "练习阶段，GPT Base 组比对照组高 48%，GPT Tutor 组高 127%。但在无 AI 的考试中，GPT Base 组比对照组低 17%，GPT Tutor 组与对照组没有显著差异。",
+          "snippet_html": "练习阶段，GPT Base 组比对照组高 48%，GPT Tutor 组高 127%。但在无 <mark>AI</mark> 的考试中，GPT Base 组比对照组低 17%，GPT Tutor 组与对照组没有显著差异。",
+          "score": 0.399
+        }
+      ],
+      "memory_used": true
+    },
+    {
+      "paper": {
+        "paper_id": "peng2023",
+        "title": "AI 对开发者生产力的影响：来自 GitHub Copilot 的证据",
+        "title_en": "The Impact of AI on Developer Productivity: Evidence from GitHub Copilot",
+        "authors": "Sida Peng, Eirini Kalliamvakou, Peter Cihon, Mert Demirer",
+        "year": 2023,
+        "venue": "arXiv / GitHub Research",
+        "doi": "10.48550/arXiv.2302.06590",
+        "url": "https://arxiv.org/abs/2302.06590",
+        "abstract": "研究通过随机对照实验评估 GitHub Copilot 对开发者生产力的影响。95 名开发者被随机分配是否使用 Copilot 完成一个 JavaScript HTTP 服务器任务。结果显示，使用 Copilot 的开发者完成任务的速度快 55.8%，但研究关注的是短期任务效率，而非学习或长期技能。",
+        "tags": [
+          "生成式AI",
+          "开发效率",
+          "实证研究",
+          "工具设计"
+        ],
+        "status": "to_read",
+        "priority": 4,
+        "read_minutes": 0,
+        "source_type": "paper",
+        "cite_text": "Peng, S., Kalliamvakou, E., Cihon, P., & Demirer, M. (2023). The Impact of AI on Developer Productivity: Evidence from GitHub Copilot. arXiv:2302.06590."
+      },
+      "score": 0.3956,
+      "channels": [
+        "vector",
+        "text"
+      ],
+      "reasons": [
+        "语义相似度 0.28",
+        "全文相关度 0.59",
+        "记忆主题命中：实证研究、生成式ai"
+      ],
+      "best_chunk": {
+        "chunk_id": "peng2023-c3",
+        "section": "边界",
+        "page": "p.6",
+        "snippet": "参与者是有经验的开发者，任务是一个定义清晰的单文件服务器。把结论外推到初学者、团队协作或复杂系统时需要谨慎。",
+        "snippet_html": "参与者是有经验的开发者，任务是一个定义清晰的单文件服务器。把结论外推到<mark>初学者</mark>、团队协作或复杂系统时需要谨慎。",
+        "vector_similarity": 0.282,
+        "text_score": 0.927
+      },
+      "evidence": [
+        {
+          "chunk_id": "peng2023-c3",
+          "section": "边界",
+          "page": "p.6",
+          "snippet": "参与者是有经验的开发者，任务是一个定义清晰的单文件服务器。把结论外推到初学者、团队协作或复杂系统时需要谨慎。",
+          "snippet_html": "参与者是有经验的开发者，任务是一个定义清晰的单文件服务器。把结论外推到<mark>初学者</mark>、团队协作或复杂系统时需要谨慎。",
+          "score": 0.3956
+        },
+        {
+          "chunk_id": "peng2023-c2",
+          "section": "发现",
+          "page": "p.4",
+          "snippet": "使用 Copilot 的开发者平均完成任务速度快 55.8%。这一结果说明 AI 补全可以显著降低短期任务成本，但实验没有测量代码可维护性、学习或长期技能。",
+          "snippet_html": "使用 Copilot 的开发者平均完成任务速度快 55.8%。这一结果说明 <mark>AI</mark> 补全可以显著降低短期任务成本，但实验没有测量代码可维护性、学习或长期技能。",
+          "score": 0.3435
+        }
+      ],
+      "memory_used": true
+    },
+    {
+      "paper": {
+        "paper_id": "guo2018",
+        "title": "非英语母语者学习编程：障碍、愿望与设计机会",
+        "title_en": "Non-native English speakers learning computer programming: Barriers, desires, and design opportunities",
+        "authors": "Philip J. Guo",
+        "year": 2018,
+        "venue": "CHI 2018",
+        "doi": "10.1145/3173574.3173970",
+        "url": "https://dl.acm.org/doi/10.1145/3173574.3173970",
+        "abstract": "研究通过问卷与访谈考察非英语母语者学习编程时遇到的障碍。参与者普遍提到英文文档、错误信息、技术词汇和英文社区参与的门槛，并希望通过母语解释、双语术语表和更友好的错误提示降低负担。研究据此提出工具与教学的设计机会。",
+        "tags": [
+          "编程教育",
+          "公平性",
+          "初学者",
+          "工具设计",
+          "教学设计"
+        ],
+        "status": "to_read",
+        "priority": 3,
+        "read_minutes": 0,
+        "source_type": "paper",
+        "cite_text": "Guo, P. J. (2018). Non-native English speakers learning computer programming: Barriers, desires, and design opportunities. CHI '18."
+      },
+      "score": 0.3533,
+      "channels": [
+        "vector",
+        "text"
+      ],
+      "reasons": [
+        "语义相似度 0.25",
+        "全文相关度 0.49",
+        "记忆主题命中：初学者、编程教育"
+      ],
+      "best_chunk": {
+        "chunk_id": "guo2018-c2",
+        "section": "方法",
+        "page": "p.3",
+        "snippet": "研究通过问卷收集非英语母语编程学习者的障碍与需求，并用访谈补充具体情境。问卷覆盖不同国家、母语和编程经验的学习者。",
+        "snippet_html": "研究通过问卷收集非英语母语编程学习者的障碍与需求，并用访谈补充具体情境。问卷覆盖不同国家、母语和编程经验的学习者。",
+        "vector_similarity": 0.253,
+        "text_score": 0.731
+      },
+      "evidence": [
+        {
+          "chunk_id": "guo2018-c2",
+          "section": "方法",
+          "page": "p.3",
+          "snippet": "研究通过问卷收集非英语母语编程学习者的障碍与需求，并用访谈补充具体情境。问卷覆盖不同国家、母语和编程经验的学习者。",
+          "snippet_html": "研究通过问卷收集非英语母语编程学习者的障碍与需求，并用访谈补充具体情境。问卷覆盖不同国家、母语和编程经验的学习者。",
+          "score": 0.3533
+        },
+        {
+          "chunk_id": "guo2018-c1",
+          "section": "问题",
+          "page": "p.1",
+          "snippet": "编程学习资源、错误信息和技术讨论大量使用英语，非英语母语者需要同时处理语言与编程概念，可能承受更高认知负荷。",
+          "snippet_html": "编程学习资源、错误信息和技术讨论大量使用英语，非英语母语者需要同时处理语言与编程概念，可能承受更高认知负荷。",
+          "score": 0.3389
+        }
+      ],
+      "memory_used": true
+    },
+    {
+      "paper": {
+        "paper_id": "denny2024",
+        "title": "生成式 AI 时代的计算教育",
+        "title_en": "Computing Education in the Era of Generative AI",
+        "authors": "Paul Denny, James Prather, Brett A. Becker, et al.",
+        "year": 2024,
+        "venue": "Communications of the ACM",
+        "doi": "10.1145/3624720",
+        "url": "https://dl.acm.org/doi/10.1145/3624720",
+        "abstract": "文章讨论生成式 AI 对计算教育目标和评价方式的根本影响。作者主张，当代码生成变得廉价，教育重点应从“能否写出代码”转向“能否说明、验证与改进代码”，并用过程性证据、口头评估和 AI 协作规范替代单一的产物式考核。",
+        "tags": [
+          "生成式AI",
+          "编程教育",
+          "评估",
+          "工具设计",
+          "综述"
+        ],
+        "status": "reading",
+        "priority": 2,
+        "read_minutes": 20,
+        "source_type": "paper",
+        "cite_text": "Denny, P., Prather, J., Becker, B. A., et al. (2024). Computing Education in the Era of Generative AI. Communications of the ACM."
+      },
+      "score": 0.3414,
+      "channels": [
+        "vector",
+        "text"
+      ],
+      "reasons": [
+        "语义相似度 0.28",
+        "全文相关度 0.13",
+        "记忆主题命中：生成式ai、编程教育",
+        "正在精读，优先呈现"
+      ],
+      "best_chunk": {
+        "chunk_id": "denny2024-c2",
+        "section": "评估",
+        "page": "p.5",
+        "snippet": "传统上机考试难以区分学生自己的理解与 AI 的产出。文章建议引入口头答辩、代码走查、过程日志和课堂观察，让评估证据更接近真实学习过程。",
+        "snippet_html": "传统上机考试难以区分学生自己的理解与 <mark>AI</mark> 的产出。文章建议引入口头答辩、代码走查、过程日志和课堂观察，让评估证据更接近真实学习过程。",
+        "vector_similarity": 0.283,
+        "text_score": 0.163
+      },
+      "evidence": [
+        {
+          "chunk_id": "denny2024-c2",
+          "section": "评估",
+          "page": "p.5",
+          "snippet": "传统上机考试难以区分学生自己的理解与 AI 的产出。文章建议引入口头答辩、代码走查、过程日志和课堂观察，让评估证据更接近真实学习过程。",
+          "snippet_html": "传统上机考试难以区分学生自己的理解与 <mark>AI</mark> 的产出。文章建议引入口头答辩、代码走查、过程日志和课堂观察，让评估证据更接近真实学习过程。",
+          "score": 0.3414
+        },
+        {
+          "chunk_id": "denny2024-c3",
+          "section": "教学",
+          "page": "p.7",
+          "snippet": "教师应明确哪些环节允许使用 AI、哪些必须独立完成，并把 AI 使用本身作为学习内容。与其检测 AI 痕迹，不如设计让学生必须解释和验证的任务。",
+          "snippet_html": "教师应明确哪些环节允许使用 <mark>AI</mark>、哪些必须独立完成，并把 <mark>AI</mark> 使用本身作为学习内容。与其检测 <mark>AI</mark> 痕迹，不如设计让学生必须解释和验证的任务。",
+          "score": 0.3401
+        }
+      ],
+      "memory_used": true
+    },
+    {
+      "paper": {
+        "paper_id": "prather2023",
+        "title": "机器人已至：计算教育中的生成式 AI 变革",
+        "title_en": "The Robots Are Here: Navigating the Generative AI Revolution in Computing Education",
+        "authors": "James Prather, Paul Denny, Brett A. Becker, et al.",
+        "year": 2023,
+        "venue": "ITiCSE-WGR 2023",
+        "doi": "10.1145/3623762.3633499",
+        "url": "https://dl.acm.org/doi/10.1145/3623762.3633499",
+        "abstract": "这是一份面向计算教育共同体的工作组报告，系统梳理生成式 AI 对教学、评估、课程与公平性的冲击。报告既列举个性化反馈、代码解释和教学效率等机会，也讨论学术诚信、错误信息、过度依赖与教师负担等风险，并提出评估重构、过程性证据和政策建设等建议。",
+        "tags": [
+          "生成式AI",
+          "编程教育",
+          "综述",
+          "评估",
+          "公平性",
+          "工具设计"
+        ],
+        "status": "reading",
+        "priority": 2,
+        "read_minutes": 28,
+        "source_type": "paper",
+        "cite_text": "Prather, J., Denny, P., Becker, B. A., et al. (2023). The Robots Are Here: Navigating the Generative AI Revolution in Computing Education. ITiCSE-WGR '23."
+      },
+      "score": 0.3333,
+      "channels": [
+        "vector",
+        "text"
+      ],
+      "reasons": [
+        "语义相似度 0.28",
+        "全文相关度 0.11",
+        "记忆主题命中：生成式ai、编程教育",
+        "正在精读，优先呈现"
+      ],
+      "best_chunk": {
+        "chunk_id": "prather2023-c1",
+        "section": "背景",
+        "page": "p.1",
+        "snippet": "生成式 AI 工具在短时间内进入编程课堂，计算教育共同体需要同时回应工具带来的机会、风险与制度问题，而不是简单禁止或全面拥抱。",
+        "snippet_html": "生成式 <mark>AI</mark> 工具在短时间内进入编程课堂，计算教育共同体需要同时回应工具带来的机会、风险与制度问题，而不是简单禁止或全面拥抱。",
+        "vector_similarity": 0.284,
+        "text_score": 0.127
+      },
+      "evidence": [
+        {
+          "chunk_id": "prather2023-c1",
+          "section": "背景",
+          "page": "p.1",
+          "snippet": "生成式 AI 工具在短时间内进入编程课堂，计算教育共同体需要同时回应工具带来的机会、风险与制度问题，而不是简单禁止或全面拥抱。",
+          "snippet_html": "生成式 <mark>AI</mark> 工具在短时间内进入编程课堂，计算教育共同体需要同时回应工具带来的机会、风险与制度问题，而不是简单禁止或全面拥抱。",
+          "score": 0.3333
+        },
+        {
+          "chunk_id": "prather2023-c3",
+          "section": "风险",
+          "page": "p.8",
+          "snippet": "主要风险包括学术诚信、错误信息、过度依赖、学生绕过关键认知过程，以及资源不足的学校被进一步边缘化。评估若仍只看出最终代码，很难区分学习是否发生。",
+          "snippet_html": "主要风险包括学术诚信、错误信息、过度依赖、学生绕过关键认知过程，以及资源不足的学校被进一步边缘化。评估若仍只看出最终代码，很难区分学习是否发生。",
+          "score": 0.3315
+        }
+      ],
+      "memory_used": true
+    },
+    {
+      "paper": {
+        "paper_id": "chi2014",
+        "title": "ICAP 框架：连接认知参与与主动学习结果",
+        "title_en": "The ICAP Framework: Linking Cognitive Engagement to Active Learning Outcomes",
+        "authors": "Michelene T. H. Chi, Ruth Wylie",
+        "year": 2014,
+        "venue": "Educational Psychologist",
+        "doi": "10.1080/00461520.2014.965823",
+        "url": "https://doi.org/10.1080/00461520.2014.965823",
+        "abstract": "ICAP 框架依据学习者的外显行为区分四种认知参与水平：被动（Passive）、主动（Active）、建构（Constructive）与互动（Interactive）。作者综合实证证据提出，学习结果通常按被动 < 主动 < 建构 < 互动的顺序提升，并讨论如何用该框架设计活动与评估参与质量。",
+        "tags": [
+          "主动学习",
+          "认知负荷",
+          "理论框架",
+          "学习迁移",
+          "教学设计"
+        ],
+        "status": "read",
+        "priority": 2,
+        "read_minutes": 30,
+        "source_type": "paper",
+        "cite_text": "Chi, M. T. H., & Wylie, R. (2014). The ICAP Framework: Linking Cognitive Engagement to Active Learning Outcomes. Educational Psychologist, 49(4), 219–243."
+      },
+      "score": 0.2258,
+      "channels": [
+        "vector",
+        "text"
+      ],
+      "reasons": [
+        "语义相似度 0.21",
+        "全文相关度 0.14",
+        "记忆主题命中：学习迁移"
+      ],
+      "best_chunk": {
+        "chunk_id": "chi2014-c1",
+        "section": "框架",
+        "page": "p.1",
+        "snippet": "ICAP 用可观察的外显行为区分四种参与：被动接收信息、主动操作材料、建构新解释、与他人互动共创。参与越深，学习者需要调用越多先前知识并生成新联系。",
+        "snippet_html": "ICAP 用可观察的外显行为区分四种参与：被动接收信息、主动操作材料、建构新解释、与他人互动共创。参与越深，学习者需要调用越多先前知识并生成新联系。",
+        "vector_similarity": 0.206,
+        "text_score": 0.166
+      },
+      "evidence": [
+        {
+          "chunk_id": "chi2014-c1",
+          "section": "框架",
+          "page": "p.1",
+          "snippet": "ICAP 用可观察的外显行为区分四种参与：被动接收信息、主动操作材料、建构新解释、与他人互动共创。参与越深，学习者需要调用越多先前知识并生成新联系。",
+          "snippet_html": "ICAP 用可观察的外显行为区分四种参与：被动接收信息、主动操作材料、建构新解释、与他人互动共创。参与越深，学习者需要调用越多先前知识并生成新联系。",
+          "score": 0.2258
+        },
+        {
+          "chunk_id": "chi2014-c3",
+          "section": "应用",
+          "page": "p.15",
+          "snippet": "ICAP 可用于设计课堂活动与评估参与质量。教师不应只问学生是否“动手”，还要判断学生是否在解释、建构或与他人共同修正理解。",
+          "snippet_html": "ICAP 可用于设计课堂活动与评估参与质量。教师不应只问学生是否“动手”，还要判断学生是否在解释、建构或与他人共同修正理解。",
+          "score": 0.2121
+        }
+      ],
+      "memory_used": true
+    }
+  ],
+  "total": 8,
+  "latency_ms": 193,
+  "mode": "hybrid-vector-fulltext",
+  "embedding": {
+    "provider": "local-signed-feature-hash",
+    "dimension": 768,
+    "tokenizer": "cjk-char-uni-bi-tri + english-word",
+    "hashes_per_token": 4,
+    "offline": true
+  },
+  "filters": {},
+  "trace": [
+    {
+      "label": "seekdb 向量召回（cosine_distance + HNSW）",
+      "sql": "SELECT c.chunk_id, c.paper_id, c.section, c.page, c.content, cosine_distance(c.embedding, %s) AS vector_distance, MATCH(c.search_text) AGAINST(%s) AS text_score FROM chunks c JOIN papers p ON p.paper_id = c.paper_id ORDER BY vector_distance ASC LIMIT 60",
+      "params": [
+        "[0.00000000,0.00000000,0.05833657,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.09877240,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,-0.04…",
+        "AI 编程助手对初学者学习迁移的影响"
+      ],
+      "rows": 34,
+      "elapsed_ms": 34
+    },
+    {
+      "label": "seekdb 全文召回（ngram2 MATCH AGAINST）",
+      "sql": "SELECT c.chunk_id, c.paper_id, c.section, c.page, c.content, 0.0 AS vector_distance, MATCH(c.search_text) AGAINST(%s) AS text_score FROM chunks c JOIN papers p ON p.paper_id = c.paper_id WHERE MATCH(c.search_text) AGAINST(%s) ORDER BY text_score DESC LIMIT 30",
+      "params": [
+        "AI 编程助手对初学者学习迁移的影响",
+        "AI 编程助手对初学者学习迁移的影响"
+      ],
+      "rows": 30,
+      "elapsed_ms": 24
+    }
+  ],
+  "memory": {
+    "available": true,
+    "summary": "教育技术学 · 文献综述；当前关注 生成式AI、编程教育、初学者",
+    "focus_tags": [
+      "初学者",
+      "学习迁移",
+      "实证研究",
+      "生成式AI",
+      "编程教育"
+    ],
+    "methods": [
+      "随机对照实验",
+      "准实验",
+      "混合方法"
+    ],
+    "in_progress": [
+      {
+        "paper_id": "prather2023",
+        "title": "机器人已至：计算教育中的生成式 AI 变革",
+        "status": "reading",
+        "takeaway": "用工作组报告的风险清单组织综述背景。",
+        "tags": [
+          "生成式AI",
+          "编程教育",
+          "综述",
+          "评估",
+          "公平性",
+          "工具设计"
+        ],
+        "updated_at": "2026-10-29T09:44:57.680712+00:00",
+        "saved_at": "2026-10-29T09:44:57.696801+00:00",
+        "memory": {
+          "artifact_id": "art_18f912786a65436f97c56ba876ac7b04",
+          "revision": 1,
+          "saved_at": "2026-10-29T09:44:57.696801+00:00"
+        }
+      }
+    ],
+    "related": [
+      {
+        "kind": "review_board",
+        "text": "{\"paper_ids\":[\"kazemitabaar2023\",\"bastani2025\",\"prather2023\",\"denny2024\"],\"question\":\"生成式 AI 编程助手如何影响初学者的编程学习与迁移？\",\"note\":\"acceptance.py 自动验收\",\"updated_at\":\"2026-10-29T09:44:59.068227+00:00\",\"saved_at\":\"2026-10-29T09:44:59.085939+00:00\"}",
+        "summary": "综述矩阵：4 篇文献 · 生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "score": 0.01639344262295082,
+        "matched_by": [
+          "text"
+        ]
+      },
+      {
+        "kind": "review_board",
+        "text": "{\"paper_ids\":[\"kazemitabaar2023\",\"bastani2025\",\"prather2023\",\"denny2024\"],\"question\":\"生成式 AI 编程助手如何影响初学者的编程学习与迁移？\",\"note\":\"从综述矩阵页面生成\",\"updated_at\":\"2026-10-29T09:45:11.180895+00:00\",\"saved_at\":\"2026-10-29T09:45:11.207027+00:00\"}",
+        "summary": "综述矩阵：4 篇文献 · 生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "score": 0.016129032258064516,
+        "matched_by": [
+          "text"
+        ]
+      },
+      {
+        "kind": "review_board",
+        "text": "{\"paper_ids\":[\"kazemitabaar2023\",\"bastani2025\",\"prather2023\",\"denny2024\"],\"question\":\"生成式 AI 编程助手如何影响初学者的编程学习与迁移？\",\"note\":\"从综述矩阵页面生成\",\"updated_at\":\"2026-10-29T09:46:43.655251+00:00\",\"saved_at\":\"2026-10-29T09:46:43.679663+00:00\"}",
+        "summary": "综述矩阵：4 篇文献 · 生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "score": 0.015873015873015872,
+        "matched_by": [
+          "text"
+        ]
+      },
+      {
+        "kind": "review_board",
+        "text": "{\"paper_ids\":[\"kazemitabaar2023\",\"bastani2025\",\"prather2023\",\"denny2024\"],\"question\":\"生成式 AI 编程助手如何影响初学者的编程学习与迁移？\",\"note\":\"先搭建“效果证据—工具设计—评估方式”三列骨架。\",\"updated_at\":\"2026-10-29T09:44:57.789392+00:00\",\"saved_at\":\"2026-10-29T09:44:57.806316+00:00\"}",
+        "summary": "综述矩阵：4 篇文献 · 生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "score": 0.015625,
+        "matched_by": [
+          "text"
+        ]
+      }
+    ],
+    "scope_id": "scp_27ayk5ztvdpbyn91a0kgkpmya0"
+  },
+  "counts": {
+    "vector_candidates": 34,
+    "text_candidates": 30,
+    "fused_chunks": 34,
+    "papers": 8
+  }
+}

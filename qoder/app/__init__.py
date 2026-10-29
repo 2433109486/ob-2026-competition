@@ -1,0 +1,1 @@
+"""ResearchPulse application package."""

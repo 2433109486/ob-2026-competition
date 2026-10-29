@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3ede1">
+  <meta name="description" content="研脉 ResearchPulse：用 seekdb 混合检索与 PowerContext 研究记忆，把文献、证据和综述判断连成一条可追溯的路径。">
+  <title>研脉 ResearchPulse · 让文献综述有迹可循</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#top" aria-label="研脉首页">
+      <span class="brand-mark">
+        <svg viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M8 10.5C8 8.6 9.6 7 11.5 7H32v23.5c0 .8-.7 1.5-1.5 1.5H12a4 4 0 0 0-4 4V10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M12 11h16M12 16h11M12 21h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="27" cy="27" r="4.5" fill="#d96c4b"/>
+          <path d="M25 27h4M27 25v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brand-copy"><strong>研脉</strong><small>RESEARCH PULSE</small></span>
+    </a>
+    <nav class="nav-links" aria-label="页面导航">
+      <a href="#problem">痛点</a>
+      <a href="#demo">演示</a>
+      <a href="#features">功能</a>
+      <a href="#proof">技术</a>
+      <a href="#validation">验证</a>
+      <a href="#run">运行</a>
+    </nav>
+    <a class="btn btn-dark btn-sm" href="#run">本地运行 <span>↗</span></a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-grid-lines" aria-hidden="true"></div>
+      <div class="wrap hero-inner">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="dot"></span> QODER × OCEANBASE · 2026 参赛作品</div>
+          <h1>让文献综述，<br><em>有迹可循。</em></h1>
+          <p class="hero-lede">读过的论文、记下的判断、写过的综述，不该散落在聊天记录和十几个 PDF 里。研脉把资料库、混合检索、证据矩阵和研究记忆，连成一条可以回头核对的路径。</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#demo">看 35 秒演示 <span class="play">▶</span></a>
+            <a class="btn btn-ghost" href="#features">它怎么工作 <span>↓</span></a>
+          </div>
+          <div class="hero-stats">
+            <div><strong>10</strong><span>演示资料</span></div>
+            <div><strong>34</strong><span>证据片段</span></div>
+            <div><strong>2</strong><span>路召回</span></div>
+            <div><strong>21/21</strong><span>自动验收</span></div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="browser-frame">
+            <div class="browser-bar"><span class="b-dot"></span><span class="b-dot"></span><span class="b-dot"></span><span class="b-url">127.0.0.1:7860/#/today</span><span class="b-live">LOCAL</span></div>
+            <img src="assets/hero.png" alt="研脉今日页：问候、今日聚焦、研究记忆和资料统计" width="1440" height="1100">
+          </div>
+          <div class="float-card float-search">
+            <span class="float-icon">⌕</span>
+            <div><strong>向量 + 全文</strong><small>同一问题，两种召回</small></div>
+          </div>
+          <div class="float-card float-memory">
+            <span class="float-icon">◉</span>
+            <div><strong>10 条记忆</strong><small>画像 / 进度 / 决策</small></div>
+          </div>
+          <div class="hero-note">真实运行截图 · Edge 1440px</div>
+        </div>
+      </div>
+      <div class="tech-strip">
+        <div class="wrap strip-inner">
+          <span>BUILT WITH</span>
+          <b>Qoder</b><i>×</i><b>seekdb 1.4</b><i>×</i><b>PowerContext 1.4.1</b>
+          <span class="strip-right">Qoder Sites · Static site</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section problem" id="problem">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow"><span class="dot"></span> THE REAL WORK</div>
+            <h2>不是“读得不够多”，<br>是<em>找不回来</em>。</h2>
+          </div>
+          <p class="section-side">研究者真正花时间的，往往不是阅读本身，而是把读过的内容重新组织成可写、可查、可复用的证据。</p>
+        </div>
+        <div class="problem-grid">
+          <article class="problem-card">
+            <span class="num">01</span>
+            <h3>“那句话在哪一页？”</h3>
+            <p>关键词搜不到近义表达，语义检索又可能给出没有出处的流畅句子。综述写作最怕“好像看过”。</p>
+            <div class="problem-tag">证据需要出处</div>
+          </article>
+          <article class="problem-card">
+            <span class="num">02</span>
+            <h3>“矩阵又要重做一遍”</h3>
+            <p>研究问题、方法、样本、发现、局限散落在不同笔记里，每写一次综述就重新复制粘贴一次。</p>
+            <div class="problem-tag">判断需要结构</div>
+          </article>
+          <article class="problem-card">
+            <span class="num">03</span>
+            <h3>“AI 每次都不认识我”</h3>
+            <p>换一个会话，研究方向、阅读进度、上次为什么排除某篇，全部要重新讲一遍。</p>
+            <div class="problem-tag">上下文需要记忆</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section demo-section" id="demo">
+      <div class="wrap">
+        <div class="section-head light">
+          <div>
+            <div class="eyebrow"><span class="dot"></span> 35 SECOND WALKTHROUGH</div>
+            <h2>从一句问题，<br>到一条<em>可引用的证据链</em>。</h2>
+          </div>
+          <p class="section-side">录屏来自真实运行：检索、SQL 轨迹、原文片段、综述矩阵、研究记忆召回。没有剪辑成“概念动画”。</p>
+        </div>
+        <div class="video-shell">
+          <video controls autoplay muted loop playsinline poster="assets/poster.png" preload="metadata">
+            <source src="assets/demo.webm" type="video/webm">
+            你的浏览器不支持 WebM，请<a href="assets/demo.webm">下载演示视频</a>。
+          </video>
+          <div class="video-caption"><span class="live-dot"></span><span>本地真实运行 · 1280 × 800 · 35s</span><span class="video-link">无配音 · 字幕在画面内</span></div>
+        </div>
+        <div class="demo-points">
+          <div><b>01</b><span>检索</span><p>向量与全文两路召回，结果带分数、理由和原文片段。</p></div>
+          <div><b>02</b><span>证据</span><p>点开 SQL 轨迹与章节页码，能看到 seekdb 实际执行了什么。</p></div>
+          <div><b>03</b><span>综合</span><p>把选中文献压成 6 维矩阵，生成带引用编号的草稿。</p></div>
+          <div><b>04</b><span>记忆</span><p>画像、进度、综述选择写入 PowerContext，下次直接恢复。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section features" id="features">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow"><span class="dot"></span> CORE FLOWS</div>
+            <h2>四个动作，<br>把“读过”变成<em>“写得出”</em>。</h2>
+          </div>
+          <p class="section-side">不是又一个 PDF 聊天框。研脉围绕综述真正要交付的东西组织：证据、矩阵、草稿、可复用的研究上下文。</p>
+        </div>
+
+        <article class="feature-row">
+          <div class="feature-copy">
+            <div class="feature-index">01 / RETRIEVAL</div>
+            <h3>问一个问题，<br>同时走两条召回路径。</h3>
+            <p>向量召回负责“意思相近”，ngram 全文召回负责“原话对得上”。融合后按论文聚合，最多展示两个证据片段，不拿同一段话刷屏。</p>
+            <ul>
+              <li><span>→</span> 768 维本地特征哈希向量，离线可复现</li>
+              <li><span>→</span> ngram2 全文索引，中文短语不切碎</li>
+              <li><span>→</span> 分数、命中理由、SQL 轨迹全部可见</li>
+            </ul>
+            <div class="feature-chips"><span>seekdb</span><span>cosine + HNSW</span><span>WHERE 过滤</span></div>
+          </div>
+          <figure class="feature-shot">
+            <div class="shot-frame"><img src="assets/search.png" alt="研脉证据检索页，展示结果分数、原文片段和记忆上下文"></div>
+            <figcaption><span class="cap-dot"></span>检索结果：分数 / 片段 / 命中理由 / 记忆上下文</figcaption>
+          </figure>
+        </article>
+
+        <article class="feature-row reverse">
+          <div class="feature-copy">
+            <div class="feature-index">02 / SYNTHESIS</div>
+            <h3>把 4 篇文献，<br>压成一张能写的表。</h3>
+            <p>研究问题、设计、样本、发现、局限、可复用点——六个维度从资料中抽取，覆盖率与缺口直接标出来。每个单元格都能改，草稿只使用你确认过的字段。</p>
+            <ul>
+              <li><span>→</span> 4×6 矩阵与覆盖度，不用手工复制粘贴</li>
+              <li><span>→</span> 草稿带 [1]–[4] 引用编号与参考文献</li>
+              <li><span>→</span> 一键导出 Markdown，继续在别处写</li>
+            </ul>
+            <div class="feature-chips"><span>综述矩阵</span><span>确定性抽取</span><span>Markdown</span></div>
+          </div>
+          <figure class="feature-shot">
+            <div class="shot-frame"><img src="assets/review.png" alt="研脉综述矩阵与带引用编号的综述草稿"></div>
+            <figcaption><span class="cap-dot"></span>综述矩阵 + 可追溯草稿；引用编号回到文末列表</figcaption>
+          </figure>
+        </article>
+
+        <article class="feature-row">
+          <div class="feature-copy">
+            <div class="feature-index">03 / MEMORY</div>
+            <h3>让系统记住的，<br>是你的<em>研究判断</em>。</h3>
+            <p>PowerContext 里保存的不是聊天记录，而是研究画像、阅读进度、综述选择和一句句“为什么”。下一次检索，主题重合与阅读状态会参与排序；打开矩阵，上次的选择还在。</p>
+            <ul>
+              <li><span>→</span> Scope + Atomic Memory + Artifact Revision</li>
+              <li><span>→</span> 记忆只影响排序，不伪造证据</li>
+              <li><span>→</span> 画像可编辑，判断可召回，进度可继续</li>
+            </ul>
+            <div class="feature-chips"><span>PowerContext</span><span>Atomic Memory</span><span>跨会话</span></div>
+          </div>
+          <figure class="feature-shot">
+            <div class="shot-frame"><img src="assets/memory.png" alt="研脉研究记忆页，展示研究画像、记忆时间线和召回测试"></div>
+            <figcaption><span class="cap-dot"></span>画像 / 阅读进度 / 综述决策，全部带 Artifact ID</figcaption>
+          </figure>
+        </article>
+      </div>
+    </section>
+
+    <section class="section proof" id="proof">
+      <div class="wrap">
+        <div class="section-head light">
+          <div>
+            <div class="eyebrow"><span class="dot"></span> UNDER THE HOOD</div>
+            <h2>证据不是形容词，<br>是<em>可执行的查询</em>。</h2>
+          </div>
+          <p class="section-side">每个结果都能打开现场：两条 SQL、候选数量、融合权重、记忆上下文。评审不需要相信文案，可以直接核对。</p>
+        </div>
+        <div class="proof-grid">
+          <figure class="proof-shot">
+            <img src="assets/trace.png" alt="研脉 SQL 轨迹弹窗，展示向量召回和全文召回两条语句">
+            <figcaption>真实 SQL 轨迹弹窗 · 34 个向量候选 / 30 个全文候选</figcaption>
+          </figure>
+          <div class="code-stack">
+            <div class="code-card">
+              <div class="code-head"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span><span>seekdb / hybrid-retrieval.sql</span></div>
+              <pre><code><span class="c-key">SELECT</span> c.chunk_id, c.content,
+       <span class="c-fn">cosine_distance</span>(c.embedding, <span class="c-str">:query_vec</span>) <span class="c-key">AS</span> vector_distance,
+       <span class="c-fn">MATCH</span>(c.search_text) <span class="c-key">AGAINST</span> (<span class="c-str">:query</span>) <span class="c-key">AS</span> text_score
+<span class="c-key">FROM</span> chunks c <span class="c-key">JOIN</span> papers p <span class="c-key">ON</span> p.paper_id = c.paper_id
+<span class="c-key">ORDER BY</span> vector_distance <span class="c-key">ASC</span>
+<span class="c-key">LIMIT</span> <span class="c-num">60</span>;</code></pre>
+            </div>
+            <div class="code-card">
+              <div class="code-head"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span><span>PowerContext / atomic-memory.json</span></div>
+              <pre><code>{
+  <span class="c-key">"kind"</span>: <span class="c-str">"reading_progress"</span>,
+  <span class="c-key">"text"</span>: {
+    <span class="c-key">"paper_id"</span>: <span class="c-str">"kazemitabaar2023"</span>,
+    <span class="c-key">"status"</span>: <span class="c-str">"read"</span>,
+    <span class="c-key">"takeaway"</span>: <span class="c-str">"延迟后测必须保留"</span>
+  },
+  <span class="c-key">"artifact_id"</span>: <span class="c-str">"art_..."</span>,
+  <span class="c-key">"revision"</span>: <span class="c-num">1</span>
+}</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="proof-metrics">
+          <div><strong>44<small>%</small></strong><span>语义权重</span></div>
+          <div><strong>31<small>%</small></strong><span>全文权重</span></div>
+          <div><strong>15<small>%</small></strong><span>主题记忆</span></div>
+          <div><strong>10<small>%</small></strong><span>阅读状态</span></div>
+          <p>记忆只进入后两项。片段永远来自 seekdb 原文，排序解释在每条结果下方可见。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section architecture" id="architecture">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow"><span class="dot"></span> SYSTEM MAP</div>
+            <h2>事实在 seekdb，<br>状态在 PowerContext。</h2>
+          </div>
+          <p class="section-side">一个负责“有哪些证据”，一个负责“这个研究者是谁、读到哪里、上次为什么这样选”。两者不互相替代。</p>
+        </div>
+        <div class="arch">
+          <div class="arch-col">
+            <div class="arch-label">CLIENT</div>
+            <div class="arch-card">
+              <span class="arch-icon">◫</span>
+              <h4>浏览器 SPA</h4>
+              <p>今日 / 检索 / 资料库 / 矩阵 / 记忆</p>
+              <small>Vanilla JS · 无构建步骤</small>
+            </div>
+          </div>
+          <div class="arch-arrow"><span>JSON</span>→</div>
+          <div class="arch-col">
+            <div class="arch-label">APPLICATION</div>
+            <div class="arch-card accent">
+              <span class="arch-icon">⌘</span>
+              <h4>FastAPI</h4>
+              <p>检索融合 · 综述生成 · 记忆编排</p>
+              <small>Python 3.12 · 127.0.0.1:7860</small>
+            </div>
+          </div>
+          <div class="arch-arrow"><span>2 路</span>→</div>
+          <div class="arch-col">
+            <div class="arch-label">DATA</div>
+            <div class="arch-card">
+              <span class="arch-icon">▤</span>
+              <h4>seekdb 1.4</h4>
+              <p>papers / chunks / notes</p>
+              <small>VECTOR(768) + ngram2 FULLTEXT</small>
+            </div>
+            <div class="arch-card mt">
+              <span class="arch-icon">◉</span>
+              <h4>PowerContext 1.4.1</h4>
+              <p>Scope / Atomic Memory</p>
+              <small>画像 · 进度 · 综述决策</small>
+            </div>
+          </div>
+        </div>
+        <div class="arch-note">
+          <span class="tag-dark">为什么不是普通 RAG？</span>
+          <p>普通 RAG 只回答“这一段像不像”。研脉还要回答“这段在哪篇、哪一节、为什么被选中、和你的研究问题有什么关系”。所以检索、记忆、矩阵、引用是同一个数据闭环，而不是四个拼在一起的 demo。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section validation" id="validation">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow"><span class="dot"></span> VERIFICATION</div>
+            <h2>不是“看起来能用”，<br>是<em>21 项都跑过</em>。</h2>
+          </div>
+          <p class="section-side">自动验收覆盖双路召回、SQL 轨迹、矩阵、引用、记忆写入与召回。浏览器路径另测 5 条，console 无错误。</p>
+        </div>
+        <div class="verify-grid">
+          <div class="verify-big">
+            <div class="big-number">21<span>/21</span></div>
+            <p>自动验收通过</p>
+            <div class="verify-pills"><span>seekdb</span><span>PowerContext</span><span>矩阵</span><span>引用</span><span>导出</span></div>
+          </div>
+          <div class="verify-list">
+            <div><b>10 / 34</b><span>资料 / 证据片段</span></div>
+            <div><b>4 × 6</b><span>矩阵行 / 维度</span></div>
+            <div><b>2</b><span>路召回 SQL</span></div>
+            <div><b>10</b><span>条记忆可恢复</span></div>
+          </div>
+          <div class="verify-card">
+            <div class="verify-card-head"><span>acceptance.py</span><span class="exit-ok">exit 0</span></div>
+            <pre><code>[OK] seekdb 可连接
+[OK] 执行向量与全文两条 SQL
+[OK] 矩阵包含 6 个维度
+[OK] 草稿带 4 条引用
+[OK] 综述决策写入 PowerContext
+[OK] PowerContext 可召回刚写入的记忆
+PASS: 21 checks</code></pre>
+            <a href="https://github.com/2433109486/ob-2026-competition/blob/submission-2026/qoder/docs/VALIDATION.md" target="_blank" rel="noreferrer">查看完整验证样例 <span>↗</span></a>
+          </div>
+        </div>
+        <div class="honesty">
+          <span class="honesty-mark">!</span>
+          <p><strong>关于使用效果：</strong>当前数据来自开发自测（自动验收、检索日志、浏览器录屏），不是外部用户调研。我们不把自测包装成“真实用户提效”。如果你愿意试用，欢迎按运行说明启动后反馈；后续可用访问统计与使用日志补充。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section run" id="run">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow"><span class="dot"></span> RUN IT LOCALLY</div>
+            <h2>三步，<br>把研脉跑起来。</h2>
+          </div>
+          <p class="section-side">需要 Python 3.10+、seekdb 1.4（2881）与 PowerContext 1.4.1（8765）。完整命令、重置与排错见 RUNBOOK。</p>
+        </div>
+        <div class="run-grid">
+          <div class="run-steps">
+            <div class="run-step"><span>01</span><div><strong>启动数据服务</strong><p>seekdb 2881 · PowerContext 8765</p></div></div>
+            <div class="run-step"><span>02</span><div><strong>导入演示资料</strong><p>10 份资料 / 34 个片段 / 初始记忆</p></div></div>
+            <div class="run-step"><span>03</span><div><strong>打开工作台</strong><p>127.0.0.1:7860 · 无需登录</p></div></div>
+            <div class="run-links">
+              <a class="btn btn-primary" href="https://github.com/2433109486/ob-2026-competition/tree/submission-2026/qoder" target="_blank" rel="noreferrer">代码仓库 <span>↗</span></a>
+              <a class="btn btn-ghost" href="https://github.com/2433109486/ob-2026-competition/blob/submission-2026/qoder/docs/RUNBOOK.md" target="_blank" rel="noreferrer">完整运行说明 <span>↗</span></a>
+            </div>
+          </div>
+          <div class="terminal">
+            <div class="terminal-head"><span class="b-dot"></span><span class="b-dot"></span><span class="b-dot"></span><span>powershell · qoder</span></div>
+            <pre><code><span class="t-comment"># 1. Python 依赖</span>
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+
+<span class="t-comment"># 2. 初始化 seekdb + 研究记忆</span>
+Copy-Item .env.example .env
+.\.venv\Scripts\python.exe scripts\init_db.py --reset
+
+<span class="t-comment"># 3. 启动</span>
+.\.venv\Scripts\python.exe -m uvicorn app.main:app `
+  --host 127.0.0.1 --port 7860
+
+<span class="t-ok">→ http://127.0.0.1:7860</span></code></pre>
+          </div>
+        </div>
+        <div class="site-note">项目网站通过 <strong>Qoder Sites</strong> 发布 · 代码、运行说明、验证样例在同一仓库 <span class="dot-sep">·</span> 数据与引用说明见 README</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div class="footer-brand">
+        <span class="brand-mark small">
+          <svg viewBox="0 0 40 40" aria-hidden="true">
+            <path d="M8 10.5C8 8.6 9.6 7 11.5 7H32v23.5c0 .8-.7 1.5-1.5 1.5H12a4 4 0 0 0-4 4V10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M12 11h16M12 16h11M12 21h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <circle cx="27" cy="27" r="4.5" fill="#d96c4b"/>
+          </svg>
+        </span>
+        <div><strong>研脉 ResearchPulse</strong><small>让学习、科研和工作更高效</small></div>
+      </div>
+      <div class="footer-links">
+        <a href="#features">功能</a>
+        <a href="#proof">技术</a>
+        <a href="#validation">验证</a>
+        <a href="https://github.com/2433109486/ob-2026-competition/tree/submission-2026/qoder" target="_blank" rel="noreferrer">GitHub ↗</a>
+      </div>
+      <div class="footer-meta">Qoder × OceanBase 2026 · Built with Qoder<br><span>seekdb 1.4.0.0 · PowerContext 1.4.1 · FastAPI</span></div>
+    </div>
+  </footer>
+</body>
+</html>

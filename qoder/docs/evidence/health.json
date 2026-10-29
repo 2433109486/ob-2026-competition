@@ -1,0 +1,33 @@
+{
+  "ok": true,
+  "app": "研脉 ResearchPulse",
+  "version": "1.0.0",
+  "uptime_seconds": 83,
+  "seekdb": {
+    "ok": true,
+    "version": "5.7.25-OceanBase seekdb-v1.4.0.0",
+    "database": "yanmai",
+    "latency_ms": 35
+  },
+  "powercontext": {
+    "ok": true,
+    "enabled": true,
+    "url": "http://127.0.0.1:8765",
+    "latency_ms": 1,
+    "scope_id": "scp_27ayk5ztvdpbyn91a0kgkpmya0"
+  },
+  "embedding": {
+    "provider": "local-signed-feature-hash",
+    "dimension": 768,
+    "tokenizer": "cjk-char-uni-bi-tri + english-word",
+    "hashes_per_token": 4,
+    "offline": true
+  },
+  "counts": {
+    "papers": 10,
+    "chunks": 34,
+    "notes": 5,
+    "search_log": 30,
+    "activity": 62
+  }
+}

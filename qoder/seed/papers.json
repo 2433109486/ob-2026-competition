@@ -1,0 +1,480 @@
+{
+  "version": 1,
+  "curation_note": "演示语料。中文导读为项目改写的检索用摘要，不是原文翻译；引用信息保留 DOI/来源链接。",
+  "papers": [
+    {
+      "paper_id": "kazemitabaar2023",
+      "title": "AI 代码生成器如何支持编程入门学习者",
+      "title_en": "Studying the Effect of AI Code Generators on Supporting Novice Learners in Introductory Programming",
+      "authors": "Majeed Kazemitabaar, Justin Chow, Carl Ka To Ma, Barbara J. Ericson, David Weintrop, Tovi Grossman",
+      "year": 2023,
+      "venue": "CHI 2023",
+      "doi": "10.1145/3544548.3580919",
+      "url": "https://arxiv.org/abs/2302.07427",
+      "abstract": "研究用随机分组实验考察 OpenAI Codex 对 10–17 岁初学者编程学习的影响。69 名学习者完成 45 个 Python 编程任务，其中一半可使用 Codex。结果显示，使用 Codex 的学习者任务完成率提高约 1.15 倍、任务得分提高约 1.8 倍，且手动修改代码的表现没有下降。一周后的延迟后测中，Codex 组略好但差异不显著；先前 Scratch 基础较好的学习者在保留测验中表现更好。",
+      "tags": "生成式AI,编程教育,初学者,学习迁移,实证研究,工具设计",
+      "status": "read",
+      "priority": 1,
+      "read_minutes": 42,
+      "source_type": "paper",
+      "cite_text": "Kazemitabaar, M., Chow, J., Ma, C. K. T., Ericson, B. J., Weintrop, D., & Grossman, T. (2023). Studying the Effect of AI Code Generators on Supporting Novice Learners in Introductory Programming. CHI '23.",
+      "review": {
+        "problem": "AI 代码生成器能否提升初学者的编程表现，同时不损害其独立编写与迁移能力？",
+        "method": "随机分组对照实验：Codex 组与对照组各完成 45 个 Python 任务，含即时代码修改与一周延迟后测。",
+        "sample": "69 名 10–17 岁编程初学者。",
+        "finding": "Codex 显著提升任务完成率与得分，未降低即时代码修改表现；一周后的学习保留略优但不显著，先前编程经验是潜在调节变量。",
+        "limitation": "样本年龄与任务范围有限，工具单一，延迟后测仅一周；迁移任务主要是代码修改，未覆盖真实项目。",
+        "reuse": "采用“练习表现 + 延迟迁移”双终点；把先前经验作为调节变量；保留学习者与 AI 的交互日志。"
+      },
+      "chunks": [
+        {
+          "section": "研究问题",
+          "page": "p.1",
+          "content": "AI code generators 可能帮助初学者把自然语言描述转成代码，但过度依赖也可能削弱学习与保留。论文因此同时考察代码编写表现、代码修改表现和一周后的延迟后测。"
+        },
+        {
+          "section": "方法",
+          "page": "p.4",
+          "content": "采用受控实验，69 名 10–17 岁初学者完成 45 个 Python 代码编写任务。一半学习者在训练阶段可以使用 Codex，每个编写任务之后都跟随一个代码修改任务，用于观察独立理解。"
+        },
+        {
+          "section": "发现",
+          "page": "p.7",
+          "content": "使用 Codex 的学习者代码编写完成率提高 1.15 倍，任务得分提高 1.8 倍；手动代码修改任务没有显著下降。训练阶段使用 Codex 的学习者在一周后的评估后测中略好，但差异未达到统计显著。"
+        },
+        {
+          "section": "调节效应",
+          "page": "p.9",
+          "content": "先前 Scratch 前测得分较高的学习者，如果此前使用过 Codex，在保留后测中的表现显著更好。这提示 AI 工具的收益可能依赖学习者已有的编程基础。"
+        },
+        {
+          "section": "局限",
+          "page": "p.13",
+          "content": "研究只持续约一周，样本为 10–17 岁初学者，且仅使用一种代码生成工具。延迟后测的差异不显著，因此不能据此断言 AI 工具带来了长期学习增益。"
+        }
+      ],
+      "notes": [
+        {
+          "note_type": "takeaway",
+          "content": "关键不是“AI 有没有用”，而是“对谁、在什么任务上、用什么终点衡量”。延迟后测必须保留。"
+        },
+        {
+          "note_type": "quote",
+          "content": "Learners with higher Scratch pre-test scores performed significantly better on retention post-tests, if they had prior access to Codex."
+        }
+      ]
+    },
+    {
+      "paper_id": "bastani2025",
+      "title": "没有护栏的生成式 AI 可能损害学习：高中数学证据",
+      "title_en": "Generative AI without guardrails can harm learning: Evidence from high school mathematics",
+      "authors": "Hamsa Bastani, Osbert Bastani, Alp Sungu, Haosen Ge, Özge Kabakcı, Rei Mariman",
+      "year": 2025,
+      "venue": "PNAS",
+      "doi": "10.1073/pnas.2422633122",
+      "url": "https://www.pnas.org/doi/10.1073/pnas.2422633122",
+      "abstract": "研究在土耳其一所高中开展大规模随机对照实验，为近 1000 名数学学生提供 GPT-4 辅导。相比对照组，普通聊天界面（GPT Base）使练习成绩提高 48%，带教师提示的 GPT Tutor 提高 127%。但在随后无 AI 的闭卷考试中，GPT Base 组成绩比对照组低 17%，而 GPT Tutor 组与对照组无显著差异。研究表明，缺乏护栏的 AI 访问会把工具变成“拐杖”，而提示式脚手架可以缓解负面影响。",
+      "tags": "生成式AI,学习迁移,实证研究,工具设计,教学设计,评估",
+      "status": "read",
+      "priority": 1,
+      "read_minutes": 55,
+      "source_type": "paper",
+      "cite_text": "Bastani, H., Bastani, O., Sungu, A., Ge, H., Kabakcı, Ö., & Mariman, R. (2025). Generative AI without guardrails can harm learning: Evidence from high school mathematics. PNAS, 122(26), e2422633122.",
+      "review": {
+        "problem": "生成式 AI 辅导在提升练习表现的同时，是否会削弱学生在无 AI 条件下的独立表现？",
+        "method": "大规模随机对照实验：对照组、GPT Base 组、带教师设计提示的 GPT Tutor 组；练习阶段有 AI，随后进行无 AI 闭卷考试。",
+        "sample": "土耳其一所高中近 1000 名 9–11 年级学生，约 50 个班级。",
+        "finding": "AI 显著提升练习成绩（Base +48%，Tutor +127%）；撤掉 AI 后 Base 组考试下降 17%，Tutor 组无显著损害。护栏与提示设计决定学习结果。",
+        "limitation": "学科为高中数学，单所学校，干预持续约四次课；练习与考试题目高度配对，外推到编程或长期项目需谨慎。",
+        "reuse": "把“有无 AI”改为“AI 交互如何被脚手架约束”；主终点设为无 AI 的迁移任务；同时记录求助行为与自我效能。"
+      },
+      "chunks": [
+        {
+          "section": "研究问题",
+          "page": "p.1",
+          "content": "生成式 AI 已被证明能提高任务表现，但是否促进技能习得仍不清楚。研究区分“练习时的表现”和“撤掉 AI 后的独立考试表现”，以识别工具对学习的真实影响。"
+        },
+        {
+          "section": "方法",
+          "page": "p.3",
+          "content": "在土耳其一所高中开展随机对照实验，覆盖近 1000 名 9–11 年级学生。每个 90 分钟会话包含教师复习、AI 辅助练习和无 AI 闭卷考试三个部分，班级被随机分配到对照组、GPT Base 组或 GPT Tutor 组。"
+        },
+        {
+          "section": "发现",
+          "page": "p.5",
+          "content": "练习阶段，GPT Base 组比对照组高 48%，GPT Tutor 组高 127%。但在无 AI 的考试中，GPT Base 组比对照组低 17%，GPT Tutor 组与对照组没有显著差异。"
+        },
+        {
+          "section": "机制",
+          "page": "p.8",
+          "content": "交互日志显示，GPT Base 学生更常直接索取答案并复制，把 AI 当作拐杖；GPT Tutor 学生更常请求提示、解释或检查自己的解法。学生对自身学习损失的主观感知并不可靠。"
+        },
+        {
+          "section": "局限",
+          "page": "p.11",
+          "content": "研究聚焦高中数学，干预时间较短，且来自单一学校。练习与考试题目概念配对，可能高估迁移；长期、跨学科和真实项目中的效果仍需验证。"
+        }
+      ],
+      "notes": [
+        {
+          "note_type": "takeaway",
+          "content": "这篇是综述里的“反例锚点”：AI 提升练习表现，不等于提升学习。研究设计必须包含无 AI 的迁移测量。"
+        }
+      ]
+    },
+    {
+      "paper_id": "prather2023",
+      "title": "机器人已至：计算教育中的生成式 AI 变革",
+      "title_en": "The Robots Are Here: Navigating the Generative AI Revolution in Computing Education",
+      "authors": "James Prather, Paul Denny, Brett A. Becker, et al.",
+      "year": 2023,
+      "venue": "ITiCSE-WGR 2023",
+      "doi": "10.1145/3623762.3633499",
+      "url": "https://dl.acm.org/doi/10.1145/3623762.3633499",
+      "abstract": "这是一份面向计算教育共同体的工作组报告，系统梳理生成式 AI 对教学、评估、课程与公平性的冲击。报告既列举个性化反馈、代码解释和教学效率等机会，也讨论学术诚信、错误信息、过度依赖与教师负担等风险，并提出评估重构、过程性证据和政策建设等建议。",
+      "tags": "生成式AI,编程教育,综述,评估,公平性,工具设计",
+      "status": "reading",
+      "priority": 2,
+      "read_minutes": 28,
+      "source_type": "paper",
+      "cite_text": "Prather, J., Denny, P., Becker, B. A., et al. (2023). The Robots Are Here: Navigating the Generative AI Revolution in Computing Education. ITiCSE-WGR '23.",
+      "review": {
+        "problem": "生成式 AI 进入计算教育后，课程、评估、教学角色与公平性应如何调整？",
+        "method": "国际工作组报告：专家研讨与文献综合，非原始实证研究。",
+        "sample": "计算教育研究者与教师组成的工作组，覆盖多国经验。",
+        "finding": "机会与风险并存；需要从“禁止/允许”转向评估设计与 AI 素养教育，重视过程证据和教师支持。",
+        "limitation": "属于观点与证据综合，缺少统一干预和效果量；生成式 AI 发展快，部分建议可能迅速过时。",
+        "reuse": "用其风险清单组织综述背景；把“评估方式”作为调节变量；引用其政策建议时明确是专家共识而非实验结论。"
+      },
+      "chunks": [
+        {
+          "section": "背景",
+          "page": "p.1",
+          "content": "生成式 AI 工具在短时间内进入编程课堂，计算教育共同体需要同时回应工具带来的机会、风险与制度问题，而不是简单禁止或全面拥抱。"
+        },
+        {
+          "section": "机会",
+          "page": "p.4",
+          "content": "报告认为生成式 AI 可用于代码解释、示例生成、个性化反馈和教师备课，但前提是教师能判断输出质量，并把工具嵌入有明确学习目标的活动。"
+        },
+        {
+          "section": "风险",
+          "page": "p.8",
+          "content": "主要风险包括学术诚信、错误信息、过度依赖、学生绕过关键认知过程，以及资源不足的学校被进一步边缘化。评估若仍只看出最终代码，很难区分学习是否发生。"
+        },
+        {
+          "section": "建议",
+          "page": "p.12",
+          "content": "报告建议重构评估，增加口头答辩、过程日志、代码解释和课堂观察；同时为学生和教师提供 AI 素养教育，并建立清晰的课程政策。"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "paper_id": "denny2024",
+      "title": "生成式 AI 时代的计算教育",
+      "title_en": "Computing Education in the Era of Generative AI",
+      "authors": "Paul Denny, James Prather, Brett A. Becker, et al.",
+      "year": 2024,
+      "venue": "Communications of the ACM",
+      "doi": "10.1145/3624720",
+      "url": "https://dl.acm.org/doi/10.1145/3624720",
+      "abstract": "文章讨论生成式 AI 对计算教育目标和评价方式的根本影响。作者主张，当代码生成变得廉价，教育重点应从“能否写出代码”转向“能否说明、验证与改进代码”，并用过程性证据、口头评估和 AI 协作规范替代单一的产物式考核。",
+      "tags": "生成式AI,编程教育,评估,工具设计,综述",
+      "status": "reading",
+      "priority": 2,
+      "read_minutes": 20,
+      "source_type": "paper",
+      "cite_text": "Denny, P., Prather, J., Becker, B. A., et al. (2024). Computing Education in the Era of Generative AI. Communications of the ACM.",
+      "review": {
+        "problem": "当 AI 能生成大部分入门代码时，计算教育应教什么、如何评价学习？",
+        "method": "观点与分析文章，结合既有研究和教学实践提出课程与评估框架。",
+        "sample": "无实验样本；面向计算教育共同体。",
+        "finding": "教育目标应转向代码解释、验证、调试与协作能力；评估应重视过程和口头说明，而非只看最终产物。",
+        "limitation": "分析性文章，未提供因果证据；评估重构的成本与可规模化程度未充分讨论。",
+        "reuse": "把“解释与验证能力”纳入结果变量；设计过程性证据（对话日志、修改记录、口头答辩）作为补充数据。"
+      },
+      "chunks": [
+        {
+          "section": "核心论点",
+          "page": "p.2",
+          "content": "如果生成式 AI 可以快速产出可运行代码，那么课程的核心价值就不能只停留在语法和模板。学生更需要具备问题分解、代码解释、结果验证和错误修复能力。"
+        },
+        {
+          "section": "评估",
+          "page": "p.5",
+          "content": "传统上机考试难以区分学生自己的理解与 AI 的产出。文章建议引入口头答辩、代码走查、过程日志和课堂观察，让评估证据更接近真实学习过程。"
+        },
+        {
+          "section": "教学",
+          "page": "p.7",
+          "content": "教师应明确哪些环节允许使用 AI、哪些必须独立完成，并把 AI 使用本身作为学习内容。与其检测 AI 痕迹，不如设计让学生必须解释和验证的任务。"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "paper_id": "kasneci2023",
+      "title": "ChatGPT 对教育是好事吗？大型语言模型的机遇与挑战",
+      "title_en": "ChatGPT for good? On opportunities and challenges of large language models for education",
+      "authors": "Enkelejda Kasneci, Kathrin Sessler, Stefan Küchemann, et al.",
+      "year": 2023,
+      "venue": "Learning and Individual Differences",
+      "doi": "10.1016/j.lindif.2023.102274",
+      "url": "https://doi.org/10.1016/j.lindif.2023.102274",
+      "abstract": "文章综述大型语言模型在教育中的机会与挑战。机会包括个性化解释、即时反馈、语言支持和教师减负；挑战包括事实错误、偏见、隐私、过度依赖、评估失效与数字鸿沟。作者强调教师监督、透明使用和 AI 素养教育，并呼吁更多实证研究。",
+      "tags": "生成式AI,教育,综述,公平性,评估,教学设计",
+      "status": "read",
+      "priority": 3,
+      "read_minutes": 35,
+      "source_type": "paper",
+      "cite_text": "Kasneci, E., Sessler, K., Küchemann, S., et al. (2023). ChatGPT for good? On opportunities and challenges of large language models for education. Learning and Individual Differences, 103, 102274.",
+      "review": {
+        "problem": "大型语言模型给教育带来哪些机会与风险，教育者应如何取舍？",
+        "method": "叙述性综述与立场分析，非系统综述或元分析。",
+        "sample": "无原始样本；综合教育技术、AI 与学习科学文献。",
+        "finding": "个性化反馈与教师减负潜力大，但错误信息、偏见、隐私和过度依赖风险需要制度与教学法约束。",
+        "limitation": "成文较早，未覆盖后续多模态模型与大规模课堂实证；机会与风险多为概念性论证。",
+        "reuse": "作为综述“机会—风险”框架来源；引用时避免把概念性主张当作实证效果。"
+      },
+      "chunks": [
+        {
+          "section": "机会",
+          "page": "p.2",
+          "content": "大型语言模型可以生成个性化解释、练习反馈和学习材料，也能帮助教师备课与批改。对语言基础较弱的学生，即时母语解释可能降低理解门槛。"
+        },
+        {
+          "section": "风险",
+          "page": "p.6",
+          "content": "模型可能生成看似流畅但事实错误的内容，也可能复制训练数据中的偏见。学生若缺乏判断能力，可能把错误解释当成正确答案，形成错误概念。"
+        },
+        {
+          "section": "治理",
+          "page": "p.9",
+          "content": "作者主张教师保持监督，明确 AI 使用边界，并把 AI 素养纳入课程。学校需要关注隐私、数据安全与数字鸿沟，避免工具加剧不平等。"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "paper_id": "chi2014",
+      "title": "ICAP 框架：连接认知参与与主动学习结果",
+      "title_en": "The ICAP Framework: Linking Cognitive Engagement to Active Learning Outcomes",
+      "authors": "Michelene T. H. Chi, Ruth Wylie",
+      "year": 2014,
+      "venue": "Educational Psychologist",
+      "doi": "10.1080/00461520.2014.965823",
+      "url": "https://doi.org/10.1080/00461520.2014.965823",
+      "abstract": "ICAP 框架依据学习者的外显行为区分四种认知参与水平：被动（Passive）、主动（Active）、建构（Constructive）与互动（Interactive）。作者综合实证证据提出，学习结果通常按被动 < 主动 < 建构 < 互动的顺序提升，并讨论如何用该框架设计活动与评估参与质量。",
+      "tags": "主动学习,认知负荷,理论框架,学习迁移,教学设计",
+      "status": "read",
+      "priority": 2,
+      "read_minutes": 30,
+      "source_type": "paper",
+      "cite_text": "Chi, M. T. H., & Wylie, R. (2014). The ICAP Framework: Linking Cognitive Engagement to Active Learning Outcomes. Educational Psychologist, 49(4), 219–243.",
+      "review": {
+        "problem": "如何从学习者的外显行为判断认知参与水平，并预测学习结果？",
+        "method": "理论综合：整合主动学习、认知负荷与学习科学证据，提出可观察的参与分类。",
+        "sample": "无单一实验样本；综合多项课堂与实验室研究。",
+        "finding": "认知参与从被动到互动逐级深化，建构与互动通常带来更好的理解与迁移。",
+        "limitation": "分类依赖外显行为，可能低估内隐加工；不同任务中层级边界并不总是清晰。",
+        "reuse": "把学生与 AI 的交互编码为被动复制、主动选择、建构解释、互动辩论四级，作为过程变量。"
+      },
+      "chunks": [
+        {
+          "section": "框架",
+          "page": "p.1",
+          "content": "ICAP 用可观察的外显行为区分四种参与：被动接收信息、主动操作材料、建构新解释、与他人互动共创。参与越深，学习者需要调用越多先前知识并生成新联系。"
+        },
+        {
+          "section": "证据",
+          "page": "p.8",
+          "content": "作者综合多项研究指出，学习结果总体上遵循被动低于主动、主动低于建构、建构低于互动的模式。互动之所以有效，是因为它要求学习者持续生成、解释并回应反馈。"
+        },
+        {
+          "section": "应用",
+          "page": "p.15",
+          "content": "ICAP 可用于设计课堂活动与评估参与质量。教师不应只问学生是否“动手”，还要判断学生是否在解释、建构或与他人共同修正理解。"
+        }
+      ],
+      "notes": [
+        {
+          "note_type": "idea",
+          "content": "可以把“向 AI 提问的方式”当作 ICAP 的行为代理：直接要答案是 passive，要求解释是 constructive，让 AI 扮演反方是 interactive。"
+        }
+      ]
+    },
+    {
+      "paper_id": "guo2018",
+      "title": "非英语母语者学习编程：障碍、愿望与设计机会",
+      "title_en": "Non-native English speakers learning computer programming: Barriers, desires, and design opportunities",
+      "authors": "Philip J. Guo",
+      "year": 2018,
+      "venue": "CHI 2018",
+      "doi": "10.1145/3173574.3173970",
+      "url": "https://dl.acm.org/doi/10.1145/3173574.3173970",
+      "abstract": "研究通过问卷与访谈考察非英语母语者学习编程时遇到的障碍。参与者普遍提到英文文档、错误信息、技术词汇和英文社区参与的门槛，并希望通过母语解释、双语术语表和更友好的错误提示降低负担。研究据此提出工具与教学的设计机会。",
+      "tags": "编程教育,公平性,初学者,工具设计,教学设计",
+      "status": "to_read",
+      "priority": 3,
+      "read_minutes": 0,
+      "source_type": "paper",
+      "cite_text": "Guo, P. J. (2018). Non-native English speakers learning computer programming: Barriers, desires, and design opportunities. CHI '18.",
+      "review": {
+        "problem": "非英语母语者在学习编程时面临哪些额外障碍，工具可以如何支持？",
+        "method": "混合方法：大规模问卷与后续访谈，聚焦学习者的主观障碍与设计需求。",
+        "sample": "以非英语母语编程学习者为对象的问卷与访谈样本（论文报告为数百人规模）。",
+        "finding": "英文文档、错误信息、术语和社区参与是主要障碍；母语解释、双语资源与更易读的错误信息被反复提及。",
+        "limitation": "以自我报告为主，未直接测量学习结果；样本来自特定在线社区，可能高估工具熟悉度。",
+        "reuse": "把“语言负担”作为公平性调节变量；在 AI 辅助研究中记录学生使用母语解释的行为。"
+      },
+      "chunks": [
+        {
+          "section": "问题",
+          "page": "p.1",
+          "content": "编程学习资源、错误信息和技术讨论大量使用英语，非英语母语者需要同时处理语言与编程概念，可能承受更高认知负荷。"
+        },
+        {
+          "section": "方法",
+          "page": "p.3",
+          "content": "研究通过问卷收集非英语母语编程学习者的障碍与需求，并用访谈补充具体情境。问卷覆盖不同国家、母语和编程经验的学习者。"
+        },
+        {
+          "section": "发现",
+          "page": "p.6",
+          "content": "参与者普遍提到英文文档阅读慢、错误信息难以理解、技术词汇缺乏对应母语表达，以及不敢参与英文技术社区。他们希望有母语解释、双语术语表和更友好的错误提示。"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "paper_id": "peng2023",
+      "title": "AI 对开发者生产力的影响：来自 GitHub Copilot 的证据",
+      "title_en": "The Impact of AI on Developer Productivity: Evidence from GitHub Copilot",
+      "authors": "Sida Peng, Eirini Kalliamvakou, Peter Cihon, Mert Demirer",
+      "year": 2023,
+      "venue": "arXiv / GitHub Research",
+      "doi": "10.48550/arXiv.2302.06590",
+      "url": "https://arxiv.org/abs/2302.06590",
+      "abstract": "研究通过随机对照实验评估 GitHub Copilot 对开发者生产力的影响。95 名开发者被随机分配是否使用 Copilot 完成一个 JavaScript HTTP 服务器任务。结果显示，使用 Copilot 的开发者完成任务的速度快 55.8%，但研究关注的是短期任务效率，而非学习或长期技能。",
+      "tags": "生成式AI,开发效率,实证研究,工具设计",
+      "status": "to_read",
+      "priority": 4,
+      "read_minutes": 0,
+      "source_type": "paper",
+      "cite_text": "Peng, S., Kalliamvakou, E., Cihon, P., & Demirer, M. (2023). The Impact of AI on Developer Productivity: Evidence from GitHub Copilot. arXiv:2302.06590.",
+      "review": {
+        "problem": "AI 代码补全能否提升开发者的实际任务效率？",
+        "method": "随机对照实验：开发者被随机分配使用或不使用 Copilot 完成同一编程任务。",
+        "sample": "95 名有经验的开发者；单一 JavaScript HTTP 服务器任务。",
+        "finding": "使用 Copilot 的开发者完成任务速度快 55.8%。",
+        "limitation": "任务单一、时间短、参与者为专业开发者；不能外推到初学者学习或长期代码质量。",
+        "reuse": "作为“生产力收益”对照证据，与学习研究区分；提醒综述不要把开发效率直接等同于学习效果。"
+      },
+      "chunks": [
+        {
+          "section": "方法",
+          "page": "p.2",
+          "content": "研究招募 95 名开发者，随机分配到使用 Copilot 或对照组，完成同一个 JavaScript HTTP 服务器任务，并记录完成时间。"
+        },
+        {
+          "section": "发现",
+          "page": "p.4",
+          "content": "使用 Copilot 的开发者平均完成任务速度快 55.8%。这一结果说明 AI 补全可以显著降低短期任务成本，但实验没有测量代码可维护性、学习或长期技能。"
+        },
+        {
+          "section": "边界",
+          "page": "p.6",
+          "content": "参与者是有经验的开发者，任务是一个定义清晰的单文件服务器。把结论外推到初学者、团队协作或复杂系统时需要谨慎。"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "paper_id": "long2020",
+      "title": "什么是 AI 素养？能力框架与设计考量",
+      "title_en": "What is AI Literacy? Competencies and Design Considerations",
+      "authors": "Duri Long, Brian Magerko",
+      "year": 2020,
+      "venue": "CHI 2020",
+      "doi": "10.1145/3313831.3376727",
+      "url": "https://dl.acm.org/doi/10.1145/3313831.3376727",
+      "abstract": "论文综合已有研究与工作坊讨论，提出 AI 素养的能力框架和设计考量。框架涵盖识别 AI、理解 AI 概念、评估 AI 输出、与 AI 协作以及讨论 AI 的伦理与社会影响等维度，强调面向非专家的可理解性和参与式设计。",
+      "tags": "AI素养,理论框架,教育,公平性,工具设计",
+      "status": "to_read",
+      "priority": 3,
+      "read_minutes": 0,
+      "source_type": "paper",
+      "cite_text": "Long, D., & Magerko, B. (2020). What is AI Literacy? Competencies and Design Considerations. CHI '20.",
+      "review": {
+        "problem": "非专家需要具备哪些能力才能理解、评估并与 AI 系统协作？",
+        "method": "文献综合与工作坊讨论，形成能力框架与设计考量。",
+        "sample": "多类学习者与设计者参与的工作坊及既有文献。",
+        "finding": "AI 素养不仅是技术知识，还包括评估输出、与 AI 协作和讨论伦理影响的能力。",
+        "limitation": "框架尚未经过大规模教学干预验证；能力维度之间的边界较宽。",
+        "reuse": "作为“评估 AI 输出”结果变量的理论依据；在课程设计中把 AI 素养与编程学习并列。"
+      },
+      "chunks": [
+        {
+          "section": "框架",
+          "page": "p.2",
+          "content": "AI 素养包括识别何时使用 AI、理解核心概念、评估 AI 输出的可靠性、与 AI 有效协作，以及讨论 AI 的伦理与社会影响。"
+        },
+        {
+          "section": "设计",
+          "page": "p.6",
+          "content": "面向非专家的 AI 教育应避免直接讲授模型细节，而应从学习者可观察的行为和真实任务出发，提供可操作的解释与反思机会。"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "paper_id": "groupnote2026",
+      "title": "组会纪要：AI 编程助手研究设计讨论",
+      "title_en": "Lab Meeting Note: Research Design for AI Coding Assistants",
+      "authors": "研脉项目组（内置演示笔记）",
+      "year": 2026,
+      "venue": "课题组内部笔记",
+      "doi": "",
+      "url": "",
+      "abstract": "这是一份内置的研究设计笔记，用于演示非论文资料如何进入同一检索与综述流程。组会围绕“AI 编程助手是否促进初学者学习迁移”展开，决定把延迟迁移任务作为主终点，把认知负荷、自我效能和求助行为作为过程变量，并采用 2×2 设计比较 AI 可用性与提示脚手架。",
+      "tags": "研究设计,学习迁移,认知负荷,实证研究,内部资料",
+      "status": "read",
+      "priority": 1,
+      "read_minutes": 8,
+      "source_type": "note",
+      "cite_text": "研脉项目组. (2026). 组会纪要：AI 编程助手研究设计讨论 [内部笔记].",
+      "review": {
+        "problem": "如何在课程研究中区分 AI 带来的即时表现提升与真实学习迁移？",
+        "method": "课题组组会讨论与研究设计备忘，不是实证研究。",
+        "sample": "课题组 4 名成员与导师反馈。",
+        "finding": "确定 2×2 设计（AI 可用性 × 提示脚手架），主终点为延迟迁移任务，次终点为认知负荷、自我效能与求助行为。",
+        "limitation": "尚未实施，属于研究计划；不能作为效果证据引用。",
+        "reuse": "直接把设计约束写入综述的“研究空白”与“未来工作”部分，并作为检索偏好记忆的一部分。"
+      },
+      "chunks": [
+        {
+          "section": "研究设计",
+          "page": "笔记",
+          "content": "组会决定采用 2×2 设计：因素一为是否允许使用 AI 编程助手，因素二为是否提供提示脚手架。主终点是延迟一周的无 AI 迁移任务，而不是课堂练习成绩。"
+        },
+        {
+          "section": "测量",
+          "page": "笔记",
+          "content": "过程变量包括认知负荷量表、编程自我效能、求助行为和对话日志。导师强调不要把“学生觉得学到了”当作学习结果，必须有无 AI 的独立测量。"
+        },
+        {
+          "section": "待办",
+          "page": "笔记",
+          "content": "下一步需要补充非英语母语学习者的公平性维度，并核对 ICAP 编码方案能否稳定区分复制、解释和互动三类 AI 使用行为。"
+        }
+      ],
+      "notes": [
+        {
+          "note_type": "decision",
+          "content": "主终点坚持用延迟迁移，不用课堂练习成绩替代。"
+        }
+      ]
+    }
+  ]
+}

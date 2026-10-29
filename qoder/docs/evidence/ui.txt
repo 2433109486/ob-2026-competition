@@ -1,0 +1,10 @@
+﻿# scripts/e2e_ui.py output (stderr kept only for the known Edge shutdown warning)
+
+[OK] search ranks the guardrail paper first
+[OK] paper drawer and evidence tab
+[OK] matrix + Markdown download
+recall: research_profile · text / 教育技术学 · 文献综述：3 周内完成「生成式 AI 辅助编程学习」开题综述
+[OK] memory recall + profile modal
+[OK] library selection bar
+browser shutdown warning: Browser.close: Connection closed while reading from the driver
+PASS: UI interactions, no browser errors

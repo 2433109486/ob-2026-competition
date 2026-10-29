@@ -1,0 +1,289 @@
+{
+  "scope_id": "scp_27ayk5ztvdpbyn91a0kgkpmya0",
+  "entries": [
+    {
+      "artifact": {
+        "family": "atomic-memory",
+        "artifact_id": "art_7cd6122b01c04821b2b51767103f2739",
+        "revision": 1
+      },
+      "kind": "review_board",
+      "text": "{\"paper_ids\":[\"kazemitabaar2023\",\"bastani2025\",\"prather2023\",\"denny2024\"],\"question\":\"生成式 AI 编程助手如何影响初学者的编程学习与迁移？\",\"note\":\"从综述矩阵页面生成\",\"updated_at\":\"2026-10-29T09:46:43.655251+00:00\",\"saved_at\":\"2026-10-29T09:46:43.679663+00:00\"}",
+      "state": "active",
+      "state_version": 0,
+      "merged_into_id": null,
+      "data": {
+        "paper_ids": [
+          "kazemitabaar2023",
+          "bastani2025",
+          "prather2023",
+          "denny2024"
+        ],
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "note": "从综述矩阵页面生成",
+        "updated_at": "2026-10-29T09:46:43.655251+00:00",
+        "saved_at": "2026-10-29T09:46:43.679663+00:00"
+      },
+      "artifact_id": "art_7cd6122b01c04821b2b51767103f2739",
+      "revision": 1
+    },
+    {
+      "artifact": {
+        "family": "atomic-memory",
+        "artifact_id": "art_601e2c94caeb44799244a2d405cd6756",
+        "revision": 1
+      },
+      "kind": "review_board",
+      "text": "{\"paper_ids\":[\"kazemitabaar2023\",\"bastani2025\",\"prather2023\",\"denny2024\"],\"question\":\"生成式 AI 编程助手如何影响初学者的编程学习与迁移？\",\"note\":\"从综述矩阵页面生成\",\"updated_at\":\"2026-10-29T09:45:11.180895+00:00\",\"saved_at\":\"2026-10-29T09:45:11.207027+00:00\"}",
+      "state": "active",
+      "state_version": 0,
+      "merged_into_id": null,
+      "data": {
+        "paper_ids": [
+          "kazemitabaar2023",
+          "bastani2025",
+          "prather2023",
+          "denny2024"
+        ],
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "note": "从综述矩阵页面生成",
+        "updated_at": "2026-10-29T09:45:11.180895+00:00",
+        "saved_at": "2026-10-29T09:45:11.207027+00:00"
+      },
+      "artifact_id": "art_601e2c94caeb44799244a2d405cd6756",
+      "revision": 1
+    },
+    {
+      "artifact": {
+        "family": "atomic-memory",
+        "artifact_id": "art_81175fb06f0d4d20812c0170e6ed6d92",
+        "revision": 1
+      },
+      "kind": "research_note",
+      "text": "{\"text\":\"验收记录：主终点坚持用延迟迁移，不用课堂练习成绩替代。\",\"paper_id\":\"\",\"note_kind\":\"research_note\",\"updated_at\":\"2026-10-29T09:44:59.159800+00:00\",\"saved_at\":\"2026-10-29T09:44:59.178438+00:00\"}",
+      "state": "active",
+      "state_version": 0,
+      "merged_into_id": null,
+      "data": {
+        "text": "验收记录：主终点坚持用延迟迁移，不用课堂练习成绩替代。",
+        "paper_id": "",
+        "note_kind": "research_note",
+        "updated_at": "2026-10-29T09:44:59.159800+00:00",
+        "saved_at": "2026-10-29T09:44:59.178438+00:00"
+      },
+      "artifact_id": "art_81175fb06f0d4d20812c0170e6ed6d92",
+      "revision": 1
+    },
+    {
+      "artifact": {
+        "family": "atomic-memory",
+        "artifact_id": "art_f9544e500d934204ae3dcd01ec28c0d8",
+        "revision": 1
+      },
+      "kind": "review_board",
+      "text": "{\"paper_ids\":[\"kazemitabaar2023\",\"bastani2025\",\"prather2023\",\"denny2024\"],\"question\":\"生成式 AI 编程助手如何影响初学者的编程学习与迁移？\",\"note\":\"acceptance.py 自动验收\",\"updated_at\":\"2026-10-29T09:44:59.068227+00:00\",\"saved_at\":\"2026-10-29T09:44:59.085939+00:00\"}",
+      "state": "active",
+      "state_version": 0,
+      "merged_into_id": null,
+      "data": {
+        "paper_ids": [
+          "kazemitabaar2023",
+          "bastani2025",
+          "prather2023",
+          "denny2024"
+        ],
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "note": "acceptance.py 自动验收",
+        "updated_at": "2026-10-29T09:44:59.068227+00:00",
+        "saved_at": "2026-10-29T09:44:59.085939+00:00"
+      },
+      "artifact_id": "art_f9544e500d934204ae3dcd01ec28c0d8",
+      "revision": 1
+    },
+    {
+      "artifact": {
+        "family": "atomic-memory",
+        "artifact_id": "art_8093f9182cd54ab5a75bde6fd0c24570",
+        "revision": 1
+      },
+      "kind": "review_board",
+      "text": "{\"paper_ids\":[\"kazemitabaar2023\",\"bastani2025\",\"prather2023\",\"denny2024\"],\"question\":\"生成式 AI 编程助手如何影响初学者的编程学习与迁移？\",\"note\":\"先搭建“效果证据—工具设计—评估方式”三列骨架。\",\"updated_at\":\"2026-10-29T09:44:57.789392+00:00\",\"saved_at\":\"2026-10-29T09:44:57.806316+00:00\"}",
+      "state": "active",
+      "state_version": 0,
+      "merged_into_id": null,
+      "data": {
+        "paper_ids": [
+          "kazemitabaar2023",
+          "bastani2025",
+          "prather2023",
+          "denny2024"
+        ],
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "note": "先搭建“效果证据—工具设计—评估方式”三列骨架。",
+        "updated_at": "2026-10-29T09:44:57.789392+00:00",
+        "saved_at": "2026-10-29T09:44:57.806316+00:00"
+      },
+      "artifact_id": "art_8093f9182cd54ab5a75bde6fd0c24570",
+      "revision": 1
+    },
+    {
+      "artifact": {
+        "family": "atomic-memory",
+        "artifact_id": "art_42cc184c3a4d461695350cc6052c2ba7",
+        "revision": 1
+      },
+      "kind": "reading_progress",
+      "text": "{\"paper_id\":\"groupnote2026\",\"title\":\"组会纪要：AI 编程助手研究设计讨论\",\"status\":\"read\",\"takeaway\":\"主终点坚持用延迟迁移，不用课堂练习成绩替代。\",\"tags\":[\"研究设计\",\"学习迁移\",\"认知负荷\",\"实证研究\",\"内部资料\"],\"updated_at\":\"2026-10-29T09:44:57.728957+00:00\",\"saved_at\":\"2026-10-29T09:44:57.760388+00:00\"}",
+      "state": "active",
+      "state_version": 0,
+      "merged_into_id": null,
+      "data": {
+        "paper_id": "groupnote2026",
+        "title": "组会纪要：AI 编程助手研究设计讨论",
+        "status": "read",
+        "takeaway": "主终点坚持用延迟迁移，不用课堂练习成绩替代。",
+        "tags": [
+          "研究设计",
+          "学习迁移",
+          "认知负荷",
+          "实证研究",
+          "内部资料"
+        ],
+        "updated_at": "2026-10-29T09:44:57.728957+00:00",
+        "saved_at": "2026-10-29T09:44:57.760388+00:00"
+      },
+      "artifact_id": "art_42cc184c3a4d461695350cc6052c2ba7",
+      "revision": 1
+    },
+    {
+      "artifact": {
+        "family": "atomic-memory",
+        "artifact_id": "art_18f912786a65436f97c56ba876ac7b04",
+        "revision": 1
+      },
+      "kind": "reading_progress",
+      "text": "{\"paper_id\":\"prather2023\",\"title\":\"机器人已至：计算教育中的生成式 AI 变革\",\"status\":\"reading\",\"takeaway\":\"用工作组报告的风险清单组织综述背景。\",\"tags\":[\"生成式AI\",\"编程教育\",\"综述\",\"评估\",\"公平性\",\"工具设计\"],\"updated_at\":\"2026-10-29T09:44:57.680712+00:00\",\"saved_at\":\"2026-10-29T09:44:57.696801+00:00\"}",
+      "state": "active",
+      "state_version": 0,
+      "merged_into_id": null,
+      "data": {
+        "paper_id": "prather2023",
+        "title": "机器人已至：计算教育中的生成式 AI 变革",
+        "status": "reading",
+        "takeaway": "用工作组报告的风险清单组织综述背景。",
+        "tags": [
+          "生成式AI",
+          "编程教育",
+          "综述",
+          "评估",
+          "公平性",
+          "工具设计"
+        ],
+        "updated_at": "2026-10-29T09:44:57.680712+00:00",
+        "saved_at": "2026-10-29T09:44:57.696801+00:00"
+      },
+      "artifact_id": "art_18f912786a65436f97c56ba876ac7b04",
+      "revision": 1
+    },
+    {
+      "artifact": {
+        "family": "atomic-memory",
+        "artifact_id": "art_07a0bbd6df3e42d6a343aa28e4b76c1b",
+        "revision": 1
+      },
+      "kind": "reading_progress",
+      "text": "{\"paper_id\":\"bastani2025\",\"title\":\"没有护栏的生成式 AI 可能损害学习：高中数学证据\",\"status\":\"read\",\"takeaway\":\"AI 提升练习表现，不等于提升学习；护栏设计是核心。\",\"tags\":[\"生成式AI\",\"学习迁移\",\"实证研究\",\"工具设计\",\"教学设计\",\"评估\"],\"updated_at\":\"2026-10-29T09:44:57.633523+00:00\",\"saved_at\":\"2026-10-29T09:44:57.650708+00:00\"}",
+      "state": "active",
+      "state_version": 0,
+      "merged_into_id": null,
+      "data": {
+        "paper_id": "bastani2025",
+        "title": "没有护栏的生成式 AI 可能损害学习：高中数学证据",
+        "status": "read",
+        "takeaway": "AI 提升练习表现，不等于提升学习；护栏设计是核心。",
+        "tags": [
+          "生成式AI",
+          "学习迁移",
+          "实证研究",
+          "工具设计",
+          "教学设计",
+          "评估"
+        ],
+        "updated_at": "2026-10-29T09:44:57.633523+00:00",
+        "saved_at": "2026-10-29T09:44:57.650708+00:00"
+      },
+      "artifact_id": "art_07a0bbd6df3e42d6a343aa28e4b76c1b",
+      "revision": 1
+    },
+    {
+      "artifact": {
+        "family": "atomic-memory",
+        "artifact_id": "art_7cc7c6da71124a938be46969419e02ed",
+        "revision": 1
+      },
+      "kind": "reading_progress",
+      "text": "{\"paper_id\":\"kazemitabaar2023\",\"title\":\"AI 代码生成器如何支持编程入门学习者\",\"status\":\"read\",\"takeaway\":\"延迟后测必须保留；先前经验可能是调节变量。\",\"tags\":[\"生成式AI\",\"编程教育\",\"初学者\",\"学习迁移\",\"实证研究\",\"工具设计\"],\"updated_at\":\"2026-10-29T09:44:57.575215+00:00\",\"saved_at\":\"2026-10-29T09:44:57.603438+00:00\"}",
+      "state": "active",
+      "state_version": 0,
+      "merged_into_id": null,
+      "data": {
+        "paper_id": "kazemitabaar2023",
+        "title": "AI 代码生成器如何支持编程入门学习者",
+        "status": "read",
+        "takeaway": "延迟后测必须保留；先前经验可能是调节变量。",
+        "tags": [
+          "生成式AI",
+          "编程教育",
+          "初学者",
+          "学习迁移",
+          "实证研究",
+          "工具设计"
+        ],
+        "updated_at": "2026-10-29T09:44:57.575215+00:00",
+        "saved_at": "2026-10-29T09:44:57.603438+00:00"
+      },
+      "artifact_id": "art_7cc7c6da71124a938be46969419e02ed",
+      "revision": 1
+    },
+    {
+      "artifact": {
+        "family": "atomic-memory",
+        "artifact_id": "art_54b91bef890d4e5d86dd855d9f605250",
+        "revision": 1
+      },
+      "kind": "research_profile",
+      "text": "{\"name\":\"林然\",\"field\":\"教育技术学\",\"stage\":\"文献综述\",\"goal\":\"3 周内完成「生成式 AI 辅助编程学习」开题综述\",\"methods\":[\"随机对照实验\",\"准实验\",\"混合方法\"],\"preferences\":[\"先看方法与局限\",\"中文笔记\",\"保留 DOI 可追溯\"],\"focus_tags\":[\"生成式AI\",\"编程教育\",\"初学者\",\"学习迁移\",\"实证研究\"],\"question\":\"生成式 AI 编程助手如何影响初学者的编程学习与迁移？\",\"updated_at\":\"2026-10-29T09:44:57.535250+00:00\",\"saved_at\":\"2026-10-29T09:44:57.541479+00:00\"}",
+      "state": "active",
+      "state_version": 0,
+      "merged_into_id": null,
+      "data": {
+        "name": "林然",
+        "field": "教育技术学",
+        "stage": "文献综述",
+        "goal": "3 周内完成「生成式 AI 辅助编程学习」开题综述",
+        "methods": [
+          "随机对照实验",
+          "准实验",
+          "混合方法"
+        ],
+        "preferences": [
+          "先看方法与局限",
+          "中文笔记",
+          "保留 DOI 可追溯"
+        ],
+        "focus_tags": [
+          "生成式AI",
+          "编程教育",
+          "初学者",
+          "学习迁移",
+          "实证研究"
+        ],
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "updated_at": "2026-10-29T09:44:57.535250+00:00",
+        "saved_at": "2026-10-29T09:44:57.541479+00:00"
+      },
+      "artifact_id": "art_54b91bef890d4e5d86dd855d9f605250",
+      "revision": 1
+    }
+  ]
+}
