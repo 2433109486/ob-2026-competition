@@ -194,7 +194,8 @@ node scripts/optimization-bench.mjs
 ## 提交信息
 
 - 项目目录：`stepfun/`
-- 目标分支：`2026-competition-ecosystem` 派生分支（当前 `submission-2026`）
+- 分支：`2026-competition-ecosystem` 与 `submission-2026` 均指向同一提交
+- 提交 commit：以远端分支最新 HEAD 为准（`git -C stepfun rev-parse HEAD`）
 - 技术说明：[`docs/technical-note.md`](docs/technical-note.md)
 - 测试日志：[`docs/test-log.md`](docs/test-log.md)
 - 复现步骤：[`docs/reproduction.md`](docs/reproduction.md)
