@@ -1,4 +1,4 @@
-# ⚖️ 宇宙离谱法庭
+﻿# ⚖️ 宇宙离谱法庭
 
 > **一个会记仇的 AI 法官，一部 72 条的《宇宙离谱法典》，一间会把你的前科写进判决书的法庭。**
 >
@@ -140,7 +140,7 @@ Dify 控制台 → **创建应用 → 导入 DSL 文件** → 选择 `dsl/absurd
 | 技术 | 在本作品里具体做什么 | 可核对的证据 |
 | --- | --- | --- |
 | **Dify** | Chatflow 编排：输入 → HTTP 检索 → 提示词组装 → 模型调用 → JSON 解析 → HTTP 落库 → 渲染输出；提示词、开场白、建议问题都在 DSL 内 | `dsl/absurd-court.chatflow.yml`（8 节点 / 7 边，`scripts/validate_dsl.py` 校验通过） |
-| **seekdb** | ① 72 条法典 + HNSW 向量索引 + ngram2 全文索引，做混合检索；② 判例库供「本院曾判」召回；③ 玩家档案、案卷、庭审记录、案号序列 | `evidence/seekdb_records.json`：3 条判例、2 个玩家、72 条法典、一次混合检索的命中与融合分 |
+| **seekdb** | ① 72 条法典 + 向量索引（HNSW，当前精确排序）+ ngram2 全文索引，做混合检索；② 判例库供「本院曾判」召回；③ 玩家档案、案卷、庭审记录、案号序列 | `evidence/seekdb_records.json`：3 条判例、2 个玩家、72 条法典、一次混合检索的命中与融合分 |
 | **PowerContext** | 保存法官对玩家的主观记忆（上次起诉谁、判了几天、法官评语），新会话按相关度召回；同时把每轮庭审写入 Source journal | `evidence/powercontext_records.json`：`p-1001` 的 2 条跨案记忆；`evidence/transcript.md` 场景 B 的「🧠 记忆回响」 |
 
 **为什么不是「为了用而用」**：
@@ -255,3 +255,4 @@ dify/
 | 复现脚本 | `scripts/` | 回放、证据抓取、DSL 校验 |
 
 **没有提交任何真实密钥**：模型 Key 只从环境变量 `LLM_API_KEY` / `EMBEDDING_API_KEY` 读取；`evidence/` 里也不含凭据。
+
