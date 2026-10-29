@@ -1,11 +1,11 @@
-seekdb: {'ok': True, 'version': '5.7.25-OceanBase seekdb-v1.4.0.0', 'database': 'yanmai', 'latency_ms': 34}
+seekdb: {'ok': True, 'version': '5.7.25-OceanBase seekdb-v1.4.0.0', 'database': 'yanmai', 'latency_ms': 37}
 
 tables:
   papers: 10
   chunks: 34
   notes: 5
-  search_log: 31
-  activity: 63
+  search_log: 34
+  activity: 68
 
 --- SHOW CREATE TABLE papers ---
 papers
@@ -30,11 +30,11 @@ sample chunks:
   chi2014-c3 | chi2014 | 应用 | p.15 | ICAP 可用于设计课堂活动与评估参与质量。教师不应只问学生是否“动手”，还要判断学生是否在解释、建构或与他人共同修正理
 
 recent search_log:
+  2026-10-29 09:53:26 | 8 results | 238 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
+  2026-10-29 09:51:38 | 10 results | 232 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
+  2026-10-29 09:47:41 | 6 results | 222 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
   2026-10-29 09:47:38 | 8 results | 193 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
   2026-10-29 09:46:38 | 10 results | 224 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
   2026-10-29 09:46:30 | 6 results | 241 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
   2026-10-29 09:45:06 | 10 results | 207 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
   2026-10-29 09:44:58 | 8 results | 221 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
-  2026-10-29 09:44:52 | 8 results | 202 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
-  2026-10-29 09:44:43 | 8 results | 230 ms | memory=1 | AI 编程助手对初学者学习迁移的影响
-  2026-10-29 09:43:59 | 10 results | 222 ms | memory=1 | 怎么避免学生直接抄答案

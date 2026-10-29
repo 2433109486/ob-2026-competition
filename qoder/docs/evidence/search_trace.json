@@ -1,5 +1,5 @@
 {
-  "search_id": "srch_827773867f6e",
+  "search_id": "srch_b504984008ab",
   "query": "AI 编程助手对初学者学习迁移的影响",
   "results": [
     {
@@ -512,7 +512,7 @@
     }
   ],
   "total": 8,
-  "latency_ms": 193,
+  "latency_ms": 238,
   "mode": "hybrid-vector-fulltext",
   "embedding": {
     "provider": "local-signed-feature-hash",
@@ -531,7 +531,7 @@
         "AI 编程助手对初学者学习迁移的影响"
       ],
       "rows": 34,
-      "elapsed_ms": 34
+      "elapsed_ms": 53
     },
     {
       "label": "seekdb 全文召回（ngram2 MATCH AGAINST）",
@@ -541,7 +541,7 @@
         "AI 编程助手对初学者学习迁移的影响"
       ],
       "rows": 30,
-      "elapsed_ms": 24
+      "elapsed_ms": 34
     }
   ],
   "memory": {
@@ -612,7 +612,7 @@
       },
       {
         "kind": "review_board",
-        "text": "{\"paper_ids\":[\"kazemitabaar2023\",\"bastani2025\",\"prather2023\",\"denny2024\"],\"question\":\"生成式 AI 编程助手如何影响初学者的编程学习与迁移？\",\"note\":\"先搭建“效果证据—工具设计—评估方式”三列骨架。\",\"updated_at\":\"2026-10-29T09:44:57.789392+00:00\",\"saved_at\":\"2026-10-29T09:44:57.806316+00:00\"}",
+        "text": "{\"paper_ids\":[\"kazemitabaar2023\",\"bastani2025\",\"prather2023\",\"denny2024\"],\"question\":\"生成式 AI 编程助手如何影响初学者的编程学习与迁移？\",\"note\":\"从综述矩阵页面生成\",\"updated_at\":\"2026-10-29T09:51:44.291521+00:00\",\"saved_at\":\"2026-10-29T09:51:44.317496+00:00\"}",
         "summary": "综述矩阵：4 篇文献 · 生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
         "score": 0.015625,
         "matched_by": [

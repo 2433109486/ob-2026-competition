@@ -4,6 +4,32 @@
     {
       "artifact": {
         "family": "atomic-memory",
+        "artifact_id": "art_7e2631862dc843f78ce9f5c39c9f5541",
+        "revision": 1
+      },
+      "kind": "review_board",
+      "text": "{\"paper_ids\":[\"kazemitabaar2023\",\"bastani2025\",\"prather2023\",\"denny2024\"],\"question\":\"生成式 AI 编程助手如何影响初学者的编程学习与迁移？\",\"note\":\"从综述矩阵页面生成\",\"updated_at\":\"2026-10-29T09:51:44.291521+00:00\",\"saved_at\":\"2026-10-29T09:51:44.317496+00:00\"}",
+      "state": "active",
+      "state_version": 0,
+      "merged_into_id": null,
+      "data": {
+        "paper_ids": [
+          "kazemitabaar2023",
+          "bastani2025",
+          "prather2023",
+          "denny2024"
+        ],
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "note": "从综述矩阵页面生成",
+        "updated_at": "2026-10-29T09:51:44.291521+00:00",
+        "saved_at": "2026-10-29T09:51:44.317496+00:00"
+      },
+      "artifact_id": "art_7e2631862dc843f78ce9f5c39c9f5541",
+      "revision": 1
+    },
+    {
+      "artifact": {
+        "family": "atomic-memory",
         "artifact_id": "art_7cd6122b01c04821b2b51767103f2739",
         "revision": 1
       },

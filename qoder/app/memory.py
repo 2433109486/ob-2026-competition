@@ -364,9 +364,23 @@ class PowerContextClient:
         except PowerContextError:
             return []
         items: List[Dict[str, Any]] = []
-        for entry in entries[:limit]:
+        seen: set = set()
+        for entry in entries:
             data = entry.get("data") or {}
             kind = entry.get("kind") or "research_note"
+            if kind == "reading_progress":
+                key = ("reading_progress", data.get("paper_id"))
+            elif kind == "review_board":
+                key = ("review_board",)
+            elif kind == "research_profile":
+                key = ("research_profile",)
+            elif kind == "research_note":
+                key = ("research_note", data.get("text"))
+            else:
+                key = (kind, entry.get("artifact_id"))
+            if key in seen:
+                continue
+            seen.add(key)
             items.append(
                 {
                     "id": entry.get("artifact_id"),
@@ -380,6 +394,8 @@ class PowerContextClient:
                     "state": entry.get("state"),
                 }
             )
+            if len(items) >= limit:
+                break
         return items
 
     def context_for_search(self, query: str) -> Dict[str, Any]:

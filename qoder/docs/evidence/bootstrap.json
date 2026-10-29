@@ -36,17 +36,17 @@
     "ok": true,
     "enabled": true,
     "url": "http://127.0.0.1:8765",
-    "latency_ms": 14,
+    "latency_ms": 11,
     "scope_id": "scp_27ayk5ztvdpbyn91a0kgkpmya0"
   },
-  "memory_count": 10,
+  "memory_count": 11,
   "scope_id": "scp_27ayk5ztvdpbyn91a0kgkpmya0",
   "counts": {
     "papers": 10,
     "chunks": 34,
     "notes": 5,
-    "search_log": 30,
-    "activity": 62,
+    "search_log": 33,
+    "activity": 67,
     "read": 5,
     "reading": 2,
     "to_read": 3
@@ -301,13 +301,13 @@
   ],
   "usage": {
     "days": 7,
-    "searches": 30,
-    "avg_latency_ms": 229,
-    "memory_searches": 30,
+    "searches": 33,
+    "avg_latency_ms": 228,
+    "memory_searches": 33,
     "top_queries": [
       {
         "query": "AI 编程助手对初学者学习迁移的影响",
-        "count": 22
+        "count": 25
       },
       {
         "query": "怎么避免学生直接抄答案",
@@ -328,6 +328,33 @@
     ]
   },
   "recent_searches": [
+    {
+      "search_id": "srch_2ed53135a329",
+      "query": "AI 编程助手对初学者学习迁移的影响",
+      "result_count": 10,
+      "latency_ms": 232,
+      "mode": "hybrid-vector-fulltext",
+      "memory_used": true,
+      "created_at": "2026-10-29 09:51:38"
+    },
+    {
+      "search_id": "srch_0f27f5984fa3",
+      "query": "AI 编程助手对初学者学习迁移的影响",
+      "result_count": 6,
+      "latency_ms": 222,
+      "mode": "hybrid-vector-fulltext",
+      "memory_used": true,
+      "created_at": "2026-10-29 09:47:41"
+    },
+    {
+      "search_id": "srch_827773867f6e",
+      "query": "AI 编程助手对初学者学习迁移的影响",
+      "result_count": 8,
+      "latency_ms": 193,
+      "mode": "hybrid-vector-fulltext",
+      "memory_used": true,
+      "created_at": "2026-10-29 09:47:38"
+    },
     {
       "search_id": "srch_7c33e6039316",
       "query": "AI 编程助手对初学者学习迁移的影响",
@@ -354,36 +381,64 @@
       "mode": "hybrid-vector-fulltext",
       "memory_used": true,
       "created_at": "2026-10-29 09:45:06"
-    },
-    {
-      "search_id": "srch_f5c6ada3e130",
-      "query": "AI 编程助手对初学者学习迁移的影响",
-      "result_count": 8,
-      "latency_ms": 221,
-      "mode": "hybrid-vector-fulltext",
-      "memory_used": true,
-      "created_at": "2026-10-29 09:44:58"
-    },
-    {
-      "search_id": "srch_a21ef64c2d16",
-      "query": "AI 编程助手对初学者学习迁移的影响",
-      "result_count": 8,
-      "latency_ms": 202,
-      "mode": "hybrid-vector-fulltext",
-      "memory_used": true,
-      "created_at": "2026-10-29 09:44:52"
-    },
-    {
-      "search_id": "srch_050a9ce12fb0",
-      "query": "AI 编程助手对初学者学习迁移的影响",
-      "result_count": 8,
-      "latency_ms": 230,
-      "mode": "hybrid-vector-fulltext",
-      "memory_used": true,
-      "created_at": "2026-10-29 09:44:43"
     }
   ],
   "recent_activity": [
+    {
+      "activity_id": 67,
+      "kind": "review",
+      "title": "生成综述矩阵（4 篇）",
+      "created_at": "2026-10-29 09:51:44",
+      "detail": {
+        "coverage": 100,
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "memory_saved": true
+      }
+    },
+    {
+      "activity_id": 66,
+      "kind": "search",
+      "title": "检索「AI 编程助手对初学者学习迁移的影响」",
+      "created_at": "2026-10-29 09:51:38",
+      "detail": {
+        "results": 10,
+        "latency_ms": 232,
+        "search_id": "srch_2ed53135a329"
+      }
+    },
+    {
+      "activity_id": 65,
+      "kind": "review",
+      "title": "生成综述矩阵（4 篇）",
+      "created_at": "2026-10-29 09:47:41",
+      "detail": {
+        "coverage": 100,
+        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
+        "memory_saved": false
+      }
+    },
+    {
+      "activity_id": 64,
+      "kind": "search",
+      "title": "检索「AI 编程助手对初学者学习迁移的影响」",
+      "created_at": "2026-10-29 09:47:41",
+      "detail": {
+        "results": 6,
+        "latency_ms": 222,
+        "search_id": "srch_0f27f5984fa3"
+      }
+    },
+    {
+      "activity_id": 63,
+      "kind": "search",
+      "title": "检索「AI 编程助手对初学者学习迁移的影响」",
+      "created_at": "2026-10-29 09:47:38",
+      "detail": {
+        "results": 8,
+        "latency_ms": 193,
+        "search_id": "srch_827773867f6e"
+      }
+    },
     {
       "activity_id": 62,
       "kind": "review",
@@ -416,64 +471,11 @@
         "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
         "memory_saved": false
       }
-    },
-    {
-      "activity_id": 59,
-      "kind": "review",
-      "title": "生成综述矩阵（4 篇）",
-      "created_at": "2026-10-29 09:46:30",
-      "detail": {
-        "coverage": 100,
-        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
-        "memory_saved": false
-      }
-    },
-    {
-      "activity_id": 58,
-      "kind": "search",
-      "title": "检索「AI 编程助手对初学者学习迁移的影响」",
-      "created_at": "2026-10-29 09:46:30",
-      "detail": {
-        "results": 6,
-        "latency_ms": 241,
-        "search_id": "srch_1a94e64e6271"
-      }
-    },
-    {
-      "activity_id": 57,
-      "kind": "review",
-      "title": "生成综述矩阵（4 篇）",
-      "created_at": "2026-10-29 09:45:11",
-      "detail": {
-        "coverage": 100,
-        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
-        "memory_saved": true
-      }
-    },
-    {
-      "activity_id": 56,
-      "kind": "search",
-      "title": "检索「AI 编程助手对初学者学习迁移的影响」",
-      "created_at": "2026-10-29 09:45:06",
-      "detail": {
-        "results": 10,
-        "latency_ms": 207,
-        "search_id": "srch_7902c62bfb71"
-      }
-    },
-    {
-      "activity_id": 55,
-      "kind": "memory",
-      "title": "写入研究记忆",
-      "created_at": "2026-10-29 09:44:59",
-      "detail": {
-        "kind": "research_note"
-      }
     }
   ],
   "timeline": [
     {
-      "id": "art_7cd6122b01c04821b2b51767103f2739",
+      "id": "art_7e2631862dc843f78ce9f5c39c9f5541",
       "kind": "review_board",
       "label": "综述决策",
       "text": "综述矩阵：4 篇文献 · 生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
@@ -486,33 +488,11 @@
         ],
         "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
         "note": "从综述矩阵页面生成",
-        "updated_at": "2026-10-29T09:46:43.655251+00:00",
-        "saved_at": "2026-10-29T09:46:43.679663+00:00"
+        "updated_at": "2026-10-29T09:51:44.291521+00:00",
+        "saved_at": "2026-10-29T09:51:44.317496+00:00"
       },
-      "saved_at": "2026-10-29T09:46:43.679663+00:00",
-      "artifact_id": "art_7cd6122b01c04821b2b51767103f2739",
-      "revision": 1,
-      "state": "active"
-    },
-    {
-      "id": "art_601e2c94caeb44799244a2d405cd6756",
-      "kind": "review_board",
-      "label": "综述决策",
-      "text": "综述矩阵：4 篇文献 · 生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
-      "data": {
-        "paper_ids": [
-          "kazemitabaar2023",
-          "bastani2025",
-          "prather2023",
-          "denny2024"
-        ],
-        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
-        "note": "从综述矩阵页面生成",
-        "updated_at": "2026-10-29T09:45:11.180895+00:00",
-        "saved_at": "2026-10-29T09:45:11.207027+00:00"
-      },
-      "saved_at": "2026-10-29T09:45:11.207027+00:00",
-      "artifact_id": "art_601e2c94caeb44799244a2d405cd6756",
+      "saved_at": "2026-10-29T09:51:44.317496+00:00",
+      "artifact_id": "art_7e2631862dc843f78ce9f5c39c9f5541",
       "revision": 1,
       "state": "active"
     },
@@ -530,50 +510,6 @@
       },
       "saved_at": "2026-10-29T09:44:59.178438+00:00",
       "artifact_id": "art_81175fb06f0d4d20812c0170e6ed6d92",
-      "revision": 1,
-      "state": "active"
-    },
-    {
-      "id": "art_f9544e500d934204ae3dcd01ec28c0d8",
-      "kind": "review_board",
-      "label": "综述决策",
-      "text": "综述矩阵：4 篇文献 · 生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
-      "data": {
-        "paper_ids": [
-          "kazemitabaar2023",
-          "bastani2025",
-          "prather2023",
-          "denny2024"
-        ],
-        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
-        "note": "acceptance.py 自动验收",
-        "updated_at": "2026-10-29T09:44:59.068227+00:00",
-        "saved_at": "2026-10-29T09:44:59.085939+00:00"
-      },
-      "saved_at": "2026-10-29T09:44:59.085939+00:00",
-      "artifact_id": "art_f9544e500d934204ae3dcd01ec28c0d8",
-      "revision": 1,
-      "state": "active"
-    },
-    {
-      "id": "art_8093f9182cd54ab5a75bde6fd0c24570",
-      "kind": "review_board",
-      "label": "综述决策",
-      "text": "综述矩阵：4 篇文献 · 生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
-      "data": {
-        "paper_ids": [
-          "kazemitabaar2023",
-          "bastani2025",
-          "prather2023",
-          "denny2024"
-        ],
-        "question": "生成式 AI 编程助手如何影响初学者的编程学习与迁移？",
-        "note": "先搭建“效果证据—工具设计—评估方式”三列骨架。",
-        "updated_at": "2026-10-29T09:44:57.789392+00:00",
-        "saved_at": "2026-10-29T09:44:57.806316+00:00"
-      },
-      "saved_at": "2026-10-29T09:44:57.806316+00:00",
-      "artifact_id": "art_8093f9182cd54ab5a75bde6fd0c24570",
       "revision": 1,
       "state": "active"
     },
@@ -601,6 +537,84 @@
       "artifact_id": "art_42cc184c3a4d461695350cc6052c2ba7",
       "revision": 1,
       "state": "active"
+    },
+    {
+      "id": "art_18f912786a65436f97c56ba876ac7b04",
+      "kind": "reading_progress",
+      "label": "阅读进度",
+      "text": "机器人已至：计算教育中的生成式 AI 变革 · reading · 用工作组报告的风险清单组织综述背景。",
+      "data": {
+        "paper_id": "prather2023",
+        "title": "机器人已至：计算教育中的生成式 AI 变革",
+        "status": "reading",
+        "takeaway": "用工作组报告的风险清单组织综述背景。",
+        "tags": [
+          "生成式AI",
+          "编程教育",
+          "综述",
+          "评估",
+          "公平性",
+          "工具设计"
+        ],
+        "updated_at": "2026-10-29T09:44:57.680712+00:00",
+        "saved_at": "2026-10-29T09:44:57.696801+00:00"
+      },
+      "saved_at": "2026-10-29T09:44:57.696801+00:00",
+      "artifact_id": "art_18f912786a65436f97c56ba876ac7b04",
+      "revision": 1,
+      "state": "active"
+    },
+    {
+      "id": "art_07a0bbd6df3e42d6a343aa28e4b76c1b",
+      "kind": "reading_progress",
+      "label": "阅读进度",
+      "text": "没有护栏的生成式 AI 可能损害学习：高中数学证据 · read · AI 提升练习表现，不等于提升学习；护栏设计是核心。",
+      "data": {
+        "paper_id": "bastani2025",
+        "title": "没有护栏的生成式 AI 可能损害学习：高中数学证据",
+        "status": "read",
+        "takeaway": "AI 提升练习表现，不等于提升学习；护栏设计是核心。",
+        "tags": [
+          "生成式AI",
+          "学习迁移",
+          "实证研究",
+          "工具设计",
+          "教学设计",
+          "评估"
+        ],
+        "updated_at": "2026-10-29T09:44:57.633523+00:00",
+        "saved_at": "2026-10-29T09:44:57.650708+00:00"
+      },
+      "saved_at": "2026-10-29T09:44:57.650708+00:00",
+      "artifact_id": "art_07a0bbd6df3e42d6a343aa28e4b76c1b",
+      "revision": 1,
+      "state": "active"
+    },
+    {
+      "id": "art_7cc7c6da71124a938be46969419e02ed",
+      "kind": "reading_progress",
+      "label": "阅读进度",
+      "text": "AI 代码生成器如何支持编程入门学习者 · read · 延迟后测必须保留；先前经验可能是调节变量。",
+      "data": {
+        "paper_id": "kazemitabaar2023",
+        "title": "AI 代码生成器如何支持编程入门学习者",
+        "status": "read",
+        "takeaway": "延迟后测必须保留；先前经验可能是调节变量。",
+        "tags": [
+          "生成式AI",
+          "编程教育",
+          "初学者",
+          "学习迁移",
+          "实证研究",
+          "工具设计"
+        ],
+        "updated_at": "2026-10-29T09:44:57.575215+00:00",
+        "saved_at": "2026-10-29T09:44:57.603438+00:00"
+      },
+      "saved_at": "2026-10-29T09:44:57.603438+00:00",
+      "artifact_id": "art_7cc7c6da71124a938be46969419e02ed",
+      "revision": 1,
+      "state": "active"
     }
   ],
   "system": {
@@ -608,13 +622,13 @@
       "ok": true,
       "version": "5.7.25-OceanBase seekdb-v1.4.0.0",
       "database": "yanmai",
-      "latency_ms": 32
+      "latency_ms": 18
     },
     "powercontext": {
       "ok": true,
       "enabled": true,
       "url": "http://127.0.0.1:8765",
-      "latency_ms": 14,
+      "latency_ms": 11,
       "scope_id": "scp_27ayk5ztvdpbyn91a0kgkpmya0"
     },
     "embedding": {
