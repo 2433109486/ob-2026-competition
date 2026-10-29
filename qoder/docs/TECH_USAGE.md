@@ -217,7 +217,7 @@ curl -s -X POST http://127.0.0.1:8765/v1/memory/entries/list \
 | --- | --- | --- |
 | 演示资料 | 10 份 | `SELECT COUNT(*) FROM papers` |
 | 证据片段 | 34 个 | `SELECT COUNT(*) FROM chunks` |
-| 自动验收 | 21/21 通过 | `docs/evidence/acceptance.json` |
+| 自动验收 | 23/23 通过 | `docs/evidence/acceptance.json` |
 | 检索端到端耗时 | 约 170–240 ms | `search_log` / acceptance |
 | 浏览器交互 | 5 条主路径，无 console error | `scripts/e2e_ui.py` |
 | 真实外部用户 | 暂无 | 不伪造 |

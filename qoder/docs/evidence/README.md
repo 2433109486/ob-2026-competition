@@ -8,7 +8,8 @@
 | `seekdb_schema.txt` | 建表语句、行数、样例片段、最近检索日志 | `SHOW CREATE TABLE` + `SELECT` |
 | `powercontext_entries.json` | 当前 Scope 的 Atomic Memory | `POST /v1/memory/entries/list` |
 | `powercontext_calls.jsonl` | 每次 PowerContext HTTP 调用（path/status/kind/scope） | 应用运行时追加 |
-| `acceptance.json` | 21 项自动验收结果 | `scripts/acceptance.py` |
-| `pytest.txt` | 7 项 pytest 结果 | `pytest -q` |
+| `acceptance.json` | 23 项自动验收结果 | `scripts/acceptance.py` |
+| `pytest.txt` | 12 项 pytest 结果 | `pytest -q` |
+| `bibtex-sample.bib` | 从精读抽屉实际下载的 BibTeX 样例 | `GET /api/papers/{id}/bibtex` |
 
 > 这些文件由本机真实运行生成。UUID、时间戳、耗时每次重跑会变化。

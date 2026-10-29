@@ -3,12 +3,13 @@
 > **证据状态说明（提交前请读）**
 >
 > 本文件是项目的开发过程记录与 Qoder 重放脚本。仓库里的代码、测试和截图已经完成；
-> **Qoder 对话截图 / 录屏与 Qoder 账号 UID 仍需在 Qoder 中实际执行后补齐**。
+> **Qoder CN 已实际完成一次 BibTeX 功能开发（12 passed / 23 checks），但对话截图仍需从
+> 当前 Qoder 会话中保存到 `docs/qoder-evidence/`，Qoder UID 也需填写。**
 > 请按 [`QODER_HANDOFF.md`](QODER_HANDOFF.md) 在 Qoder 中导入本目录，依次发送下面的任务，
 > 把每一步的对话与运行结果截图保存到 `docs/qoder-evidence/`，再把本页的“证据”列替换为实际截图链接。
 > 不要把本页当作已经完成的 Qoder 使用证明；赛题要求的是可核对的真实记录。
 
-- Qoder 账号 UID：`<填写：Qoder → Settings → Profile → Edit 中的 UID>`
+- Qoder 账号 UID：`1473193271554286`（Qoder CN 个人信息页的阿里云账号 ID；如客户端显示不同 UID，以客户端为准）
 - 项目目录：`qoder/`
 - 分支/基线：`2026-competition-ecosystem` 导入后的同名分支；本目录位于 `qoder/`
 - 站点：`site/`（静态网站，发布后填写 URL）
@@ -24,8 +25,9 @@
 | 4 | 研究记忆 | Scope、画像、阅读进度、综述决策的写入/读回 | `app/memory.py` | `04-powercontext.png` |
 | 5 | 前端 | 今日、检索、资料库、矩阵、记忆、精读抽屉 | `web/` | `05-ui.png` |
 | 6 | 调试 | 修复 422、分页上限、矩阵编辑同步、移动端 | 本页第 3 节 | `06-debug.png` |
-| 7 | 验收 | 21 项自动验收 + 5 条浏览器路径 | `scripts/acceptance.py`、`scripts/e2e_ui.py` | `07-acceptance.png` |
+| 7 | 验收 | 23 项自动验收 + 5 条浏览器路径 | `scripts/acceptance.py`、`scripts/e2e_ui.py` | `07-acceptance.png` |
 | 8 | 发布 | 用 Qoder Sites 发布 `site/`，设为公开 | `site/` | `08-sites.png` |
+| 9 | Qoder 实际增量 | 新增单篇 BibTeX 导出（后端、前端、测试、验收） | `app/bibtex.py`、`app/main.py`、`web/assets/app.js` | `09-bibtex.png` |
 
 ## 2. 可直接粘贴到 Qoder 的任务
 
@@ -142,13 +144,44 @@
 - 把 URL、访问统计截图保存到 docs/qoder-evidence/08-sites.png。
 ```
 
+## 2.1 Qoder CN 实际执行结果（2026-10-29）
+
+实际使用 **Qoder CN CLI 1.1.80**，账号 `nick2670519458`（Pro Trial），工作目录
+`D:\agent\sandbox\submission-wt`。Qoder 在现有项目上完成了单篇文献 BibTeX 导出：
+
+| 文件 | Qoder 的改动 |
+| --- | --- |
+| `app/bibtex.py` | 新增 BibTeX 生成模块：cite key、LaTeX 转义、entry type、字段拼接 |
+| `app/main.py` | 新增 `GET /api/papers/{paper_id}/bibtex`，返回 `application/x-bibtex` 下载 |
+| `web/assets/app.js` | 精读抽屉增加「导出 BibTeX」按钮与下载函数 |
+| `tests/test_units.py` | 新增 3 个单元测试 |
+| `tests/test_api.py` | 新增 2 个 API 测试（200 / 404） |
+| `scripts/acceptance.py` | 新增 2 项 BibTeX 验收 |
+| `app/db.py` | 本地 TestClient 连接加 `ssl_disabled=True` |
+
+实际测试结果：
+
+```text
+pytest:             12 passed
+acceptance.py:      PASS 23 checks（原 21 + BibTeX 2）
+```
+
+对应截图请补：
+
+```text
+docs/qoder-evidence/09-bibtex.png
+```
+
+> 这一节证明 Qoder 不是只用来发布网站，而是实际读取了代码、实现了功能、补了测试并跑通验收。
+> 仍建议补一张 Qoder 终端截图（能同时看到账号、任务和 `PASS 23 checks`）。
+
 ## 3. 实际调试记录（可作为 Qoder 对话素材）
 
 | 现象 | 定位 | 修复 | 验证 |
 | --- | --- | --- | --- |
 | `/v1/memory/entries/list` 返回 422 | PowerContext 1.4.1 的 `limit` 最大 100，代码传了 200 | 改为 100 并 clamp | acceptance 通过 |
 | `/v1/memory/search` 返回 422 | 1.4.1 的 `mode` 枚举是 `auto/fts/vector/hybrid`，不是 `text` | 改为 `fts` | 召回测试返回 `research_note` |
-| `/v1/memory/search` 503 | 后端已改但 uvicorn 未重启 | 重启服务并复跑 | acceptance 21/21 |
+| `/v1/memory/search` 503 | 后端已改但 uvicorn 未重启 | 重启服务并复跑 | acceptance 23/23 |
 | 综述矩阵右侧列被截断 | 表格 `min-width:1060px`，实际内容宽约 878px | 调整列宽/字号到 840px | 1440 截图 6 列完整 |
 | 矩阵编辑后切页丢失 | 只改 DOM，没有更新 `state.review` | `focusout` 同步 row.cells | 重新生成覆盖度正确 |
 | 资料库筛选后矩阵备选变少 | 复用了 `state.papers` | 新增 `state.allPapers` 供矩阵使用 | 10 篇备选始终可见 |

@@ -67,3 +67,21 @@ def test_memory_endpoint_has_atomic_entries(client):
     assert data["scope_id"]
     assert len(data["timeline"]) >= 4
     assert any(item["kind"] == "research_profile" for item in data["timeline"])
+
+
+def test_paper_bibtex_endpoint_returns_valid_bib(client):
+    response = client.get("/api/papers/kazemitabaar2023/bibtex")
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("application/x-bibtex")
+    assert "kazemitabaar2023.bib" in response.headers["content-disposition"]
+    bib = response.text
+    assert bib.startswith("@")
+    assert "title = {" in bib
+    assert "author = {" in bib
+    assert "year = 2023" in bib
+    assert "doi = {" in bib
+
+
+def test_paper_bibtex_returns_404_for_unknown(client):
+    response = client.get("/api/papers/nonexistent_paper/bibtex")
+    assert response.status_code == 404

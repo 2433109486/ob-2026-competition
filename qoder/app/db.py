@@ -132,6 +132,7 @@ def connect(database: Optional[str] = None) -> pymysql.connections.Connection:
         read_timeout=30,
         write_timeout=30,
         cursorclass=DictCursor,
+        ssl_disabled=True,
     )
 
 

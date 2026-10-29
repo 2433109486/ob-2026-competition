@@ -33,7 +33,7 @@
 | 资料库 | 10 份资料的状态、标签、综述字段覆盖度；多选后一键进入矩阵 |
 | 综述矩阵 | 6 维对比表；覆盖率与缺失提示；单元格可直接编辑；生成带引用的综述草稿 |
 | 研究记忆 | 画像编辑、Atomic Memory 时间线、召回测试、写入研究判断、Scope/Revision 证据 |
-| 精读抽屉 | 中文导读、证据片段、精读笔记、综述字段；状态变化自动写入 PowerContext |
+| 精读抽屉 | 中文导读、证据片段、精读笔记、综述字段、单篇 BibTeX 导出；状态变化自动写入 PowerContext |
 
 ## 3. 技术架构
 
@@ -94,7 +94,7 @@ Copy-Item .env.example .env
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\acceptance.py
-# PASS: 21 checks -> docs/evidence/acceptance.json
+# PASS: 23 checks -> docs/evidence/acceptance.json
 ```
 
 详细输入、预期与证据文件见 [`docs/VALIDATION.md`](docs/VALIDATION.md)。
@@ -119,7 +119,8 @@ qoder/
 ### seekdb
 
 - `papers`、`chunks`、`notes` 保存资料与证据；`chunks.embedding VECTOR(768)` +
-  `VECTOR INDEX ... HNSW`；`FULLTEXT INDEX ... WITH PARSER ngram2` 支持中文全文。
+  `VECTOR INDEX ... HNSW`；`FULLTEXT INDEX ... WITH PARSER ngram2` 支持中文全文；
+  精读抽屉的 `GET /api/papers/{paper_id}/bibtex` 会从 `papers` 元数据生成 BibTeX。
 - 一次检索实际执行两条 SQL：向量 Top-60 召回、全文 Top-30 召回；应用层融合并按论文聚合。
 - `search_log` 保存查询、筛选、耗时、结果数与记忆是否参与，用于真实使用统计。
 

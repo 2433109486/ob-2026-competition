@@ -15,7 +15,7 @@ from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from . import db, review
+from . import bibtex, db, review
 from .config import settings
 from .embeddings import describe as embedding_info
 from .memory import PowerContextError
@@ -282,6 +282,18 @@ def get_paper(paper_id: str) -> Dict[str, Any]:
     memory = _memory_snapshot_safe()
     paper["reading_memory"] = (memory.get("reading") or {}).get(paper_id)
     return paper
+
+
+@app.get("/api/papers/{paper_id}/bibtex")
+def get_paper_bibtex(paper_id: str) -> Response:
+    paper = _get_or_404(paper_id)
+    bib = bibtex.paper_to_bibtex(paper)
+    filename = f"{paper_id}.bib"
+    return Response(
+        content=bib,
+        media_type="application/x-bibtex; charset=utf-8",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
 
 
 @app.patch("/api/papers/{paper_id}")

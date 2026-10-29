@@ -79,8 +79,9 @@ git checkout submission-2026
 | `04-powercontext.png` | 记忆读写 | Qoder 对话 + 时间线/entries 结果 |
 | `05-ui.png` | 前端页面 | Qoder 预览或浏览器截图 |
 | `06-debug.png` | 修 bug | 报错 → 定位 → 修复 → 复跑 |
-| `07-acceptance.png` | 自动验收 | `PASS: 21 checks` |
+| `07-acceptance.png` | 自动验收 | `PASS: 23 checks` |
 | `08-sites.png` | 站点发布 | Qoder Sites 发布成功 + 公开访问设置 |
+| `09-bibtex.png` | Qoder 实际增量 | BibTeX 代码/测试 + `PASS 23 checks` |
 
 > 只截“成功页面”不够。最好保留一次真实失败与修复（例如 PowerContext 422），
 > 让评审看到 Qoder 参与了调试，而不是只参与生成。
@@ -103,7 +104,7 @@ cd qoder
 python scripts\e2e_ui.py
 ```
 
-确认 21 项验收与浏览器路径通过，再进入发布。
+确认 23 项验收与浏览器路径通过，再进入发布。
 
 ## 5. 用 Qoder Sites 发布 `site/`
 

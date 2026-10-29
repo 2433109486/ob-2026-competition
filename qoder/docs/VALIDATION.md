@@ -174,6 +174,36 @@ docs/evidence/powercontext_calls.jsonl    # 每次 HTTP 调用：path/status/kin
 }
 ```
 
+## 样例 D：单篇文献导出 BibTeX
+
+### 操作
+
+1. 打开资料库中任意一篇文献，例如 `kazemitabaar2023`；
+2. 在精读抽屉右上角点「导出 BibTeX」；
+3. 或直接访问 `GET /api/papers/kazemitabaar2023/bibtex`。
+
+### 预期
+
+- 浏览器下载 `kazemitabaar2023.bib`；
+- 内容以 `@inproceedings{kazemitabaar2023ai,` 开头；
+- 包含 `title`、`author`、`year`、`booktitle`、`doi`、`url`、`abstract`、`keywords`；
+- 特殊字符（`& % $ # _ { }`）被 LaTeX 转义；
+- 内部笔记 `groupnote2026` 使用 `@misc` 并在 `howpublished` 中放内部来源。
+
+实际输出示例：
+
+```bibtex
+@inproceedings{kazemitabaar2023ai,
+  title = {Studying the Effect of AI Code Generators on Supporting Novice Learners in Introductory Programming},
+  author = {Majeed Kazemitabaar and Justin Chow and Carl Ka To Ma and Barbara J. Ericson and David Weintrop and Tovi Grossman},
+  year = 2023,
+  booktitle = {CHI 2023},
+  doi = {10.1145/3544548.3580919},
+  url = {https://arxiv.org/abs/2302.07427},
+  keywords = {生成式AI, 编程教育, 初学者, 学习迁移, 实证研究, 工具设计}
+}
+```
+
 ## 自动验收结果
 
 `scripts/acceptance.py` 在 2026-10-29 的实际输出：
@@ -190,6 +220,8 @@ docs/evidence/powercontext_calls.jsonl    # 每次 HTTP 调用：path/status/kin
 [OK] seekdb 全文召回: 30 个片段
 [OK] 记忆参与本次检索排序: [...]
 [OK] 可打开原文证据片段: 组会纪要... / 3 段
+[OK] 单篇 BibTeX 导出可用: status=200
+[OK] BibTeX 包含必要字段: @inproceedings{kazemitabaar2023ai,...
 [OK] 综述矩阵包含 4 篇文献: ...
 [OK] 矩阵包含 6 个维度: [...]
 [OK] 结构化字段覆盖度: 100%
@@ -200,7 +232,7 @@ docs/evidence/powercontext_calls.jsonl    # 每次 HTTP 调用：path/status/kin
 [OK] 记忆时间线包含研究判断: 8 条
 [OK] PowerContext 可召回刚写入的记忆: research_note
 [OK] 保留 PowerContext 调用证据: 38 条
-PASS: 21 checks
+PASS: 23 checks
 ```
 
 > 重新运行会产生新的 `artifact_id`、时间戳与耗时，数量可能因新增验收记忆而变化；

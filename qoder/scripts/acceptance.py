@@ -31,6 +31,15 @@ def request(method: str, path: str, payload: dict | None = None) -> dict:
         raise RuntimeError(f"{method} {path} -> {error.code}: {detail}") from error
 
 
+def request_raw(method: str, path: str) -> tuple[int, str, str]:
+    req = urllib.request.Request(BASE + path, method=method)
+    try:
+        with urllib.request.urlopen(req, timeout=30) as response:
+            return response.status, response.read().decode("utf-8"), response.headers.get("content-type", "")
+    except urllib.error.HTTPError as error:
+        return error.code, error.read().decode("utf-8", errors="replace"), ""
+
+
 def check(condition: bool, label: str, detail: object = "") -> dict:
     if not condition:
         raise AssertionError(f"FAIL {label}: {detail}")
@@ -69,6 +78,10 @@ def main() -> int:
     paper_id = search["results"][0]["paper"]["paper_id"]
     paper = request("GET", f"/api/papers/{paper_id}")
     result["checks"].append(check(len(paper["chunks"]) >= 2, "可打开原文证据片段", f"{paper['title']} / {len(paper['chunks'])} 段"))
+
+    bib_status, bib_text, bib_ct = request_raw("GET", f"/api/papers/{paper_id}/bibtex")
+    result["checks"].append(check(bib_status == 200, "单篇 BibTeX 导出可用", f"status={bib_status}"))
+    result["checks"].append(check("@" in bib_text and "title = {" in bib_text, "BibTeX 包含必要字段", bib_text[:80]))
 
     review = request(
         "POST",

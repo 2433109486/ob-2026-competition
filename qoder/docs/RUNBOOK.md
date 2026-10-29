@@ -185,7 +185,7 @@ PowerContext 的旧 Scope 仍留在服务端，不会影响新 Scope；`runtime/
 预期最后一行：
 
 ```text
-PASS: 21 checks -> .../docs/evidence/acceptance.json
+PASS: 23 checks -> .../docs/evidence/acceptance.json
 ```
 
 浏览器级交互（需要 Edge + Playwright Python，见 `scripts/e2e_ui.py` 顶部说明）：

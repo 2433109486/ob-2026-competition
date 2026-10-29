@@ -10,7 +10,7 @@
 | `04-powercontext.png` | 记忆写入/读回 |
 | `05-ui.png` | 前端页面 |
 | `06-debug.png` | 一次真实报错与修复 |
-| `07-acceptance.png` | `PASS: 21 checks` |
+| `07-acceptance.png` | `PASS: 23 checks` |
 | `08-sites.png` | Qoder Sites 发布成功与公开设置 |
 
 要求：

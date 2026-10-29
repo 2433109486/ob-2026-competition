@@ -6,7 +6,8 @@
 - [x] seekdb 实际检索：`VECTOR(768)` + HNSW、`ngram2` 全文、两路召回融合
 - [x] PowerContext 实际记忆：Scope + Atomic Memory（画像/阅读进度/综述决策/研究判断）
 - [x] 10 份演示资料、34 个证据片段、6 维综述矩阵、带引用 Markdown 草稿
-- [x] 自动验收 21/21；pytest 7/7；浏览器路径 5 条无 console error
+- [x] 自动验收 23/23；pytest 12/12；浏览器路径 5 条无 console error
+- [x] Qoder CN 实际新增单篇 BibTeX 导出（后端 / 前端 / 测试 / 验收）
 - [x] 运行说明 `docs/RUNBOOK.md`
 - [x] 验证样例 `docs/VALIDATION.md`
 - [x] 技术证据 `docs/TECH_USAGE.md` + `docs/evidence/`
@@ -31,7 +32,7 @@
 ```text
 repository: https://github.com/2433109486/ob-2026-competition
 branch:     submission-2026
-commit:     96b04f45821e134da20f52cb8496bba00e6e7ed3
+commit:     <见最终提交；运行 git log -1 --format=%H 获取>
 asset dir:  qoder/
 ```
 

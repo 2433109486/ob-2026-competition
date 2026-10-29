@@ -787,7 +787,7 @@ function renderDrawer() {
       <div class="drawer-head-top"><span class="drawer-kicker">${escapeHtml(paper.venue || "RESEARCH RECORD")} · ${escapeHtml(paper.year || "")}</span><button class="drawer-close" type="button" data-action="close-drawer" aria-label="关闭">${icon("x")}</button></div>
       <h2 class="drawer-title">${escapeHtml(paper.title)}</h2>
       <p class="drawer-sub">${escapeHtml(paper.authors || "")}</p>
-      <div class="drawer-tools">${statusPill(paper.status)}<div class="status-switch">${["to_read", "reading", "read"].map((status) => `<button type="button" class="${paper.status === status ? "active" : ""}" data-action="set-paper-status" data-status="${status}">${STATUS_LABEL[status]}</button>`).join("")}</div>${paper.doi ? `<a class="btn btn-sm btn-ghost" href="${escapeAttr(paper.doi.startsWith("http") ? paper.doi : `https://doi.org/${paper.doi}`)}" target="_blank" rel="noreferrer">${icon("external")}DOI</a>` : ""}</div>
+      <div class="drawer-tools">${statusPill(paper.status)}<div class="status-switch">${["to_read", "reading", "read"].map((status) => `<button type="button" class="${paper.status === status ? "active" : ""}" data-action="set-paper-status" data-status="${status}">${STATUS_LABEL[status]}</button>`).join("")}</div>${paper.doi ? `<a class="btn btn-sm btn-ghost" href="${escapeAttr(paper.doi.startsWith("http") ? paper.doi : `https://doi.org/${paper.doi}`)}" target="_blank" rel="noreferrer">${icon("external")}DOI</a>` : ""}<button class="btn btn-sm btn-ghost" type="button" data-action="export-bibtex" data-paper-id="${escapeAttr(paper.paper_id)}">${icon("download")}导出 BibTeX</button></div>
     </div>
     <div class="drawer-tabs">${tabsHtml}</div>
     <div class="drawer-body">${body}</div>
@@ -955,6 +955,9 @@ function bindEvents() {
     if (action === "set-paper-status") {
       const status = target.dataset.status;
       return savePaperStatus(status);
+    }
+    if (action === "export-bibtex") {
+      return exportBibtex(target.dataset.paperId);
     }
     if (action === "save-review-fields") return saveReviewFields();
     if (action === "save-memory-memory") {
@@ -1130,6 +1133,23 @@ async function saveReviewMemory() {
     state.review = result;
     toast("综述决策已写入 PowerContext");
     state.memory = await api("/api/memory");
+  } catch (error) { toast(error.message, "error"); }
+}
+
+async function exportBibtex(paperId) {
+  try {
+    const response = await fetch(`/api/papers/${paperId}/bibtex`);
+    if (!response.ok) throw new Error("导出失败");
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `${paperId}.bib`;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(url);
+    toast("BibTeX 已下载");
   } catch (error) { toast(error.message, "error"); }
 }
 
