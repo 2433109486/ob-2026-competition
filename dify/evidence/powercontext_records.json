@@ -1,0 +1,79 @@
+{
+  "scopes": [
+    {
+      "scope_id": "scp_2qg90gakwaqjbvx3z8cmfc5hdt",
+      "title": "离谱法庭 · p-1001",
+      "summary": "玩家 p-1001 的庭审记忆：法庭新鲜人",
+      "parent_scope_id": null,
+      "context_references": [],
+      "external_references": [],
+      "version": 1
+    },
+    {
+      "scope_id": "scp_4jar311sz142d61m135nzp2zbw",
+      "title": "离谱法庭 · p-1001",
+      "summary": "玩家 p-1001 的庭审记忆：法庭新鲜人",
+      "parent_scope_id": null,
+      "context_references": [],
+      "external_references": [],
+      "version": 1
+    },
+    {
+      "scope_id": "scp_4vmqz9z9mffxsajzh803x5n9ck",
+      "title": "离谱法庭 · p-2002",
+      "summary": "玩家 p-2002 的庭审记忆：法庭新鲜人",
+      "parent_scope_id": null,
+      "context_references": [],
+      "external_references": [],
+      "version": 1
+    },
+    {
+      "scope_id": "scp_4xws7wfjzz8h7c5r74y0tze7f1",
+      "title": "离谱法庭 · p-2002",
+      "summary": "玩家 p-2002 的庭审记忆：法庭新鲜人",
+      "parent_scope_id": null,
+      "context_references": [],
+      "external_references": [],
+      "version": 1
+    },
+    {
+      "scope_id": "scp_7prmbqp03223qy3bhpd23c3pp0",
+      "title": "Default",
+      "summary": "Default context",
+      "parent_scope_id": null,
+      "context_references": [],
+      "external_references": [],
+      "version": 1
+    }
+  ],
+  "memories_by_scope": {
+    "p-1001": {
+      "scope_id": "scp_4jar311sz142d61m135nzp2zbw",
+      "hits": [
+        {
+          "text": "第2次上庭：原告起诉「周一」——周一恶意到访罪，援引 AB-010，判 1 天，赔偿「赔偿一个完整周末」。法官评语：周一携早高峰、会议与未读邮件恶意到访，已严重扰民，需赔偿并接受缓刑。",
+          "kind": "state",
+          "space": null,
+          "score": 0.01639344262295082
+        },
+        {
+          "text": "第1次上庭：原告起诉「原告的猫」——宠物夜间蹦迪罪，猫主子打翻水杯罪，援引 AB-001/AB-002，判 7 天，赔偿「一块新键盘垫」。法官评语：被告猫咪夜间踩脸蹦迪及打翻水杯行为已严重扰民，影响原告睡眠质量，故需接受惩罚并赔偿损失。",
+          "kind": "state",
+          "space": null,
+          "score": 0.016129032258064516
+        }
+      ]
+    },
+    "p-2002": {
+      "scope_id": "scp_4vmqz9z9mffxsajzh803x5n9ck",
+      "hits": [
+        {
+          "text": "第1次上庭：原告起诉「原告的猫」——宠物夜间蹦迪罪、猫主子打翻水杯罪，援引 AB-001/AB-002，判 7 天，赔偿「一块新键盘垫」。法官评语：被告于夜间实施蹦迪与打翻水杯之恶行，情节严重，必须严惩以儆效尤。",
+          "kind": "state",
+          "space": null,
+          "score": 0.01639344262295082
+        }
+      ]
+    }
+  }
+}

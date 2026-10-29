@@ -1,0 +1,331 @@
+{
+  "collected_at": "2026-10-29 22:33:27",
+  "seekdb_version": "5.7.25-OceanBase seekdb-v1.4.0.0",
+  "statutes": {
+    "count": 72,
+    "sample": [
+      {
+        "code": "AB-001",
+        "title": "宠物夜间蹦迪罪",
+        "tag": "宠物",
+        "min_days": 3,
+        "max_days": 15
+      },
+      {
+        "code": "AB-002",
+        "title": "猫主子打翻水杯罪",
+        "tag": "宠物",
+        "min_days": 1,
+        "max_days": 7
+      },
+      {
+        "code": "AB-003",
+        "title": "狗子拆家罪",
+        "tag": "宠物",
+        "min_days": 5,
+        "max_days": 21
+      },
+      {
+        "code": "AB-004",
+        "title": "多肉养死罪",
+        "tag": "宠物",
+        "min_days": 1,
+        "max_days": 3
+      },
+      {
+        "code": "AB-005",
+        "title": "袜子失踪罪",
+        "tag": "室友",
+        "min_days": 3,
+        "max_days": 10
+      },
+      {
+        "code": "AB-006",
+        "title": "袜子越界居住罪",
+        "tag": "室友",
+        "min_days": 2,
+        "max_days": 12
+      },
+      {
+        "code": "AB-007",
+        "title": "室友闹钟连环谋杀罪",
+        "tag": "室友",
+        "min_days": 1,
+        "max_days": 9
+      },
+      {
+        "code": "AB-008",
+        "title": "冰箱食物主权侵占罪",
+        "tag": "室友",
+        "min_days": 2,
+        "max_days": 10
+      },
+      {
+        "code": "AB-009",
+        "title": "公共区域堆物罪",
+        "tag": "室友",
+        "min_days": 2,
+        "max_days": 8
+      },
+      {
+        "code": "AB-010",
+        "title": "周一恶意到访罪",
+        "tag": "时间",
+        "min_days": 1,
+        "max_days": 7
+      },
+      {
+        "code": "AB-011",
+        "title": "周五虚假承诺罪",
+        "tag": "时间",
+        "min_days": 1,
+        "max_days": 5
+      },
+      {
+        "code": "AB-012",
+        "title": "假期余额蒸发罪",
+        "tag": "时间",
+        "min_days": 1,
+        "max_days": 3
+      }
+    ]
+  },
+  "precedents": [
+    {
+      "id": 2328071621410880060,
+      "case_no": "（3026）离民初字第0001号",
+      "player_id": "p-1001",
+      "defendant": "原告的猫",
+      "charge": "宠物夜间蹦迪罪，猫主子打翻水杯罪",
+      "cited": "AB-001,AB-002",
+      "sentence_days": 7,
+      "absurdity": 8,
+      "attitude": "认罪",
+      "created_at": "2026-10-29 22:32:08"
+    },
+    {
+      "id": 2316388794966345847,
+      "case_no": "（3026）离民初字第0002号",
+      "player_id": "p-1001",
+      "defendant": "周一",
+      "charge": "周一恶意到访罪",
+      "cited": "AB-010",
+      "sentence_days": 1,
+      "absurdity": 7,
+      "attitude": "沉默",
+      "created_at": "2026-10-29 22:32:40"
+    },
+    {
+      "id": 3749509532593065333,
+      "case_no": "（3026）离民初字第0003号",
+      "player_id": "p-2002",
+      "defendant": "原告的猫",
+      "charge": "宠物夜间蹦迪罪、猫主子打翻水杯罪",
+      "cited": "AB-001,AB-002",
+      "sentence_days": 7,
+      "absurdity": 9,
+      "attitude": "认罪",
+      "created_at": "2026-10-29 22:33:15"
+    }
+  ],
+  "players": [
+    {
+      "player_id": "p-1001",
+      "pc_scope_id": "scp_4jar311sz142d61m135nzp2zbw",
+      "cases": 2,
+      "convictions": 2,
+      "total_days": 8,
+      "absurdity_sum": 15
+    },
+    {
+      "player_id": "p-2002",
+      "pc_scope_id": "scp_4vmqz9z9mffxsajzh803x5n9ck",
+      "cases": 1,
+      "convictions": 1,
+      "total_days": 7,
+      "absurdity_sum": 9
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "AB-55D9FEFC",
+      "case_no": "（3026）离民初字第0001号",
+      "conversation_id": "demo-conv-a",
+      "player_id": "p-1001",
+      "defendant": "原告的猫",
+      "charge": "宠物夜间蹦迪罪，猫主子打翻水杯罪",
+      "status": "verdict",
+      "turn": 3
+    },
+    {
+      "case_id": "AB-03F79DCE",
+      "case_no": "（3026）离民初字第0002号",
+      "conversation_id": "demo-conv-b",
+      "player_id": "p-1001",
+      "defendant": "周一",
+      "charge": "周一恶意到访罪",
+      "status": "verdict",
+      "turn": 3
+    },
+    {
+      "case_id": "AB-B29BBBEF",
+      "case_no": "（3026）离民初字第0003号",
+      "conversation_id": "demo-conv-c",
+      "player_id": "p-2002",
+      "defendant": "原告的猫",
+      "charge": "宠物夜间蹦迪罪、猫主子打翻水杯罪",
+      "status": "verdict",
+      "turn": 3
+    }
+  ],
+  "turns": [
+    {
+      "case_id": "AB-03F79DCE",
+      "turn": 2,
+      "role": "plaintiff",
+      "content": "证据是今早我的闹钟响了五次，我仍然迟到了。"
+    },
+    {
+      "case_id": "AB-55D9FEFC",
+      "turn": 3,
+      "role": "plaintiff",
+      "content": "请判决。"
+    },
+    {
+      "case_id": "AB-B29BBBEF",
+      "turn": 1,
+      "role": "judge",
+      "content": "原告所述之情，本官已悉。猫科动物凌晨三点在尔等脸上实施跑酷，兼且打翻水杯，此等恶行，实属离奇。依《宠物夜间蹦迪罪》（AB-001），其行为已构成犯罪；且打翻水杯"
+    },
+    {
+      "case_id": "AB-03F79DCE",
+      "turn": 2,
+      "role": "judge",
+      "content": "🔨本官听罢原告之言，深感周一之恶意实乃入骨三分。原告被闹钟五次催促仍未逃过早高峰之苦，足见周一行径之恶劣。此等强行闯入，携带会议、早高峰与未读邮件之恶行，已触犯"
+    },
+    {
+      "case_id": "AB-B29BBBEF",
+      "turn": 3,
+      "role": "plaintiff",
+      "content": "请判决。"
+    },
+    {
+      "case_id": "AB-03F79DCE",
+      "turn": 1,
+      "role": "plaintiff",
+      "content": "又是我。这次我要告周一，它每周都恶意到访，还带来早高峰。"
+    },
+    {
+      "case_id": "AB-55D9FEFC",
+      "turn": 2,
+      "role": "judge",
+      "content": "原告所言甚是，本官已目睹足印之痕，又闻水杯滴水之声。然猫乃跳脱之灵物，其于夜半踩脸蹦迪之举已触【法条AB-001《宠物夜间蹦迪罪》】，量刑区间为3至15天；至于"
+    },
+    {
+      "case_id": "AB-B29BBBEF",
+      "turn": 2,
+      "role": "plaintiff",
+      "content": "证据？它踩我脸的时候留下了脚印，而且水杯现在还在滴水。"
+    },
+    {
+      "case_id": "AB-55D9FEFC",
+      "turn": 3,
+      "role": "judge",
+      "content": "被告猫咪本官已细察其罪状，此猫不仅于凌晨三点肆意踩踏原告面庞，致其夜不成寐，更兼手贱打翻水杯，案情属实，罪无可赦。然猫乃世间离奇之灵物，其行径虽不可理喻，却亦属"
+    },
+    {
+      "case_id": "AB-B29BBBEF",
+      "turn": 2,
+      "role": "judge",
+      "content": "原告所述，确凿无疑。猫乃夜行捕猎之族，岂能于午夜时分于汝面上肆意践踏？且此凶徒不仅在吾等良民脸上纵情蹦迪，更兼打翻水杯，其罪昭昭。依《宠物夜间蹦迪罪》（AB-0"
+    },
+    {
+      "case_id": "AB-55D9FEFC",
+      "turn": 2,
+      "role": "plaintiff",
+      "content": "证据？它踩我脸的时候留下了脚印，而且水杯现在还在滴水。"
+    },
+    {
+      "case_id": "AB-03F79DCE",
+      "turn": 3,
+      "role": "judge",
+      "content": "🔨本案审理至此，证据确凿，案情清晰。周一这厮，每每恶意到访，带来早高峰、会议与未读邮件，令原告身心俱疲。《周一恶意到访罪》（AB-010）明文规定：周一携此等扰"
+    },
+    {
+      "case_id": "AB-03F79DCE",
+      "turn": 3,
+      "role": "plaintiff",
+      "content": "直接判吧。"
+    },
+    {
+      "case_id": "AB-B29BBBEF",
+      "turn": 3,
+      "role": "judge",
+      "content": "原告所言，本官已了然于胸。被告猫科动物于深夜凌晨，于尔面上肆意蹦迪，更兼打翻水杯，致使水流成灾。此等恶行，堪称宠物界的'深夜恐怖片'。本院曾判一案，与本案案情相"
+    },
+    {
+      "case_id": "AB-03F79DCE",
+      "turn": 1,
+      "role": "judge",
+      "content": "原告所言之事，本官已悉。本案被告已明确，乃是‘周一’这无形却扰民至极的时间实体。此等恶意到访，还夹带早高峰与未读邮件，确实令人苦不堪言。原告不妨翻查《周一恶意到"
+    },
+    {
+      "case_id": "AB-55D9FEFC",
+      "turn": 1,
+      "role": "plaintiff",
+      "content": "我要起诉我的猫。它每天凌晨三点在我脸上蹦迪，还打翻我的水杯。"
+    },
+    {
+      "case_id": "AB-B29BBBEF",
+      "turn": 1,
+      "role": "plaintiff",
+      "content": "我要起诉我的猫。它每天凌晨三点在我脸上蹦迪，还打翻我的水杯。"
+    },
+    {
+      "case_id": "AB-55D9FEFC",
+      "turn": 1,
+      "role": "judge",
+      "content": "原告，原告！猫乃世间最离奇之生物，其行径可昭日月，却每每于深夜化身为床面跑酷大师，令我等凡人难以安眠。依本官查阅【法条AB-001《宠物夜间蹦迪罪》】，此猫于凌"
+    }
+  ],
+  "hybrid_search_example": {
+    "query": "我的猫每天凌晨三点在我脸上蹦迪，还打翻水杯",
+    "inferred_tag": "宠物",
+    "sql_logic": "VECTOR INDEX(vidx_statutes) 召回 + MATCH(content) AGAINST(ngram2) 召回 + WHERE tag=%s 标量过滤，RRF 融合",
+    "results": [
+      {
+        "code": "AB-002",
+        "title": "猫主子打翻水杯罪",
+        "score": 0.092787,
+        "channels": [
+          "fulltext",
+          "vector"
+        ],
+        "min_days": 1,
+        "max_days": 7
+      },
+      {
+        "code": "AB-001",
+        "title": "宠物夜间蹦迪罪",
+        "score": 0.072002,
+        "channels": [
+          "fulltext",
+          "vector"
+        ],
+        "min_days": 3,
+        "max_days": 15
+      },
+      {
+        "code": "AB-004",
+        "title": "多肉养死罪",
+        "score": 0.031498,
+        "channels": [
+          "fulltext",
+          "vector"
+        ],
+        "min_days": 1,
+        "max_days": 3
+      }
+    ]
+  }
+}

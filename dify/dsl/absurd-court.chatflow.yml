@@ -1,0 +1,652 @@
+﻿app:
+  description: 公元 3026 年的宇宙离谱法庭。你起诉生活里最荒诞的小事，AI 法官包大仁依据《宇宙离谱法典》开庭、质证、宣判；seekdb 负责法条与判例检索，PowerContext 负责跨会话记住你的前科。
+  icon: ⚖️
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: 宇宙离谱法庭
+  use_icon: true
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      number_limits: 3
+    opening_statement: |
+      🔨 肃静！这里是公元 3026 年的「宇宙离谱法庭」，我是首席大法官包大仁。
+
+      不管你想告的是凌晨三点蹦迪的猫、每周准点到访的周一，还是室友那只越界居住的袜子——只要它够离谱，本庭就敢受理。
+
+      玩法很简单：
+      1. 直接说出你的起诉内容；
+      2. 本官会援引《宇宙离谱法典》的相关条文，要求你补充证据；
+      3. 第三轮（或你说「请判决」）本官当庭宣判。
+
+      小提示：同一个玩家 ID 再次开庭，本官会记得你上次的案子——毕竟，法庭是有记忆的。
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions:
+    - 我要告我的猫，它每天凌晨三点在我脸上蹦迪
+    - 我要起诉周一，它每周都带来早高峰
+    - 我想告我室友的袜子，它在我枕头底下住了一个月
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: http-request
+      id: start-source-http_intake-target
+      source: start
+      sourceHandle: source
+      target: http_intake
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: code
+      id: http_intake-source-code_intake-target
+      source: http_intake
+      sourceHandle: source
+      target: code_intake
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: llm
+      id: code_intake-source-llm_judge-target
+      source: code_intake
+      sourceHandle: source
+      target: llm_judge
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: code
+      id: llm_judge-source-code_verdict-target
+      source: llm_judge
+      sourceHandle: source
+      target: code_verdict
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: http-request
+      id: code_verdict-source-http_commit-target
+      source: code_verdict
+      sourceHandle: source
+      target: http_commit
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: code
+      id: http_commit-source-code_render-target
+      source: http_commit
+      sourceHandle: source
+      target: code_render
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: answer
+      id: code_render-source-answer-target
+      source: code_render
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+    nodes:
+    - data:
+        desc: 玩家可留空，留空时使用 Dify 的系统用户 ID
+        title: 开始
+        type: start
+        variables:
+        - label: 玩家ID（可选）
+          max_length: 64
+          options: []
+          required: false
+          type: text-input
+          variable: player_id
+      height: 100
+      id: start
+      position:
+        x: 0
+        y: 300
+      positionAbsolute:
+        x: 0
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - key: player_id
+            type: text
+            value: '{{#start.player_id#}}'
+          - key: user_id
+            type: text
+            value: '{{#sys.user_id#}}'
+          - key: conversation_id
+            type: text
+            value: '{{#sys.conversation_id#}}'
+          - key: message
+            type: text
+            value: '{{#sys.query#}}'
+          type: json
+        desc: ① 立案：seekdb 混合检索法条/判例，PowerContext 召回跨会话记忆
+        headers: 'Content-Type: application/json'
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 2
+          retry_enabled: true
+          retry_interval: 200
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: ① 立案检索
+        type: http-request
+        url: http://host.docker.internal:8088/api/v1/court/intake
+        variables: []
+      height: 110
+      id: http_intake
+      position:
+        x: 320
+        y: 300
+      positionAbsolute:
+        x: 320
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: |
+          def main(raw: str) -> dict:
+              import json
+
+              def parse(raw):
+                  try:
+                      return json.loads(raw or "{}")
+                  except Exception:
+                      return {}
+
+              data = parse(raw)
+              statutes = data.get("statutes") or []
+              lines = []
+              for item in statutes[:3]:
+                  lines.append(
+                      "- %s《%s》[%s] 量刑 %s-%s 天；赔偿：%s\n  条文：%s" % (
+                          item.get("code", "?"),
+                          item.get("title", ""),
+                          item.get("tag", ""),
+                          item.get("min_days", 0),
+                          item.get("max_days", 0),
+                          item.get("fine", ""),
+                          item.get("text", ""),
+                      )
+                  )
+              statutes_text = "\n".join(lines) or "（本轮未检索到法条，请引用 AB-000 兜底条款）"
+
+              memories = data.get("memories") or []
+              mlines = ["- " + str(m.get("text", "")) for m in memories if m.get("text")]
+              memories_text = "\n".join(mlines[:5]) or "（无历史记忆，这是本官第一次见到原告）"
+
+              precedents = data.get("precedents") or []
+              plines = []
+              for p in precedents[:2]:
+                  plines.append(
+                      "- %s：%s / %s，判 %s 天，离谱指数 %s，态度 %s" % (
+                          p.get("case_no", ""),
+                          p.get("defendant", ""),
+                          p.get("charge", ""),
+                          p.get("sentence_days", 0),
+                          p.get("absurdity", 0),
+                          p.get("attitude", ""),
+                      )
+                  )
+              precedents_text = "\n".join(plines) or "（判例库中暂无相似案件）"
+
+              profile = data.get("player") or {}
+              profile_text = "%s／已起诉 %s 次／前科 %s 次／累计刑期 %s 天" % (
+                  profile.get("title", "法庭新鲜人"),
+                  profile.get("cases", 0),
+                  profile.get("convictions", 0),
+                  profile.get("total_days", 0),
+              )
+
+              fallback = []
+              for item in statutes[:3]:
+                  fallback.append({
+                      "code": item.get("code", ""),
+                      "title": item.get("title", ""),
+                      "text": item.get("text", ""),
+                      "tag": item.get("tag", ""),
+                      "min_days": item.get("min_days", 0),
+                      "max_days": item.get("max_days", 0),
+                      "fine": item.get("fine", ""),
+                  })
+
+              pc = data.get("powercontext") or {}
+              return {
+                  "case_id": str(data.get("case_id") or ""),
+                  "case_no": str(data.get("case_no") or ""),
+                  "turn": int(data.get("turn") or 1),
+                  "phase": str(data.get("phase") or "intake"),
+                  "defendant": str(data.get("defendant") or ""),
+                  "charge": str(data.get("charge") or ""),
+                  "history": str(data.get("history") or "（本轮为第一次开庭）"),
+                  "statutes_text": statutes_text,
+                  "memories_text": memories_text,
+                  "precedents_text": precedents_text,
+                  "profile_text": profile_text,
+                  "memory_status": "%s（召回 %s 条）" % (pc.get("status", "unknown"), pc.get("recalled", len(memories))),
+                  "fallback_json": json.dumps(fallback, ensure_ascii=False),
+              }
+        code_language: python3
+        desc: 解析 intake JSON，整理成提示词区块
+        outputs:
+          case_id:
+            children: null
+            type: string
+          case_no:
+            children: null
+            type: string
+          turn:
+            children: null
+            type: number
+          phase:
+            children: null
+            type: string
+          defendant:
+            children: null
+            type: string
+          charge:
+            children: null
+            type: string
+          history:
+            children: null
+            type: string
+          statutes_text:
+            children: null
+            type: string
+          memories_text:
+            children: null
+            type: string
+          precedents_text:
+            children: null
+            type: string
+          profile_text:
+            children: null
+            type: string
+          memory_status:
+            children: null
+            type: string
+          fallback_json:
+            children: null
+            type: string
+        title: ② 解析检索结果
+        type: code
+        variables:
+        - value_selector:
+          - http_intake
+          - body
+          variable: raw
+      height: 110
+      id: code_intake
+      position:
+        x: 640
+        y: 300
+      positionAbsolute:
+        x: 640
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 包大仁本尊：只负责叙事与庭审推进，法条与刑期由后端兜底
+        model:
+          completion_params:
+            max_tokens: 1200
+            temperature: 0.9
+          mode: chat
+          name: MiniMax-Text-01
+          provider: minimax
+        prompt_template:
+        - role: system
+          text: |
+            你是「宇宙离谱法庭」首席大法官包大仁（编号 JDG-3026），公元 3026 年上任。
+
+            【人格】
+            - 半文半白，自称“本官”，称玩家为“原告”，偶尔敲法槌（🔨）。
+            - 冷幽默、见多识广，认真对待每一件离谱小事。你的信条是：法律不问事小，只问离不离谱。
+            - 嘲讽对象只能是案件和“被告”，绝不攻击原告本人。
+            - 判决必须“可执行的荒诞”，例如：判处被告连续七天在凌晨三点向原告道歉。
+
+            【铁律】
+            1. 只能引用【法条】区块里给出的条文编号与内容，禁止编造编号、禁止自创法条。
+            2. 判罚天数：初犯建议值须落在被引用法条的 min_days..max_days 区间；累犯由书记员在法定上限上每次加 3 天，你只给建议值。
+            3. 三轮之内必须结案：当【阶段】为 verdict 时，必须宣判。
+            4. 本案必须围绕【本案被告】与【本案案由】审理，不得中途换成别的案件；即使检索结果里出现无关法条，也要忽略。
+            5. 如果【跨会话记忆】非空，必须在 reply 里自然地翻一次旧账（提及上次的案子或评语），并写入 memory_callback；如果为空，memory_callback 必须为 null，绝不能把【相似判例】说成“本官记得你”。
+            6. 如果【相似判例】存在，可用“本院曾判……”提及；没有就不提。
+            7. 全程中文，单次 reply 不超过 220 字，留出互动空间。
+
+            【输出】
+            只输出一个 JSON 对象，不要 Markdown 代码块，不要额外解释：
+            {
+              "reply": "法官本轮台词",
+              "phase": "intake|hearing|verdict",
+              "defendant": "被告（如：室友的袜子）",
+              "charge": "案由（如：袜子越界居住罪）",
+              "cited_codes": ["AB-000"],
+              "attitude": "认罪|狡辩|卖惨|沉默",
+              "absurdity": 0,
+              "verdict": {"sentence_days": 0, "compensation": "赔偿内容", "probation": "缓刑/执行方式", "reasoning": "判决理由"},
+              "memory_callback": "翻旧账的原文，没有则填 null",
+              "next_prompt": "给原告的下一步提示"
+            }
+            非宣判轮次，verdict 必须为 null。
+        - role: user
+          text: |
+            【案件信息】
+            案号：{{#code_intake.case_no#}}　第 {{#code_intake.turn#}} 次开庭　阶段：{{#code_intake.phase#}}
+            原告档案：{{#code_intake.profile_text#}}
+            本案被告：{{#code_intake.defendant#}}
+            本案案由：{{#code_intake.charge#}}
+
+            【本案此前庭审记录】
+            {{#code_intake.history#}}
+
+            【原告本轮发言】
+            {{#sys.query#}}
+
+            【跨会话记忆（PowerContext，按相关度召回）】
+            {{#code_intake.memories_text#}}
+
+            【法条（seekdb 混合检索：向量 + 全文 + 案由标量过滤，仅可引用以下条文）】
+            {{#code_intake.statutes_text#}}
+
+            【相似判例（seekdb 判例库，其他玩家的案子；只能以“本院曾判……”提及，不是你的个人记忆）】
+            {{#code_intake.precedents_text#}}
+
+            请以包大仁的身份作出本轮回应，严格输出 JSON。
+        title: ③ 法官包大仁
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 110
+      id: llm_judge
+      position:
+        x: 960
+        y: 300
+      positionAbsolute:
+        x: 960
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: |
+          def main(llm_text: str) -> dict:
+              import json
+              import re
+
+              text = (llm_text or "").strip()
+              if text.startswith("```"):
+                  text = re.sub(r"^```[a-zA-Z]*\s*", "", text)
+                  text = re.sub(r"\s*```$", "", text)
+
+              judge = {}
+              start = text.find("{")
+              end = text.rfind("}")
+              if start >= 0 and end > start:
+                  try:
+                      judge = json.loads(text[start:end + 1])
+                  except Exception:
+                      judge = {}
+
+              if not isinstance(judge, dict) or not judge.get("reply"):
+                  judge = {
+                      "reply": text[:300] or "（法槌响了一声，法官陷入沉思。）",
+                      "phase": "hearing",
+                      "defendant": "",
+                      "charge": "",
+                      "cited_codes": [],
+                      "attitude": "沉默",
+                      "absurdity": 50,
+                      "verdict": None,
+                      "memory_callback": None,
+                      "next_prompt": "原告可以继续陈述，或说「请判决」。",
+                  }
+
+              judge.setdefault("phase", "hearing")
+              judge.setdefault("cited_codes", [])
+              judge.setdefault("verdict", None)
+              judge.setdefault("memory_callback", None)
+
+              return {
+                  "judge_json": json.dumps(judge, ensure_ascii=False),
+                  "reply": str(judge.get("reply") or "")[:500],
+                  "phase": str(judge.get("phase") or "hearing"),
+                  "parse_ok": "1" if judge.get("reply") else "0",
+              }
+        code_language: python3
+        desc: 从模型输出中提取 JSON，失败时降级为旁白
+        outputs:
+          judge_json:
+            children: null
+            type: string
+          reply:
+            children: null
+            type: string
+          phase:
+            children: null
+            type: string
+          parse_ok:
+            children: null
+            type: string
+        title: ④ 解析法官输出
+        type: code
+        variables:
+        - value_selector:
+          - llm_judge
+          - text
+          variable: llm_text
+      height: 110
+      id: code_verdict
+      position:
+        x: 1280
+        y: 300
+      positionAbsolute:
+        x: 1280
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - key: player_id
+            type: text
+            value: '{{#start.player_id#}}'
+          - key: user_id
+            type: text
+            value: '{{#sys.user_id#}}'
+          - key: conversation_id
+            type: text
+            value: '{{#sys.conversation_id#}}'
+          - key: case_id
+            type: text
+            value: '{{#code_intake.case_id#}}'
+          - key: message
+            type: text
+            value: '{{#sys.query#}}'
+          - key: judge
+            type: text
+            value: '{{#code_verdict.judge_json#}}'
+          - key: fallback_statutes
+            type: text
+            value: '{{#code_intake.fallback_json#}}'
+          type: json
+        desc: ⑤ 结案：校验引用、后端量刑、写判例与 PowerContext 记忆
+        headers: 'Content-Type: application/json'
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 1
+          retry_enabled: true
+          retry_interval: 200
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: ⑤ 落库与量刑
+        type: http-request
+        url: http://host.docker.internal:8088/api/v1/court/commit
+        variables: []
+      height: 110
+      id: http_commit
+      position:
+        x: 1600
+        y: 300
+      positionAbsolute:
+        x: 1600
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: |
+          def main(commit_body: str) -> dict:
+              import json
+
+              try:
+                  data = json.loads(commit_body or "{}")
+              except Exception:
+                  data = {}
+
+              answer = data.get("answer_md") or ""
+              if not answer:
+                  lines = [str(data.get("reply") or "（法官敲了敲法槌。）"), ""]
+                  verdict = data.get("verdict")
+                  if verdict:
+                      lines.append("⚖️ **判决** · " + str(data.get("case_no") or ""))
+                      lines.append("- 被告：" + str(verdict.get("defendant") or ""))
+                      lines.append("- 罪名：" + str(verdict.get("charge") or ""))
+                      lines.append("- 刑期：**" + str(verdict.get("sentence_days") or 0) + " 天**")
+                      lines.append("- 赔偿：" + str(verdict.get("compensation") or ""))
+                      lines.append("")
+                  if data.get("memory_callback"):
+                      lines.append("🧠 **记忆回响**：" + str(data.get("memory_callback")))
+                      lines.append("")
+                  if data.get("next_prompt"):
+                      lines.append("> " + str(data.get("next_prompt")))
+                  answer = "\n".join(lines)
+
+              return {"answer": answer or "（本庭今日休庭。）"}
+        code_language: python3
+        desc: ⑥ 渲染聊天卡片；后端已给出 answer_md 时直接使用
+        outputs:
+          answer:
+            children: null
+            type: string
+        title: ⑥ 渲染判决书
+        type: code
+        variables:
+        - value_selector:
+          - http_commit
+          - body
+          variable: commit_body
+      height: 110
+      id: code_render
+      position:
+        x: 1920
+        y: 300
+      positionAbsolute:
+        x: 1920
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '{{#code_render.answer#}}'
+        desc: 输出庭审记录与判决书
+        title: ⑦ 宣判
+        type: answer
+        variables: []
+      height: 110
+      id: answer
+      position:
+        x: 2240
+        y: 300
+      positionAbsolute:
+        x: 2240
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 0
+      y: 0
+      zoom: 0.7
+

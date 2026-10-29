@@ -1,0 +1,41 @@
+{
+  "ok": true,
+  "config": {
+    "seekdb": "127.0.0.1:2881/absurd_court",
+    "powercontext": "http://127.0.0.1:8000",
+    "embedding": {
+      "backend": "hash",
+      "dim": 128,
+      "model": "builtin-hash",
+      "api_key_configured": false
+    },
+    "max_turns": 3
+  },
+  "seekdb": {
+    "ok": true,
+    "precedents": 3,
+    "players": 2,
+    "cases": 3,
+    "top_cited": [
+      {
+        "code": "AB-001",
+        "title": "宠物夜间蹦迪罪",
+        "n": 2
+      },
+      {
+        "code": "AB-002",
+        "title": "猫主子打翻水杯罪",
+        "n": 2
+      },
+      {
+        "code": "AB-010",
+        "title": "周一恶意到访罪",
+        "n": 1
+      }
+    ]
+  },
+  "powercontext": {
+    "ok": true,
+    "url": "http://127.0.0.1:8000"
+  }
+}
