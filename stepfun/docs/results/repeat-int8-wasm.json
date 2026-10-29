@@ -1,0 +1,67 @@
+{
+  "config": {
+    "name": "int8-wasm",
+    "collection": "bench_int8_wasm",
+    "backend": "wasm",
+    "dtype": "q8"
+  },
+  "runs": [
+    {
+      "quality": {
+        "recall5": 0.7333,
+        "ndcg5": 0.8613,
+        "mrr10": 0.975
+      },
+      "latency": {
+        "queryP50": 7.53,
+        "queryP95": 9.275,
+        "dbP50": 7.5,
+        "dbP95": 9,
+        "e2eP50": 23.11,
+        "e2eP95": 26.655,
+        "modelLoadMs": 556.815,
+        "warmupMs": 78.93
+      },
+      "backend": "wasm",
+      "dtype": "q8"
+    },
+    {
+      "quality": {
+        "recall5": 0.7333,
+        "ndcg5": 0.8613,
+        "mrr10": 0.975
+      },
+      "latency": {
+        "queryP50": 6.805,
+        "queryP95": 9.245,
+        "dbP50": 6.65,
+        "dbP95": 7.5,
+        "e2eP50": 21.2375,
+        "e2eP95": 24.185,
+        "modelLoadMs": 556.815,
+        "warmupMs": 78.93
+      },
+      "backend": "wasm",
+      "dtype": "q8"
+    },
+    {
+      "quality": {
+        "recall5": 0.7333,
+        "ndcg5": 0.8613,
+        "mrr10": 0.975
+      },
+      "latency": {
+        "queryP50": 7.2425,
+        "queryP95": 8.765,
+        "dbP50": 6.8,
+        "dbP95": 8.5,
+        "e2eP50": 21.9825,
+        "e2eP95": 25.5,
+        "modelLoadMs": 556.815,
+        "warmupMs": 78.93
+      },
+      "backend": "wasm",
+      "dtype": "q8"
+    }
+  ]
+}

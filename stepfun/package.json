@@ -1,0 +1,26 @@
+{
+  "name": "seekdb-browser-kb",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Browser-local embedding + seekdb hybrid retrieval mini knowledge base",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node server/index.js",
+    "fetch-model": "node scripts/fetch-model.mjs",
+    "test": "node --test tests/unit.test.js",
+    "bench:server": "node scripts/bench-server.mjs",
+    "check": "node --check server/index.js && node --check web/app.js"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "3.7.5",
+    "express": "5.1.0",
+    "seekdb": "1.4.0"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.55.0"
+  }
+}

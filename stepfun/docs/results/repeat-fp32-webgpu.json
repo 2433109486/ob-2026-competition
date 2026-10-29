@@ -1,0 +1,67 @@
+{
+  "config": {
+    "name": "fp32-webgpu",
+    "collection": "bench_fp32_webgpu",
+    "backend": "webgpu",
+    "dtype": "fp32"
+  },
+  "runs": [
+    {
+      "quality": {
+        "recall5": 0.75,
+        "ndcg5": 0.8662,
+        "mrr10": 0.975
+      },
+      "latency": {
+        "queryP50": 9.61,
+        "queryP95": 55.49,
+        "dbP50": 7.05,
+        "dbP95": 8.1,
+        "e2eP50": 25.0925,
+        "e2eP95": 70.605,
+        "modelLoadMs": 1118.505,
+        "warmupMs": 480.605
+      },
+      "backend": "webgpu",
+      "dtype": "fp32"
+    },
+    {
+      "quality": {
+        "recall5": 0.75,
+        "ndcg5": 0.8662,
+        "mrr10": 0.975
+      },
+      "latency": {
+        "queryP50": 9.3,
+        "queryP95": 10.75,
+        "dbP50": 6.95,
+        "dbP95": 8.7,
+        "e2eP50": 24.2275,
+        "e2eP95": 27.095,
+        "modelLoadMs": 1118.505,
+        "warmupMs": 480.605
+      },
+      "backend": "webgpu",
+      "dtype": "fp32"
+    },
+    {
+      "quality": {
+        "recall5": 0.75,
+        "ndcg5": 0.8662,
+        "mrr10": 0.975
+      },
+      "latency": {
+        "queryP50": 9.3925,
+        "queryP95": 12.025,
+        "dbP50": 7,
+        "dbP95": 8.4,
+        "e2eP50": 24.4025,
+        "e2eP95": 26.355,
+        "modelLoadMs": 1118.505,
+        "warmupMs": 480.605
+      },
+      "backend": "webgpu",
+      "dtype": "fp32"
+    }
+  ]
+}

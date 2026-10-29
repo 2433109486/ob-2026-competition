@@ -1,0 +1,413 @@
+{
+  "config": {
+    "name": "int8-wasm",
+    "collection": "bench_int8_wasm",
+    "backend": "wasm",
+    "dtype": "q8"
+  },
+  "imported": {
+    "at": 1793271869286,
+    "label": "示例知识库",
+    "docs": 48,
+    "chunks": 48,
+    "modelLoadMs": 604.7450000010431,
+    "embedMs": 1372.2950000017881,
+    "writeMs": 257.7,
+    "refreshMs": 554,
+    "importMs": 881.5,
+    "totalMs": 3454.980000000447,
+    "verified": true,
+    "backend": "wasm",
+    "dtype": "q8"
+  },
+  "benchmark": {
+    "schema": "seekbase-benchmark/v1",
+    "timestamp": "2026-10-29T11:04:29.907Z",
+    "evaluation": "seekbase-zh-retrieval-v1",
+    "evaluationDescription": "20 条中文检索查询，覆盖 seekdb、端侧推理、RAG、中文处理、性能与产品六个主题。相关度 2 表示主要答案，1 表示补充材料。",
+    "collection": "bench_int8_wasm",
+    "collectionDisplayName": "int8-wasm",
+    "corpusDocuments": 48,
+    "corpusChunks": 48,
+    "k": 5,
+    "queries": 20,
+    "model": {
+      "id": "bge-small-zh-v1.5",
+      "revision": "75c43b069aac4d136ba6bc1122f995fedcfd2781",
+      "dimension": 512,
+      "dtype": "q8",
+      "source": "Xenova/bge-small-zh-v1.5 (ONNX conversion of BAAI/bge-small-zh-v1.5)"
+    },
+    "backend": {
+      "requested": "wasm",
+      "actual": "wasm",
+      "fallbackReason": "用户手动选择 WASM",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36 Edg/156.0.0.0",
+      "hardwareConcurrency": 16
+    },
+    "quality": {
+      "recall5": 0.7333,
+      "ndcg5": 0.8613,
+      "mrr10": 0.975
+    },
+    "latency": {
+      "queryP50": 7.845,
+      "queryP95": 9.72,
+      "dbP50": 9.8,
+      "dbP95": 10.7,
+      "e2eP50": 28.225,
+      "e2eP95": 30.895,
+      "modelLoadMs": 604.745,
+      "warmupMs": 551.145
+    },
+    "perQuery": [
+      {
+        "id": "q01",
+        "query": "seekdb 的 HNSW 向量索引怎么配置 ef_search",
+        "queryMs": 6.14,
+        "dbMs": 9.8,
+        "e2eMs": 26.23,
+        "recall5": 0.667,
+        "ndcg5": 0.82,
+        "mrr10": 1,
+        "topDocIds": [
+          "s02",
+          "s04",
+          "s08",
+          "s03",
+          "s06"
+        ]
+      },
+      {
+        "id": "q02",
+        "query": "混合检索里的 RRF 融合排序是怎么算的",
+        "queryMs": 7.11,
+        "dbMs": 9.3,
+        "e2eMs": 25.72,
+        "recall5": 0.667,
+        "ndcg5": 0.357,
+        "mrr10": 0.5,
+        "topDocIds": [
+          "z07",
+          "r04",
+          "s01",
+          "s03",
+          "p05"
+        ]
+      },
+      {
+        "id": "q03",
+        "query": "新写入的数据检索不到 如何刷新索引",
+        "queryMs": 7.83,
+        "dbMs": 10,
+        "e2eMs": 27.03,
+        "recall5": 0.667,
+        "ndcg5": 0.7,
+        "mrr10": 1,
+        "topDocIds": [
+          "k06",
+          "s04",
+          "k04",
+          "r04",
+          "p05"
+        ]
+      },
+      {
+        "id": "q04",
+        "query": "ngram2 中文全文分词器怎么建索引",
+        "queryMs": 6.555,
+        "dbMs": 9.8,
+        "e2eMs": 26.54,
+        "recall5": 0.667,
+        "ndcg5": 0.907,
+        "mrr10": 1,
+        "topDocIds": [
+          "s05",
+          "z03",
+          "z04",
+          "z01",
+          "s06"
+        ]
+      },
+      {
+        "id": "q05",
+        "query": "WebGPU 不可用时如何自动降级到 WASM",
+        "queryMs": 6.81,
+        "dbMs": 9.2,
+        "e2eMs": 25.39,
+        "recall5": 0.667,
+        "ndcg5": 0.847,
+        "mrr10": 1,
+        "topDocIds": [
+          "e02",
+          "p07",
+          "e07",
+          "z04",
+          "p01"
+        ]
+      },
+      {
+        "id": "q06",
+        "query": "INT8 量化后模型体积和检索质量变化",
+        "queryMs": 9.075,
+        "dbMs": 9.6,
+        "e2eMs": 29.035,
+        "recall5": 0.667,
+        "ndcg5": 0.907,
+        "mrr10": 1,
+        "topDocIds": [
+          "e04",
+          "p04",
+          "z02",
+          "z07",
+          "r03"
+        ]
+      },
+      {
+        "id": "q07",
+        "query": "Transformers.js 怎么在浏览器加载本地 ONNX 模型",
+        "queryMs": 10.08,
+        "dbMs": 10.7,
+        "e2eMs": 30.895,
+        "recall5": 0.667,
+        "ndcg5": 0.83,
+        "mrr10": 1,
+        "topDocIds": [
+          "e01",
+          "p07",
+          "e08",
+          "p08",
+          "e05"
+        ]
+      },
+      {
+        "id": "q08",
+        "query": "BGE 中文模型的查询指令前缀是什么",
+        "queryMs": 9.7,
+        "dbMs": 9,
+        "e2eMs": 30.095,
+        "recall5": 1,
+        "ndcg5": 0.964,
+        "mrr10": 1,
+        "topDocIds": [
+          "z01",
+          "e07",
+          "z02",
+          "z03",
+          "z05"
+        ]
+      },
+      {
+        "id": "q09",
+        "query": "文本分块的长度和重叠应该怎么选",
+        "queryMs": 7.43,
+        "dbMs": 10.3,
+        "e2eMs": 28.48,
+        "recall5": 0.667,
+        "ndcg5": 0.879,
+        "mrr10": 1,
+        "topDocIds": [
+          "r01",
+          "r08",
+          "k04",
+          "p02",
+          "z06"
+        ]
+      },
+      {
+        "id": "q10",
+        "query": "Recall@K 和 nDCG@K 评测方法",
+        "queryMs": 8.625,
+        "dbMs": 10.7,
+        "e2eMs": 31.59,
+        "recall5": 0.667,
+        "ndcg5": 0.879,
+        "mrr10": 1,
+        "topDocIds": [
+          "r03",
+          "p04",
+          "s08",
+          "s03",
+          "e04"
+        ]
+      },
+      {
+        "id": "q11",
+        "query": "批量 embedding 的批大小怎么调优",
+        "queryMs": 6.2,
+        "dbMs": 10.2,
+        "e2eMs": 26.115,
+        "recall5": 0.667,
+        "ndcg5": 0.907,
+        "mrr10": 1,
+        "topDocIds": [
+          "p01",
+          "p02",
+          "r02",
+          "r07",
+          "e04"
+        ]
+      },
+      {
+        "id": "q12",
+        "query": "首次加载和预热后的延迟为什么要分开报告",
+        "queryMs": 9.72,
+        "dbMs": 8.7,
+        "e2eMs": 28.235,
+        "recall5": 1,
+        "ndcg5": 1,
+        "mrr10": 1,
+        "topDocIds": [
+          "e03",
+          "p03",
+          "p08",
+          "p05",
+          "p01"
+        ]
+      },
+      {
+        "id": "q13",
+        "query": "浏览器本地推理对隐私有什么好处",
+        "queryMs": 7.7,
+        "dbMs": 8.5,
+        "e2eMs": 25.66,
+        "recall5": 0.667,
+        "ndcg5": 0.907,
+        "mrr10": 1,
+        "topDocIds": [
+          "k02",
+          "e06",
+          "e01",
+          "e05",
+          "k05"
+        ]
+      },
+      {
+        "id": "q14",
+        "query": "IndexedDB 和 OPFS 能不能代替向量数据库",
+        "queryMs": 7.86,
+        "dbMs": 10.4,
+        "e2eMs": 29.36,
+        "recall5": 0.5,
+        "ndcg5": 0.826,
+        "mrr10": 1,
+        "topDocIds": [
+          "k05",
+          "s08",
+          "s04",
+          "s01",
+          "s03"
+        ]
+      },
+      {
+        "id": "q15",
+        "query": "中文停用词对全文检索有什么影响",
+        "queryMs": 6.445,
+        "dbMs": 9.9,
+        "e2eMs": 26.92,
+        "recall5": 0.667,
+        "ndcg5": 0.847,
+        "mrr10": 1,
+        "topDocIds": [
+          "z04",
+          "z01",
+          "z03",
+          "z05",
+          "p05"
+        ]
+      },
+      {
+        "id": "q16",
+        "query": "HNSW 的 m 和 ef_construction 参数如何取舍",
+        "queryMs": 8.87,
+        "dbMs": 10.1,
+        "e2eMs": 28.215,
+        "recall5": 1,
+        "ndcg5": 1,
+        "mrr10": 1,
+        "topDocIds": [
+          "s06",
+          "s02",
+          "s03",
+          "s07",
+          "r05"
+        ]
+      },
+      {
+        "id": "q17",
+        "query": "WASM 多线程为什么需要 COOP 和 COEP",
+        "queryMs": 6.4,
+        "dbMs": 9.4,
+        "e2eMs": 25.455,
+        "recall5": 0.5,
+        "ndcg5": 0.826,
+        "mrr10": 1,
+        "topDocIds": [
+          "e05",
+          "p07",
+          "p04",
+          "s02",
+          "s06"
+        ]
+      },
+      {
+        "id": "q18",
+        "query": "知识库增量导入和集合切换的状态管理",
+        "queryMs": 9.37,
+        "dbMs": 9.4,
+        "e2eMs": 28.31,
+        "recall5": 1,
+        "ndcg5": 0.987,
+        "mrr10": 1,
+        "topDocIds": [
+          "k03",
+          "k06",
+          "k01",
+          "s08",
+          "k04"
+        ]
+      },
+      {
+        "id": "q19",
+        "query": "向量维度、cosine 距离和归一化有什么关系",
+        "queryMs": 7.95,
+        "dbMs": 11.4,
+        "e2eMs": 28.48,
+        "recall5": 0.667,
+        "ndcg5": 0.834,
+        "mrr10": 1,
+        "topDocIds": [
+          "s07",
+          "s02",
+          "z07",
+          "p04",
+          "s03"
+        ]
+      },
+      {
+        "id": "q20",
+        "query": "端侧模型和代码的许可证要求",
+        "queryMs": 9.175,
+        "dbMs": 8.9,
+        "e2eMs": 28.505,
+        "recall5": 1,
+        "ndcg5": 1,
+        "mrr10": 1,
+        "topDocIds": [
+          "e08",
+          "k08",
+          "e06",
+          "r06",
+          "z01"
+        ]
+      }
+    ],
+    "notes": [
+      "所有查询向量均在浏览器内计算；seekdb 只接收查询向量与查询文本。",
+      "延迟为预热后连续运行的实测值，质量指标使用同一套 20 条查询与人工相关度标注。",
+      "RRF 融合分不是概率，仅用于排序。"
+    ]
+  },
+  "errors": [],
+  "capturedAt": "2026-10-29T11:04:29.911Z"
+}

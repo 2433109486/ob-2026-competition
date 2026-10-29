@@ -1,0 +1,133 @@
+{
+  "capturedAt": "2026-10-29T10:58:28.046Z",
+  "batching": {
+    "rows": [
+      {
+        "batchSize": 1,
+        "texts": 48,
+        "ms": 352.86500000208616,
+        "textsPerSecond": 136.02935966932458,
+        "samples": [
+          434.69999999925494,
+          352.86500000208616
+        ]
+      },
+      {
+        "batchSize": 4,
+        "texts": 48,
+        "ms": 145.99000000208616,
+        "textsPerSecond": 328.7896431215432,
+        "samples": [
+          145.99000000208616,
+          153.67000000178814
+        ]
+      },
+      {
+        "batchSize": 8,
+        "texts": 48,
+        "ms": 93.04999999701977,
+        "textsPerSecond": 515.8516926548883,
+        "samples": [
+          93.04999999701977,
+          96.13499999791384
+        ]
+      },
+      {
+        "batchSize": 16,
+        "texts": 48,
+        "ms": 84.24500000104308,
+        "textsPerSecond": 569.7667517289535,
+        "samples": [
+          89.92999999970198,
+          84.24500000104308
+        ]
+      },
+      {
+        "batchSize": 32,
+        "texts": 48,
+        "ms": 88.51999999955297,
+        "textsPerSecond": 542.2503389092002,
+        "samples": [
+          97.55499999970198,
+          88.51999999955297
+        ]
+      }
+    ],
+    "backend": {
+      "loaded": true,
+      "model": "bge-small-zh-v1.5",
+      "dimension": 512,
+      "device": "webgpu",
+      "dtype": "fp16",
+      "loadInfo": {
+        "key": "webgpu:fp16",
+        "model": "bge-small-zh-v1.5",
+        "dimension": 512,
+        "device": "webgpu",
+        "dtype": "fp16",
+        "loadMs": 874.5600000023842,
+        "warmupMs": 349.64500000327826,
+        "fallbackReason": "",
+        "files": [
+          {
+            "file": "tokenizer.json",
+            "status": "done",
+            "progress": 100
+          },
+          {
+            "file": "tokenizer_config.json",
+            "status": "done",
+            "progress": 100
+          },
+          {
+            "file": "config.json",
+            "status": "done",
+            "progress": 100
+          },
+          {
+            "file": "onnx/model_fp16.onnx",
+            "status": "done",
+            "progress": 100
+          }
+        ],
+        "loadedAt": "2026-10-29T10:58:20.951Z"
+      },
+      "fallbackReason": "",
+      "gpu": {
+        "available": true,
+        "adapter": {},
+        "reason": ""
+      },
+      "lastRun": {
+        "count": 48,
+        "batchSize": 32,
+        "totalMs": 88.51000000163913,
+        "textsPerSecond": 542.3116031986339,
+        "batchTimes": [
+          55.83499999716878,
+          32.315000001341105
+        ],
+        "device": "webgpu",
+        "dtype": "fp16",
+        "at": "2026-10-29T10:58:22.777Z"
+      }
+    }
+  },
+  "refresh": {
+    "perBatch": {
+      "wallMs": 3395.355000000447,
+      "writeMs": 252.49999999999997,
+      "refreshMs": 3001.2000000000003,
+      "refreshes": 6,
+      "chunks": 48
+    },
+    "once": {
+      "wallMs": 837.285000000149,
+      "writeMs": 258.79999999999995,
+      "refreshMs": 438.9,
+      "refreshes": 1,
+      "chunks": 48
+    },
+    "embeddingMs": 94.6550000011921
+  }
+}

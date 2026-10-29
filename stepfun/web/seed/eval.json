@@ -1,0 +1,28 @@
+{
+  "name": "seekbase-zh-retrieval-v1",
+  "description": "20 条中文检索查询，覆盖 seekdb、端侧推理、RAG、中文处理、性能与产品六个主题。相关度 2 表示主要答案，1 表示补充材料。",
+  "corpus": "corpus.json",
+  "k": 5,
+  "queries": [
+    { "id": "q01", "query": "seekdb 的 HNSW 向量索引怎么配置 ef_search", "relevant": { "s02": 2, "s06": 1, "s01": 1 } },
+    { "id": "q02", "query": "混合检索里的 RRF 融合排序是怎么算的", "relevant": { "s03": 2, "r05": 2, "r04": 1 } },
+    { "id": "q03", "query": "新写入的数据检索不到 如何刷新索引", "relevant": { "s04": 2, "k06": 1, "s08": 1 } },
+    { "id": "q04", "query": "ngram2 中文全文分词器怎么建索引", "relevant": { "s05": 2, "z03": 2, "s01": 1 } },
+    { "id": "q05", "query": "WebGPU 不可用时如何自动降级到 WASM", "relevant": { "e02": 2, "e05": 1, "e07": 1 } },
+    { "id": "q06", "query": "INT8 量化后模型体积和检索质量变化", "relevant": { "e04": 2, "p04": 2, "e07": 1 } },
+    { "id": "q07", "query": "Transformers.js 怎么在浏览器加载本地 ONNX 模型", "relevant": { "e01": 2, "e07": 1, "p08": 1 } },
+    { "id": "q08", "query": "BGE 中文模型的查询指令前缀是什么", "relevant": { "z01": 2, "z02": 1 } },
+    { "id": "q09", "query": "文本分块的长度和重叠应该怎么选", "relevant": { "r01": 2, "r02": 1, "r08": 1 } },
+    { "id": "q10", "query": "Recall@K 和 nDCG@K 评测方法", "relevant": { "r03": 2, "p04": 1, "p05": 1 } },
+    { "id": "q11", "query": "批量 embedding 的批大小怎么调优", "relevant": { "p02": 2, "p01": 2, "e03": 1 } },
+    { "id": "q12", "query": "首次加载和预热后的延迟为什么要分开报告", "relevant": { "p03": 2, "e03": 2, "p08": 1 } },
+    { "id": "q13", "query": "浏览器本地推理对隐私有什么好处", "relevant": { "k02": 2, "e06": 2, "k01": 1 } },
+    { "id": "q14", "query": "IndexedDB 和 OPFS 能不能代替向量数据库", "relevant": { "k05": 2, "k04": 1 } },
+    { "id": "q15", "query": "中文停用词对全文检索有什么影响", "relevant": { "z04": 2, "z03": 1, "s05": 1 } },
+    { "id": "q16", "query": "HNSW 的 m 和 ef_construction 参数如何取舍", "relevant": { "s06": 2, "s02": 2 } },
+    { "id": "q17", "query": "WASM 多线程为什么需要 COOP 和 COEP", "relevant": { "e05": 2, "e02": 1 } },
+    { "id": "q18", "query": "知识库增量导入和集合切换的状态管理", "relevant": { "k06": 2, "k03": 2, "s08": 1 } },
+    { "id": "q19", "query": "向量维度、cosine 距离和归一化有什么关系", "relevant": { "s07": 2, "z07": 2, "s01": 1 } },
+    { "id": "q20", "query": "端侧模型和代码的许可证要求", "relevant": { "k08": 2, "e08": 2 } }
+  ]
+}

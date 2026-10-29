@@ -1,0 +1,13 @@
+node_modules/
+runtime/
+.cache/
+.env
+*.log
+web/models/bge-small-zh-v1.5/onnx/model.onnx
+web/models/bge-small-zh-v1.5/onnx/*.part
+web/probe.html
+web/gpu.html
+scripts/probe-seekdb.ts
+scripts/probe-server.ts
+scripts/browser-probe.mjs
+scripts/gpu-matrix.mjs

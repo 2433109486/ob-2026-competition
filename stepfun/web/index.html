@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>SeekBase · 端侧知识库</title>
+  <meta name="description" content="浏览器本地向量化 + seekdb 混合检索的迷你知识库" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script type="importmap">
+    {"imports":{"@huggingface/transformers":"/vendor/transformers/transformers.min.js"}}
+  </script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <div>
+          <div class="brand-name">SeekBase</div>
+          <div class="brand-sub">LOCAL-FIRST KNOWLEDGE</div>
+        </div>
+      </div>
+
+      <button id="newCollectionBtn" class="btn btn-side full" type="button">
+        <span class="plus">＋</span> 新建知识库
+      </button>
+
+      <div class="side-section">
+        <div class="side-title">
+          <span>我的知识库</span>
+          <span id="collectionCount" class="count-pill">0</span>
+        </div>
+        <div id="collectionList" class="collection-list" aria-live="polite"></div>
+      </div>
+
+      <div class="side-section side-metrics">
+        <div class="side-title"><span>当前集合</span></div>
+        <div id="sidebarStats" class="sidebar-stats">
+          <div><strong>—</strong><span>文档</span></div>
+          <div><strong>—</strong><span>分块</span></div>
+          <div><strong>—</strong><span>维向量</span></div>
+        </div>
+      </div>
+
+      <div class="side-footer">
+        <div class="status-line">
+          <span id="dbDot" class="status-dot is-loading"></span>
+          <span id="dbStatus">正在连接 seekdb</span>
+        </div>
+        <div id="dbVersion" class="tiny muted">127.0.0.1:2881</div>
+        <div class="side-links">
+          <a href="/docs/technical-note.md" target="_blank" rel="noreferrer">技术说明</a>
+          <span>·</span>
+          <a href="https://github.com/oceanbase/seekdb-js" target="_blank" rel="noreferrer">seekdb-js</a>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-title">
+          <div class="eyebrow">BROWSER EMBEDDING × SEEKDB HYBRID SEARCH</div>
+          <h1 id="currentTitle">我的知识库</h1>
+          <p id="currentMeta" class="muted">正在读取集合状态…</p>
+        </div>
+        <div class="badges" aria-label="运行环境">
+          <span id="modelBadge" class="badge badge-model">模型未加载</span>
+          <span id="backendBadge" class="badge badge-backend"><span class="badge-dot"></span>后端检测中</span>
+          <span class="badge badge-db"><span class="db-glyph">◈</span> seekdb</span>
+        </div>
+      </header>
+
+      <section class="hero-grid">
+        <div class="panel import-panel">
+          <div class="panel-head">
+            <div>
+              <div class="section-kicker">01 / INGEST</div>
+              <h2>导入你的语料</h2>
+              <p class="muted">原文留在本机，浏览器完成分块与向量化，再写入 seekdb。</p>
+            </div>
+            <button id="sampleBtn" class="btn btn-ghost" type="button">载入示例知识库</button>
+          </div>
+
+          <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="选择或拖入文本文件">
+            <input id="fileInput" type="file" multiple accept=".txt,.md,.markdown,.json,.csv" hidden />
+            <div class="drop-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 15.5v3A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5v-3" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <strong>拖入文件，或点击选择</strong>
+              <p class="muted">支持 .txt / .md / .json / .csv，可一次选择多个文件</p>
+            </div>
+            <span class="drop-hint">本地解析</span>
+          </div>
+
+          <div class="paste-row">
+            <label for="pasteText">也可以直接粘贴一段文本</label>
+            <textarea id="pasteText" rows="3" placeholder="把笔记、会议纪要或产品文档粘贴到这里…"></textarea>
+          </div>
+
+          <div class="import-controls">
+            <label class="control">
+              <span>批大小</span>
+              <select id="batchSize">
+                <option value="1">1</option>
+                <option value="4">4</option>
+                <option value="8">8</option>
+                <option value="16" selected>16</option>
+                <option value="32">32</option>
+              </select>
+            </label>
+            <label class="control">
+              <span>模型精度</span>
+              <select id="dtypeSelect">
+                <option value="auto" selected>自动（WebGPU FP16 / WASM INT8）</option>
+                <option value="q8">INT8 · q8</option>
+                <option value="fp16">FP16</option>
+                <option value="fp32">FP32 基线</option>
+              </select>
+            </label>
+            <label class="control">
+              <span>推理后端</span>
+              <select id="backendSelect">
+                <option value="auto" selected>自动（优先 WebGPU）</option>
+                <option value="webgpu">强制 WebGPU</option>
+                <option value="wasm">强制 WASM</option>
+              </select>
+            </label>
+            <button id="importBtn" class="btn btn-primary" type="button">
+              开始向量化并写入 <span class="arrow">→</span>
+            </button>
+          </div>
+
+          <div id="importProgress" class="progress-card" hidden>
+            <div class="progress-top">
+              <span id="progressLabel">准备中</span>
+              <span id="progressValue">0%</span>
+            </div>
+            <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+            <div id="progressDetail" class="tiny muted">等待模型加载…</div>
+          </div>
+          <div id="importLog" class="import-log" aria-live="polite"></div>
+        </div>
+
+        <aside class="panel status-panel">
+          <div class="panel-head compact">
+            <div>
+              <div class="section-kicker">02 / RUNTIME</div>
+              <h2>运行状态</h2>
+            </div>
+            <button id="clearBtn" class="text-btn danger" type="button">清空集合</button>
+          </div>
+
+          <div class="stat-grid">
+            <div class="stat"><span id="statDocs">0</span><label>文档</label></div>
+            <div class="stat"><span id="statChunks">0</span><label>分块</label></div>
+            <div class="stat"><span id="statDim">512</span><label>向量维度</label></div>
+            <div class="stat"><span id="statRefresh">—</span><label>上次刷新</label></div>
+          </div>
+
+          <div id="backendCard" class="backend-card">
+            <div class="backend-card-top">
+              <span class="backend-label">推理后端</span>
+              <span id="backendCardBadge" class="mini-badge">检测中</span>
+            </div>
+            <div id="backendCardBody" class="backend-card-body">
+              <p class="muted">首次导入或检索时加载模型。支持时优先 WebGPU，不可用会自动降级到 WASM。</p>
+            </div>
+            <div id="modelLoadProgress" class="model-progress" hidden>
+              <div class="progress-track slim"><div id="modelProgressBar" class="progress-bar"></div></div>
+              <span id="modelProgressText" class="tiny muted"></span>
+            </div>
+          </div>
+
+          <div class="timing-block">
+            <div class="side-title"><span>最近一次耗时</span><span class="tiny muted">本机实测</span></div>
+            <div id="timingList" class="timing-list">
+              <div class="timing-row"><span>等待操作</span><span>—</span></div>
+            </div>
+          </div>
+
+          <div class="db-note">
+            <span class="db-glyph">◈</span>
+            <div>
+              <strong>检索在 seekdb 内完成</strong>
+              <p>DBMS_HYBRID_SEARCH · 全文 + 向量 · RRF 融合</p>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="panel search-panel">
+        <div class="panel-head search-head">
+          <div>
+            <div class="section-kicker">03 / RETRIEVE</div>
+            <h2>问你的知识库</h2>
+            <p class="muted">查询向量同样在浏览器内生成，seekdb 一次完成向量与全文的混合检索。</p>
+          </div>
+          <span class="engine-badge"><span class="pulse"></span> seekdb · RRF</span>
+        </div>
+
+        <form id="searchForm" class="search-form">
+          <div class="search-input-wrap">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4" stroke-linecap="round"/>
+            </svg>
+            <input id="queryInput" type="search" autocomplete="off" placeholder="例如：新写入的数据检索不到，怎么刷新索引？" />
+          </div>
+          <label class="topk-control">
+            <span>Top K</span>
+            <select id="topKSelect">
+              <option value="5">5</option>
+              <option value="8" selected>8</option>
+              <option value="12">12</option>
+              <option value="20">20</option>
+            </select>
+          </label>
+          <button id="searchBtn" class="btn btn-primary" type="submit">混合检索 <span class="arrow">↗</span></button>
+        </form>
+
+        <div id="exampleChips" class="example-chips">
+          <button type="button" data-query="新写入的数据检索不到 如何刷新索引">索引刷新</button>
+          <button type="button" data-query="混合检索里的 RRF 融合排序是怎么算的">RRF 融合</button>
+          <button type="button" data-query="WebGPU 不可用时如何自动降级到 WASM">WASM 降级</button>
+          <button type="button" data-query="INT8 量化后模型体积和检索质量变化">INT8 量化</button>
+          <button type="button" data-query="文本分块的长度和重叠应该怎么选">分块策略</button>
+        </div>
+
+        <div id="searchMeta" class="search-meta" hidden></div>
+        <div id="results" class="results">
+          <div class="empty-state" id="emptyState">
+            <div class="empty-mark">◌</div>
+            <h3>还没有检索结果</h3>
+            <p>先导入语料，再问一个具体的问题。所有 embedding 都在当前浏览器内计算。</p>
+            <button id="emptySampleBtn" class="btn btn-ghost" type="button">载入 48 篇示例文档</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel benchmark-panel">
+        <div class="panel-head">
+          <div>
+            <div class="section-kicker">04 / EVALUATE</div>
+            <h2>质量与性能基准</h2>
+            <p class="muted">固定 20 条查询与人工相关度标注，计算 Recall@5、nDCG@5、MRR@10，并记录查询链路各阶段延迟。</p>
+          </div>
+          <div class="bench-actions">
+            <button id="benchBtn" class="btn btn-secondary" type="button">运行基准</button>
+            <button id="benchDownloadBtn" class="text-btn" type="button" disabled>下载 JSON</button>
+          </div>
+        </div>
+        <div id="benchStatus" class="bench-status">基准会复用当前集合与当前模型精度；建议先导入示例知识库。</div>
+        <div id="benchBody" class="bench-body">
+          <div class="bench-placeholder">
+            <div class="bench-bars" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+            <p>运行后显示质量指标、P50/P95 延迟和逐条查询结果。</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <span>SeekBase · 端侧 AI × seekdb</span>
+        <span>模型：bge-small-zh-v1.5 · 推理：Transformers.js / ONNX Runtime Web</span>
+      </footer>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <div id="modalBackdrop" class="modal-backdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">新建知识库</h3>
+      <div id="modalBody" class="modal-body"></div>
+      <div class="modal-actions">
+        <button id="modalCancel" class="btn btn-ghost" type="button">取消</button>
+        <button id="modalConfirm" class="btn btn-primary" type="button">创建</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

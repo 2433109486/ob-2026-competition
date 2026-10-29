@@ -1,0 +1,67 @@
+{
+  "config": {
+    "name": "fp32-wasm",
+    "collection": "bench_fp32_wasm",
+    "backend": "wasm",
+    "dtype": "fp32"
+  },
+  "runs": [
+    {
+      "quality": {
+        "recall5": 0.75,
+        "ndcg5": 0.8678,
+        "mrr10": 0.975
+      },
+      "latency": {
+        "queryP50": 11.775,
+        "queryP95": 13.42,
+        "dbP50": 7.65,
+        "dbP95": 9.8,
+        "e2eP50": 28.4625,
+        "e2eP95": 31.125,
+        "modelLoadMs": 1073.32,
+        "warmupMs": 141.625
+      },
+      "backend": "wasm",
+      "dtype": "fp32"
+    },
+    {
+      "quality": {
+        "recall5": 0.75,
+        "ndcg5": 0.8678,
+        "mrr10": 0.975
+      },
+      "latency": {
+        "queryP50": 10.4075,
+        "queryP95": 12.675,
+        "dbP50": 7.35,
+        "dbP95": 11.6,
+        "e2eP50": 26.0125,
+        "e2eP95": 32.015,
+        "modelLoadMs": 1073.32,
+        "warmupMs": 141.625
+      },
+      "backend": "wasm",
+      "dtype": "fp32"
+    },
+    {
+      "quality": {
+        "recall5": 0.75,
+        "ndcg5": 0.8678,
+        "mrr10": 0.975
+      },
+      "latency": {
+        "queryP50": 9.43,
+        "queryP95": 11.785,
+        "dbP50": 6.65,
+        "dbP95": 7.8,
+        "e2eP50": 23.8475,
+        "e2eP95": 25.78,
+        "modelLoadMs": 1073.32,
+        "warmupMs": 141.625
+      },
+      "backend": "wasm",
+      "dtype": "fp32"
+    }
+  ]
+}
