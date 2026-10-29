@@ -1,0 +1,19 @@
+{
+  "task_id": "BOOK-001",
+  "seq": 4,
+  "completed": [
+    "example checkpoint written by the CLI"
+  ],
+  "todos": [
+    "replace this example with real task progress"
+  ],
+  "verifications": [
+    {
+      "command": "python -m pytest -q",
+      "exit_code": 0,
+      "summary": "20 passed"
+    }
+  ],
+  "context_run_id": "ctx-example",
+  "code_version": "sha256:example"
+}

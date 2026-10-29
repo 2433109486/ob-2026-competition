@@ -1,0 +1,49 @@
+{
+  "scope_id": "scp_3hdqn9aw6s4q80a1eq60g2jwv7",
+  "state": {
+    "task_id": "BOOK-001",
+    "seq": 3,
+    "updated_at": "2026-10-29T08:42:00.913731+00:00",
+    "completed": [
+      "ingested v1 specs, code, and tests into seekdb",
+      "built the first SDD context bundle",
+      "applied the MiniMax-generated patch to service.py and api.py",
+      "all functional and regression tests pass",
+      "updated BOOK-SPEC-001 to v2, re-ingested it, and confirmed the context uses REQ-005"
+    ],
+    "todos": [],
+    "verifications": [
+      {
+        "command": "D:\\agent\\sandbox\\comp\\comp\\minimax\\.venv\\Scripts\\python.exe -m pytest -q",
+        "exit_code": 1,
+        "summary": "11 failed, 9 passed in 3.18s",
+        "log": "artifacts\\test_logs\\01_tests_before.log",
+        "code_version": "sha256:ac5d907f8ff183cfae5309110d23763eacca464da973cbe944ba2c544b9f0327"
+      },
+      {
+        "command": "D:\\agent\\sandbox\\comp\\comp\\minimax\\.venv\\Scripts\\python.exe -m pytest -q",
+        "exit_code": 0,
+        "summary": "20 passed in 3.13s",
+        "log": "artifacts\\test_logs\\02_tests_after.log",
+        "code_version": "sha256:0397caf0486d84e2905142f54fce78f6ceee30ac2fa2ffc4968a74ad6734d351"
+      },
+      {
+        "command": "sdd_context context --task tasks/BOOK-001.md",
+        "exit_code": 0,
+        "summary": "context returned BOOK-SPEC-001 v2 with REQ-005",
+        "context_run_id": "ctx-after-spec-20261029-164105"
+      }
+    ],
+    "context_run_id": "ctx-after-spec-20261029-164105",
+    "code_version": "sha256:0397caf0486d84e2905142f54fce78f6ceee30ac2fa2ffc4968a74ad6734d351"
+  },
+  "artifact": {
+    "family": "atomic-memory",
+    "artifact_id": "art_95eea80d85e4419bbb706164b51f5d8e",
+    "revision": 1
+  },
+  "artifact_id": "art_95eea80d85e4419bbb706164b51f5d8e",
+  "revision": 1,
+  "state_version": 0,
+  "changed": true
+}

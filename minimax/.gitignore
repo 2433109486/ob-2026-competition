@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+.env.powercontext
+.secrets/
+.uvcache/
+demo/runtime/
+powercontext-data/
+*.db
+*.db-shm
+*.db-wal

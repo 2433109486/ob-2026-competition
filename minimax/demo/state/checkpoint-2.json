@@ -1,0 +1,55 @@
+{
+  "scope_id": "scp_3hdqn9aw6s4q80a1eq60g2jwv7",
+  "state": {
+    "task_id": "BOOK-001",
+    "seq": 2,
+    "updated_at": "2026-10-29T08:41:57.652426+00:00",
+    "completed": [
+      "ingested v1 specs, code, and tests into seekdb",
+      "built the first SDD context bundle",
+      "applied the MiniMax-generated patch to service.py and api.py",
+      "all functional and regression tests pass"
+    ],
+    "todos": [
+      "update BOOK-SPEC-001 to v2 and re-import",
+      "read the state after a module restart"
+    ],
+    "verifications": [
+      {
+        "command": "D:\\agent\\sandbox\\comp\\comp\\minimax\\.venv\\Scripts\\python.exe -m pytest -q",
+        "exit_code": 1,
+        "summary": "11 failed, 9 passed in 3.18s",
+        "log": "artifacts\\test_logs\\01_tests_before.log",
+        "code_version": "sha256:ac5d907f8ff183cfae5309110d23763eacca464da973cbe944ba2c544b9f0327"
+      },
+      {
+        "command": "D:\\agent\\sandbox\\comp\\comp\\minimax\\.venv\\Scripts\\python.exe -m pytest -q",
+        "exit_code": 0,
+        "summary": "20 passed in 3.13s",
+        "log": "artifacts\\test_logs\\02_tests_after.log",
+        "code_version": "sha256:0397caf0486d84e2905142f54fce78f6ceee30ac2fa2ffc4968a74ad6734d351"
+      }
+    ],
+    "context_run_id": "ctx-prompt-20261029-164105",
+    "code_version": "sha256:0397caf0486d84e2905142f54fce78f6ceee30ac2fa2ffc4968a74ad6734d351",
+    "evidence_sources": [
+      {
+        "name": "content",
+        "source_id": "book-001-tests-before-20261029-164105"
+      },
+      {
+        "name": "content",
+        "source_id": "book-001-tests-after-20261029-164105"
+      }
+    ]
+  },
+  "artifact": {
+    "family": "atomic-memory",
+    "artifact_id": "art_841f0772462644b886d42a0b9185113c",
+    "revision": 1
+  },
+  "artifact_id": "art_841f0772462644b886d42a0b9185113c",
+  "revision": 1,
+  "state_version": 0,
+  "changed": true
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "sql": "SELECT doc_key, doc_type, source_path, title, version, status, tags, metadata_json, content, cosine_distance(embedding, %s) AS vector_distance, MATCH(search_text) AGAINST(%s) AS text_score FROM documents WHERE status='active' AND doc_type IN ('spec', 'decision') ORDER BY vector_distance ASC LIMIT %s",
+    "params": [
+      "[0.00708034,-0.03951863,0.03061270,-0.01082973,-0.00513421,-0.01070714,-0.01530561,0.01140933,-0.02595778,-0.01552382,0.00564946,-0.01981618,0.02946113,-0.04149255,-0.00891604,-0.00525498,0.00088084,-0.01535700,0.00366830,-0.01337919,0.01643117,-0.01745139,-0.00451617,-0.02899971,0.00866705,0.01939660,-0.03225017,0.00601382,-0.00433891,0.01785281,-0.01553909,0.01795563,0.01037784,-0.01827646,-0.00363207,-0.02692607,0.01409027,0.05129603,0.01214352,-0.00003594,-0.00304453,-0.00164744,-0.01206877,",
+      "为 BookNest 商品搜索增加价格区间筛选\nprice filter search api regression\nbooknest.service.search_products booknest.api.ProductRequestHandler\n# 任务 BOOK-001\n\n## 要改什么\n\n为 `booknest.service.search_products` 增加 `min_price` / `max_price` 两个可选\n参数，按闭区间过滤商品；在 `GET /api/products` 暴露同名查询参数，非法价格\n或倒置区间返回 HTTP 400。\n\n## 必须保持什么\n\n1. 分类筛选仍大小写不敏感，关键词仍匹配标题/分类/标签。\n2. `price_asc`、`price_desc`、`rating_desc` 的既有排序不变。\n3. 不传价格参数时，结果与改动前逐项一致。\n4. `limit` 仍校验 1..100，`/health` 仍返回 200。\n\n## 验收命令\n\n```bash\npython -m pytest -q\n```",
+      "50"
+    ],
+    "row_count": 4,
+    "elapsed_ms": 14
+  },
+  {
+    "sql": "SELECT d.doc_key, d.doc_type, d.source_path, d.title, d.version, d.status, d.tags, d.metadata_json, d.content, 0.0 AS vector_distance, 0.0 AS text_score FROM documents d JOIN links l ON l.to_key = d.doc_key WHERE l.from_key IN (%s,%s,%s,%s) AND l.relation='applies_to' AND d.status='active' ORDER BY d.doc_key",
+    "params": [
+      "spec:BOOK-SPEC-001",
+      "spec:BOOK-SPEC-003",
+      "spec:BOOK-SPEC-002",
+      "decision:BOOK-DEC-001"
+    ],
+    "row_count": 7,
+    "elapsed_ms": 1
+  },
+  {
+    "sql": "SELECT doc_key, doc_type, source_path, title, version, status, tags, metadata_json, content, cosine_distance(embedding, %s) AS vector_distance, MATCH(search_text) AGAINST(%s) AS text_score FROM documents WHERE status='active' AND doc_type='code' ORDER BY vector_distance ASC LIMIT %s",
+    "params": [
+      "[0.00708034,-0.03951863,0.03061270,-0.01082973,-0.00513421,-0.01070714,-0.01530561,0.01140933,-0.02595778,-0.01552382,0.00564946,-0.01981618,0.02946113,-0.04149255,-0.00891604,-0.00525498,0.00088084,-0.01535700,0.00366830,-0.01337919,0.01643117,-0.01745139,-0.00451617,-0.02899971,0.00866705,0.01939660,-0.03225017,0.00601382,-0.00433891,0.01785281,-0.01553909,0.01795563,0.01037784,-0.01827646,-0.00363207,-0.02692607,0.01409027,0.05129603,0.01214352,-0.00003594,-0.00304453,-0.00164744,-0.01206877,",
+      "为 BookNest 商品搜索增加价格区间筛选\nprice filter search api regression\nbooknest.service.search_products booknest.api.ProductRequestHandler\n# 任务 BOOK-001\n\n## 要改什么\n\n为 `booknest.service.search_products` 增加 `min_price` / `max_price` 两个可选\n参数，按闭区间过滤商品；在 `GET /api/products` 暴露同名查询参数，非法价格\n或倒置区间返回 HTTP 400。\n\n## 必须保持什么\n\n1. 分类筛选仍大小写不敏感，关键词仍匹配标题/分类/标签。\n2. `price_asc`、`price_desc`、`rating_desc` 的既有排序不变。\n3. 不传价格参数时，结果与改动前逐项一致。\n4. `limit` 仍校验 1..100，`/health` 仍返回 200。\n\n## 验收命令\n\n```bash\npython -m pytest -q\n```",
+      "50"
+    ],
+    "row_count": 7,
+    "elapsed_ms": 11
+  },
+  {
+    "sql": "SELECT d.doc_key, d.doc_type, d.source_path, d.title, d.version, d.status, d.tags, d.metadata_json, d.content, 0.0 AS vector_distance, 0.0 AS text_score FROM documents d JOIN links l ON l.to_key = d.doc_key WHERE l.from_key IN (%s,%s,%s,%s) AND l.relation='verified_by' AND d.status='active' ORDER BY d.doc_key",
+    "params": [
+      "spec:BOOK-SPEC-001",
+      "spec:BOOK-SPEC-003",
+      "spec:BOOK-SPEC-002",
+      "decision:BOOK-DEC-001"
+    ],
+    "row_count": 25,
+    "elapsed_ms": 1
+  },
+  {
+    "sql": "SELECT d.doc_key, d.doc_type, d.source_path, d.title, d.version, d.status, d.tags, d.metadata_json, d.content, 0.0 AS vector_distance, 0.0 AS text_score FROM documents d JOIN links l ON l.to_key = d.doc_key WHERE l.from_key IN (%s,%s,%s,%s,%s,%s,%s) AND l.relation='covered_by' AND d.status='active' ORDER BY d.doc_key",
+    "params": [
+      "code:booknest/api.py#create_server",
+      "code:booknest/api.py#ProductRequestHandler",
+      "code:booknest/service.py#search_products",
+      "code:booknest/cli.py#main",
+      "code:booknest/repository.py#load_products",
+      "code:booknest/repository.py#find_by_id",
+      "code:booknest/models.py#Product"
+    ],
+    "row_count": 14,
+    "elapsed_ms": 1
+  },
+  {
+    "sql": "SELECT doc_key, doc_type, source_path, title, version, status, tags, metadata_json, content, cosine_distance(embedding, %s) AS vector_distance, MATCH(search_text) AGAINST(%s) AS text_score FROM documents WHERE status='active' AND doc_type='test' ORDER BY vector_distance ASC LIMIT %s",
+    "params": [
+      "[0.00708034,-0.03951863,0.03061270,-0.01082973,-0.00513421,-0.01070714,-0.01530561,0.01140933,-0.02595778,-0.01552382,0.00564946,-0.01981618,0.02946113,-0.04149255,-0.00891604,-0.00525498,0.00088084,-0.01535700,0.00366830,-0.01337919,0.01643117,-0.01745139,-0.00451617,-0.02899971,0.00866705,0.01939660,-0.03225017,0.00601382,-0.00433891,0.01785281,-0.01553909,0.01795563,0.01037784,-0.01827646,-0.00363207,-0.02692607,0.01409027,0.05129603,0.01214352,-0.00003594,-0.00304453,-0.00164744,-0.01206877,",
+      "为 BookNest 商品搜索增加价格区间筛选\nprice filter search api regression\nbooknest.service.search_products booknest.api.ProductRequestHandler\n# 任务 BOOK-001\n\n## 要改什么\n\n为 `booknest.service.search_products` 增加 `min_price` / `max_price` 两个可选\n参数，按闭区间过滤商品；在 `GET /api/products` 暴露同名查询参数，非法价格\n或倒置区间返回 HTTP 400。\n\n## 必须保持什么\n\n1. 分类筛选仍大小写不敏感，关键词仍匹配标题/分类/标签。\n2. `price_asc`、`price_desc`、`rating_desc` 的既有排序不变。\n3. 不传价格参数时，结果与改动前逐项一致。\n4. `limit` 仍校验 1..100，`/health` 仍返回 200。\n\n## 验收命令\n\n```bash\npython -m pytest -q\n```",
+      "50"
+    ],
+    "row_count": 20,
+    "elapsed_ms": 81
+  }
+]

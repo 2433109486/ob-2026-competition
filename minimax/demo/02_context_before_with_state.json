@@ -1,0 +1,1148 @@
+{
+  "schema_version": "1.0",
+  "run_id": "ctx-prompt-20261029-164105",
+  "generated_at": "2026-10-29T08:41:25.093144+00:00",
+  "task": {
+    "task_id": "BOOK-001",
+    "title": "为 BookNest 商品搜索增加价格区间筛选",
+    "source_path": "tasks/BOOK-001.md",
+    "keywords": [
+      "price",
+      "filter",
+      "search",
+      "api",
+      "regression"
+    ],
+    "target_symbols": [
+      "booknest.service.search_products",
+      "booknest.api.ProductRequestHandler"
+    ],
+    "body": "# 任务 BOOK-001\n\n## 要改什么\n\n为 `booknest.service.search_products` 增加 `min_price` / `max_price` 两个可选\n参数，按闭区间过滤商品；在 `GET /api/products` 暴露同名查询参数，非法价格\n或倒置区间返回 HTTP 400。\n\n## 必须保持什么\n\n1. 分类筛选仍大小写不敏感，关键词仍匹配标题/分类/标签。\n2. `price_asc`、`price_desc`、`rating_desc` 的既有排序不变。\n3. 不传价格参数时，结果与改动前逐项一致。\n4. `limit` 仍校验 1..100，`/health` 仍返回 200。\n\n## 验收命令\n\n```bash\npython -m pytest -q\n```"
+  },
+  "specs": [
+    {
+      "doc_key": "spec:BOOK-SPEC-001",
+      "type": "spec",
+      "path": "specs/BOOK-SPEC-001-price-filter.md",
+      "title": "BOOK-SPEC-001 商品价格区间筛选",
+      "version": 1,
+      "tags": [
+        "price",
+        "filter",
+        "search",
+        "api"
+      ],
+      "score": 0.9165,
+      "reasons": [
+        "vector=0.905",
+        "text=1.000",
+        "tags=api,filter,price,search",
+        "symbol=booknest.service.search_products"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "id": "BOOK-SPEC-001",
+        "kind": "spec",
+        "title": "商品价格区间筛选",
+        "applies_to": [
+          "booknest.service.search_products",
+          "booknest.api.ProductRequestHandler"
+        ],
+        "supersedes": "",
+        "declared_version": 1,
+        "requirements": [
+          {
+            "id": "REQ-001",
+            "title": "区间上下界都包含",
+            "text": "## REQ-001 区间上下界都包含\n\n`search_products` MUST 接受可选参数 `min_price` 与 `max_price`，并按**闭区间**\n过滤：`min_price <= product.price <= max_price`。"
+          },
+          {
+            "id": "REQ-002",
+            "title": "只给一侧边界",
+            "text": "## REQ-002 只给一侧边界\n\n只给 `min_price` 时 MUST 过滤掉更低价格的商品；只给 `max_price` 时 MUST\n过滤掉更高价格的商品。两个参数都为空时结果 MUST 与引入该功能前完全一致。"
+          },
+          {
+            "id": "REQ-003",
+            "title": "非法价格区间",
+            "text": "## REQ-003 非法价格区间\n\n`min_price` 或 `max_price` 为负数，或 `min_price > max_price` 时 MUST 抛出\n`ValueError`，错误信息中 MUST 含 `min_price`。"
+          },
+          {
+            "id": "REQ-004",
+            "title": "边界与空结果",
+            "text": "## REQ-004 边界与空结果\n\n`min_price == max_price` MUST 返回恰好等于该价格的商品；区间内没有商品时\nMUST 返回空列表，不得抛出异常，也不得回退到未过滤结果。"
+          }
+        ]
+      },
+      "content": "# 商品价格区间筛选（BOOK-SPEC-001）\n\n## REQ-001 区间上下界都包含\n\n`search_products` MUST 接受可选参数 `min_price` 与 `max_price`，并按**闭区间**\n过滤：`min_price <= product.price <= max_price`。\n\n## REQ-002 只给一侧边界\n\n只给 `min_price` 时 MUST 过滤掉更低价格的商品；只给 `max_price` 时 MUST\n过滤掉更高价格的商品。两个参数都为空时结果 MUST 与引入该功能前完全一致。\n\n## REQ-003 非法价格区间\n\n`min_price` 或 `max_price` 为负数，或 `min_price > max_price` 时 MUST 抛出\n`ValueError`，错误信息中 MUST 含 `min_price`。\n\n## REQ-004 边界与空结果\n\n`min_price == max_price` MUST 返回恰好等于该价格的商品；区间内没有商品时\nMUST 返回空列表，不得抛出异常，也不得回退到未过滤结果。"
+    },
+    {
+      "doc_key": "spec:BOOK-SPEC-003",
+      "type": "spec",
+      "path": "specs/BOOK-SPEC-003-api-contract.md",
+      "title": "BOOK-SPEC-003 商品查询 HTTP 接口行为",
+      "version": 1,
+      "tags": [
+        "api",
+        "http",
+        "price",
+        "filter",
+        "error"
+      ],
+      "score": 0.8451,
+      "reasons": [
+        "vector=0.834",
+        "text=1.000",
+        "tags=api,filter,price",
+        "symbol=booknest.api.ProductRequestHandler"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "id": "BOOK-SPEC-003",
+        "kind": "spec",
+        "title": "商品查询 HTTP 接口行为",
+        "applies_to": [
+          "booknest.api.ProductRequestHandler",
+          "booknest.api.create_server"
+        ],
+        "supersedes": "",
+        "declared_version": 1,
+        "requirements": [
+          {
+            "id": "REQ-001",
+            "title": "查询参数",
+            "text": "## REQ-001 查询参数\n\n`GET /api/products` MUST 接受 `min_price` 与 `max_price` 查询参数，并把它们\n传给 `search_products`。"
+          },
+          {
+            "id": "REQ-002",
+            "title": "参数校验",
+            "text": "## REQ-002 参数校验\n\n`min_price` / `max_price` 不是数字、为负数或区间倒置时，接口 MUST 返回\nHTTP 400，响应体 MUST 是含 `error` 字段的 JSON。"
+          },
+          {
+            "id": "REQ-003",
+            "title": "成功响应",
+            "text": "## REQ-003 成功响应\n\n成功时 MUST 返回 HTTP 200，响应体为 `{\"items\": [...], \"count\": N}`；空结果\nMUST 是 200 且 `count` 为 0。"
+          },
+          {
+            "id": "REQ-004",
+            "title": "健康检查",
+            "text": "## REQ-004 健康检查\n\n`GET /health` MUST 返回 HTTP 200 与 `{\"status\": \"ok\"}`。"
+          }
+        ]
+      },
+      "content": "# 商品查询 HTTP 接口行为（BOOK-SPEC-003）\n\n## REQ-001 查询参数\n\n`GET /api/products` MUST 接受 `min_price` 与 `max_price` 查询参数，并把它们\n传给 `search_products`。\n\n## REQ-002 参数校验\n\n`min_price` / `max_price` 不是数字、为负数或区间倒置时，接口 MUST 返回\nHTTP 400，响应体 MUST 是含 `error` 字段的 JSON。\n\n## REQ-003 成功响应\n\n成功时 MUST 返回 HTTP 200，响应体为 `{\"items\": [...], \"count\": N}`；空结果\nMUST 是 200 且 `count` 为 0。\n\n## REQ-004 健康检查\n\n`GET /health` MUST 返回 HTTP 200 与 `{\"status\": \"ok\"}`。"
+    },
+    {
+      "doc_key": "spec:BOOK-SPEC-002",
+      "type": "spec",
+      "path": "specs/BOOK-SPEC-002-search-compatibility.md",
+      "title": "BOOK-SPEC-002 既有搜索行为兼容约束",
+      "version": 1,
+      "tags": [
+        "search",
+        "compatibility",
+        "regression",
+        "category",
+        "keyword",
+        "sort"
+      ],
+      "score": 0.8198,
+      "reasons": [
+        "vector=0.856",
+        "text=1.000",
+        "tags=regression,search",
+        "symbol=booknest.service.search_products"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "id": "BOOK-SPEC-002",
+        "kind": "spec",
+        "title": "既有搜索行为兼容约束",
+        "applies_to": [
+          "booknest.service.search_products",
+          "booknest.api.ProductRequestHandler"
+        ],
+        "supersedes": "",
+        "declared_version": 1,
+        "requirements": [
+          {
+            "id": "REQ-001",
+            "title": "分类筛选",
+            "text": "## REQ-001 分类筛选\n\n`category` MUST 大小写不敏感地精确匹配商品分类。"
+          },
+          {
+            "id": "REQ-002",
+            "title": "关键词筛选",
+            "text": "## REQ-002 关键词筛选\n\n`keyword` MUST 在标题、分类和标签中做大小写不敏感的子串匹配。"
+          },
+          {
+            "id": "REQ-003",
+            "title": "排序与数量",
+            "text": "## REQ-003 排序与数量\n\n`price_asc`、`price_desc`、`rating_desc` MUST 保持原有排序；`limit` MUST\n维持在 1 到 100 之间，越界时抛出 `ValueError`。"
+          },
+          {
+            "id": "REQ-004",
+            "title": "无价格参数时结果不变",
+            "text": "## REQ-004 无价格参数时结果不变\n\n不传 `min_price` / `max_price` 时，搜索结果 MUST 与改动前逐项一致。"
+          }
+        ]
+      },
+      "content": "# 既有搜索行为兼容约束（BOOK-SPEC-002）\n\n这些行为在价格筛选上线后 MUST 保持不变，属于回归验证范围。\n\n## REQ-001 分类筛选\n\n`category` MUST 大小写不敏感地精确匹配商品分类。\n\n## REQ-002 关键词筛选\n\n`keyword` MUST 在标题、分类和标签中做大小写不敏感的子串匹配。\n\n## REQ-003 排序与数量\n\n`price_asc`、`price_desc`、`rating_desc` MUST 保持原有排序；`limit` MUST\n维持在 1 到 100 之间，越界时抛出 `ValueError`。\n\n## REQ-004 无价格参数时结果不变\n\n不传 `min_price` / `max_price` 时，搜索结果 MUST 与改动前逐项一致。"
+    },
+    {
+      "doc_key": "decision:BOOK-DEC-001",
+      "type": "decision",
+      "path": "specs/BOOK-DEC-001-price-boundaries.md",
+      "title": "BOOK-DEC-001 价格边界与空结果决策",
+      "version": 1,
+      "tags": [
+        "price",
+        "boundary",
+        "decision",
+        "filter"
+      ],
+      "score": 0.6916,
+      "reasons": [
+        "vector=0.599",
+        "text=1.000",
+        "tags=filter,price",
+        "symbol=booknest.service.search_products"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "id": "BOOK-DEC-001",
+        "kind": "decision",
+        "title": "价格边界与空结果决策",
+        "applies_to": [
+          "booknest.service.search_products"
+        ],
+        "supersedes": "",
+        "declared_version": 1,
+        "requirements": [
+          {
+            "id": "DEC-001",
+            "title": "闭区间",
+            "text": "## DEC-001 闭区间\n\n价格筛选采用闭区间，`max_price=99` 必须包含价格为 99 的商品。"
+          },
+          {
+            "id": "DEC-002",
+            "title": "零价商品",
+            "text": "## DEC-002 零价商品\n\n`max_price=0` 是合法输入，必须能筛出价格为 0 的商品；不得把 0 当成“未设置”。"
+          },
+          {
+            "id": "DEC-003",
+            "title": "空结果",
+            "text": "## DEC-003 空结果\n\n没有命中商品是正常业务结果，服务返回空列表，HTTP 返回 200 与 `count=0`。"
+          }
+        ]
+      },
+      "content": "# 价格边界与空结果决策（BOOK-DEC-001）\n\n## DEC-001 闭区间\n\n价格筛选采用闭区间，`max_price=99` 必须包含价格为 99 的商品。\n\n## DEC-002 零价商品\n\n`max_price=0` 是合法输入，必须能筛出价格为 0 的商品；不得把 0 当成“未设置”。\n\n## DEC-003 空结果\n\n没有命中商品是正常业务结果，服务返回空列表，HTTP 返回 200 与 `count=0`。"
+    }
+  ],
+  "code": [
+    {
+      "doc_key": "code:booknest/api.py#create_server",
+      "type": "code",
+      "path": "booknest/api.py",
+      "title": "booknest.api.create_server",
+      "version": 1,
+      "tags": [
+        "booknest",
+        "api",
+        "create_server",
+        "py",
+        "def",
+        "host",
+        "str",
+        "127",
+        "port",
+        "int",
+        "8080",
+        "products",
+        "list",
+        "product",
+        "none",
+        "threadinghttpserver",
+        "handler",
+        "type"
+      ],
+      "score": 0.98,
+      "reasons": [
+        "declared in spec applies_to via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "symbol": "booknest.api.create_server",
+        "qualname": "create_server",
+        "kind": "function",
+        "module": "booknest.api",
+        "start_line": 86,
+        "end_line": 96,
+        "signature": "def create_server(",
+        "docstring": ""
+      },
+      "content": "def create_server(\n    host: str = \"127.0.0.1\",\n    port: int = 8080,\n    products: list[Product] | None = None,\n) -> ThreadingHTTPServer:\n    handler = type(\n        \"BoundProductRequestHandler\",\n        (ProductRequestHandler,),\n        {\"products\": list(products if products is not None else load_products())},\n    )\n    return ThreadingHTTPServer((host, port), handler)"
+    },
+    {
+      "doc_key": "code:booknest/api.py#ProductRequestHandler",
+      "type": "code",
+      "path": "booknest/api.py",
+      "title": "booknest.api.ProductRequestHandler",
+      "version": 1,
+      "tags": [
+        "booknest",
+        "api",
+        "productrequesthandler",
+        "py",
+        "serve",
+        "two",
+        "read",
+        "only",
+        "routes",
+        "health",
+        "and",
+        "products",
+        "class",
+        "basehttprequesthandler",
+        "list",
+        "product",
+        "server_version",
+        "def"
+      ],
+      "score": 0.98,
+      "reasons": [
+        "declared in spec applies_to via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "symbol": "booknest.api.ProductRequestHandler",
+        "qualname": "ProductRequestHandler",
+        "kind": "class",
+        "module": "booknest.api",
+        "start_line": 19,
+        "end_line": 65,
+        "signature": "class ProductRequestHandler(BaseHTTPRequestHandler):",
+        "docstring": "Serve two read-only routes: /health and /api/products."
+      },
+      "content": "class ProductRequestHandler(BaseHTTPRequestHandler):\n    \"\"\"Serve two read-only routes: /health and /api/products.\"\"\"\n\n    products: list[Product] = []\n    server_version = \"BookNest/0.1\"\n\n    def do_GET(self) -> None:  # noqa: N802 - stdlib naming\n        parsed = urlparse(self.path)\n        if parsed.path == \"/health\":\n            self._send_json(200, {\"status\": \"ok\"})\n            return\n        if parsed.path != \"/api/products\":\n            self._send_json(404, {\"error\": \"not found\"})\n            return\n\n        params = parse_qs(parsed.query, keep_blank_values=True)\n        try:\n            category = _single(params, \"category\")\n            keyword = _single(params, \"keyword\")\n            sort = _single(params, \"sort\") or \"relevance\"\n            limit = _parse_int(_single(params, \"limit\"), default=20, field=\"limit\")\n            items = search_products(\n                self.products,\n                category=category,\n                keyword=keyword,\n                sort=sort,\n                limit=limit,\n            )\n        except ValueError as error:\n            self._send_json(400, {\"error\": str(error)})\n            return\n        except NotImplementedError as error:\n            self._send_json(500, {\"error\": str(error)})\n            return\n\n        self._send_json(200, {\"items\": [item.to_dict() for item in items], \"count\": len(items)})\n\n    def _send_json(self, status: int, payload: dict[str, Any]) -> None:\n        body = json.dumps(payload, ensure_ascii=False).encode(\"utf-8\")\n        self.send_response(status)\n        self.send_header(\"Content-Type\", \"application/json; charset=utf-8\")\n        self.send_header(\"Content-Length\", str(len(body)))\n        self.end_headers()\n        self.wfile.write(body)\n\n    def log_message(self, format: str, *args: Any) -> None:  # noqa: A002\n        \"\"\"Keep test output clean.\"\"\""
+    },
+    {
+      "doc_key": "code:booknest/service.py#search_products",
+      "type": "code",
+      "path": "booknest/service.py",
+      "title": "booknest.service.search_products",
+      "version": 1,
+      "tags": [
+        "booknest",
+        "service",
+        "search_products",
+        "py",
+        "return",
+        "products",
+        "matching",
+        "the",
+        "supported",
+        "filters",
+        "existing",
+        "behaviour",
+        "category",
+        "is",
+        "case",
+        "insensitive",
+        "keyword",
+        "covers"
+      ],
+      "score": 0.98,
+      "reasons": [
+        "declared in spec applies_to via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "symbol": "booknest.service.search_products",
+        "qualname": "search_products",
+        "kind": "function",
+        "module": "booknest.service",
+        "start_line": 16,
+        "end_line": 65,
+        "signature": "def search_products(",
+        "docstring": "Return products matching the supported filters.\n\nExisting behaviour: category matching is case-insensitive, keyword matching\ncovers title/tags/category, and ``limit`` must be between 1 and 100."
+      },
+      "content": "def search_products(\n    products: Iterable[Product],\n    *,\n    category: str | None = None,\n    keyword: str | None = None,\n    sort: str = \"relevance\",\n    limit: int = 20,\n    min_price: float | None = None,\n    max_price: float | None = None,\n) -> list[Product]:\n    \"\"\"Return products matching the supported filters.\n\n    Existing behaviour: category matching is case-insensitive, keyword matching\n    covers title/tags/category, and ``limit`` must be between 1 and 100.\n    \"\"\"\n\n    if min_price is not None or max_price is not None:\n        raise NotImplementedError(\"price-range filtering is not implemented yet\")\n\n    if sort not in _SORT_CHOICES:\n        raise ValueError(f\"unsupported sort: {sort}\")\n    if limit < 1 or limit > 100:\n        raise ValueError(\"limit must be between 1 and 100\")\n\n    items = list(products)\n\n    if category:\n        needle = category.strip().lower()\n        items = [item for item in items if item.category.lower() == needle]\n\n    if keyword:\n        needle = keyword.strip().lower()\n        items = [\n            item\n            for item in items\n            if needle in item.title.lower()\n            or needle in item.category.lower()\n            or any(needle in tag.lower() for tag in item.tags)\n        ]\n\n    if sort == \"price_asc\":\n        items.sort(key=lambda item: (item.price, item.id))\n    elif sort == \"price_desc\":\n        items.sort(key=lambda item: (-item.price, item.id))\n    elif sort == \"rating_desc\":\n        items.sort(key=lambda item: (-item.rating, item.id))\n    else:\n        items = _relevance_order(items, keyword)\n\n    return items[:limit]"
+    }
+  ],
+  "tests": [
+    {
+      "doc_key": "test:tests/test_api_price_filter.py::test_api_accepts_zero_upper_bound",
+      "type": "test",
+      "path": "tests/test_api_price_filter.py",
+      "title": "test_api_accepts_zero_upper_bound",
+      "version": 1,
+      "tags": [
+        "test",
+        "target",
+        "book-spec-003",
+        "book-spec-001",
+        "test_api_price_filter",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_api_accepts_zero_upper_bound",
+        "kind": "target",
+        "spec_ids": [
+          "BOOK-SPEC-003",
+          "BOOK-SPEC-001"
+        ],
+        "start_line": 37,
+        "end_line": 41
+      },
+      "content": "def test_api_accepts_zero_upper_bound(live_api):\n    status, body = get_json(live_api, \"/api/products?max_price=0\")\n    assert status == 200\n    assert body[\"count\"] == 1\n    assert body[\"items\"][0][\"id\"] == \"BK-1007\""
+    },
+    {
+      "doc_key": "test:tests/test_api_price_filter.py::test_api_filters_by_price_range",
+      "type": "test",
+      "path": "tests/test_api_price_filter.py",
+      "title": "test_api_filters_by_price_range",
+      "version": 1,
+      "tags": [
+        "test",
+        "target",
+        "book-spec-003",
+        "book-spec-001",
+        "test_api_price_filter",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_api_filters_by_price_range",
+        "kind": "target",
+        "spec_ids": [
+          "BOOK-SPEC-003",
+          "BOOK-SPEC-001"
+        ],
+        "start_line": 11,
+        "end_line": 15
+      },
+      "content": "def test_api_filters_by_price_range(live_api):\n    status, body = get_json(live_api, \"/api/products?min_price=58&max_price=99&sort=price_asc\")\n    assert status == 200\n    assert body[\"count\"] == 4\n    assert [item[\"id\"] for item in body[\"items\"]] == [\"BK-1005\", \"BK-1001\", \"BK-1006\", \"BK-1003\"]"
+    },
+    {
+      "doc_key": "test:tests/test_api_price_filter.py::test_api_rejects_inverted_range",
+      "type": "test",
+      "path": "tests/test_api_price_filter.py",
+      "title": "test_api_rejects_inverted_range",
+      "version": 1,
+      "tags": [
+        "test",
+        "target",
+        "book-spec-003",
+        "book-spec-001",
+        "test_api_price_filter",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_api_rejects_inverted_range",
+        "kind": "target",
+        "spec_ids": [
+          "BOOK-SPEC-003",
+          "BOOK-SPEC-001"
+        ],
+        "start_line": 28,
+        "end_line": 31
+      },
+      "content": "def test_api_rejects_inverted_range(live_api):\n    status, body = get_json(live_api, \"/api/products?min_price=100&max_price=50\")\n    assert status == 400\n    assert \"min_price\" in body[\"error\"]"
+    },
+    {
+      "doc_key": "test:tests/test_api_price_filter.py::test_api_rejects_non_numeric_price",
+      "type": "test",
+      "path": "tests/test_api_price_filter.py",
+      "title": "test_api_rejects_non_numeric_price",
+      "version": 1,
+      "tags": [
+        "test",
+        "target",
+        "book-spec-003",
+        "book-spec-001",
+        "test_api_price_filter",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_api_rejects_non_numeric_price",
+        "kind": "target",
+        "spec_ids": [
+          "BOOK-SPEC-003",
+          "BOOK-SPEC-001"
+        ],
+        "start_line": 20,
+        "end_line": 23
+      },
+      "content": "def test_api_rejects_non_numeric_price(live_api):\n    status, body = get_json(live_api, \"/api/products?min_price=cheap\")\n    assert status == 400\n    assert \"min_price\" in body[\"error\"]"
+    },
+    {
+      "doc_key": "test:tests/test_price_filter.py::test_empty_range_returns_empty_list",
+      "type": "test",
+      "path": "tests/test_price_filter.py",
+      "title": "test_empty_range_returns_empty_list",
+      "version": 1,
+      "tags": [
+        "test",
+        "target",
+        "book-spec-001",
+        "test_price_filter",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_empty_range_returns_empty_list",
+        "kind": "target",
+        "spec_ids": [
+          "BOOK-SPEC-001"
+        ],
+        "start_line": 52,
+        "end_line": 53
+      },
+      "content": "def test_empty_range_returns_empty_list(products):\n    assert search_products(products, min_price=500.0) == []"
+    },
+    {
+      "doc_key": "test:tests/test_price_filter.py::test_equal_min_and_max_selects_exact_boundary",
+      "type": "test",
+      "path": "tests/test_price_filter.py",
+      "title": "test_equal_min_and_max_selects_exact_boundary",
+      "version": 1,
+      "tags": [
+        "test",
+        "target",
+        "book-spec-001",
+        "test_price_filter",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_equal_min_and_max_selects_exact_boundary",
+        "kind": "target",
+        "spec_ids": [
+          "BOOK-SPEC-001"
+        ],
+        "start_line": 45,
+        "end_line": 47
+      },
+      "content": "def test_equal_min_and_max_selects_exact_boundary(products):\n    items = search_products(products, min_price=99.0, max_price=99.0)\n    assert _ids(items) == [\"BK-1003\"]"
+    },
+    {
+      "doc_key": "test:tests/test_price_filter.py::test_inverted_range_is_rejected",
+      "type": "test",
+      "path": "tests/test_price_filter.py",
+      "title": "test_inverted_range_is_rejected",
+      "version": 1,
+      "tags": [
+        "test",
+        "target",
+        "book-spec-001",
+        "test_price_filter",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_inverted_range_is_rejected",
+        "kind": "target",
+        "spec_ids": [
+          "BOOK-SPEC-001"
+        ],
+        "start_line": 65,
+        "end_line": 67
+      },
+      "content": "def test_inverted_range_is_rejected(products):\n    with pytest.raises(ValueError, match=\"min_price\"):\n        search_products(products, min_price=100.0, max_price=50.0)"
+    },
+    {
+      "doc_key": "test:tests/test_price_filter.py::test_max_price_zero_selects_free_item",
+      "type": "test",
+      "path": "tests/test_price_filter.py",
+      "title": "test_max_price_zero_selects_free_item",
+      "version": 1,
+      "tags": [
+        "test",
+        "target",
+        "book-spec-001",
+        "test_price_filter",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_max_price_zero_selects_free_item",
+        "kind": "target",
+        "spec_ids": [
+          "BOOK-SPEC-001"
+        ],
+        "start_line": 31,
+        "end_line": 33
+      },
+      "content": "def test_max_price_zero_selects_free_item(products):\n    items = search_products(products, max_price=0.0)\n    assert _ids(items) == [\"BK-1007\"]"
+    },
+    {
+      "doc_key": "test:tests/test_price_filter.py::test_min_price_only_filters_lower_bound",
+      "type": "test",
+      "path": "tests/test_price_filter.py",
+      "title": "test_min_price_only_filters_lower_bound",
+      "version": 1,
+      "tags": [
+        "test",
+        "target",
+        "book-spec-001",
+        "test_price_filter",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_min_price_only_filters_lower_bound",
+        "kind": "target",
+        "spec_ids": [
+          "BOOK-SPEC-001"
+        ],
+        "start_line": 38,
+        "end_line": 40
+      },
+      "content": "def test_min_price_only_filters_lower_bound(products):\n    items = search_products(products, min_price=128.0, sort=\"price_asc\")\n    assert _ids(items) == [\"BK-1002\", \"BK-1008\", \"BK-1004\"]"
+    },
+    {
+      "doc_key": "test:tests/test_price_filter.py::test_negative_price_is_rejected",
+      "type": "test",
+      "path": "tests/test_price_filter.py",
+      "title": "test_negative_price_is_rejected",
+      "version": 1,
+      "tags": [
+        "test",
+        "target",
+        "book-spec-001",
+        "test_price_filter",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_negative_price_is_rejected",
+        "kind": "target",
+        "spec_ids": [
+          "BOOK-SPEC-001"
+        ],
+        "start_line": 58,
+        "end_line": 60
+      },
+      "content": "def test_negative_price_is_rejected(products):\n    with pytest.raises(ValueError, match=\"min_price\"):\n        search_products(products, min_price=-0.01)"
+    },
+    {
+      "doc_key": "test:tests/test_price_filter.py::test_price_range_is_inclusive",
+      "type": "test",
+      "path": "tests/test_price_filter.py",
+      "title": "test_price_range_is_inclusive",
+      "version": 1,
+      "tags": [
+        "test",
+        "target",
+        "book-spec-001",
+        "test_price_filter",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_price_range_is_inclusive",
+        "kind": "target",
+        "spec_ids": [
+          "BOOK-SPEC-001"
+        ],
+        "start_line": 19,
+        "end_line": 26
+      },
+      "content": "def test_price_range_is_inclusive(products):\n    items = search_products(\n        products,\n        min_price=58.0,\n        max_price=99.0,\n        sort=\"price_asc\",\n    )\n    assert _ids(items) == [\"BK-1005\", \"BK-1001\", \"BK-1006\", \"BK-1003\"]"
+    },
+    {
+      "doc_key": "test:tests/test_search_existing.py::test_api_health",
+      "type": "test",
+      "path": "tests/test_search_existing.py",
+      "title": "test_api_health",
+      "version": 1,
+      "tags": [
+        "test",
+        "regression",
+        "book-spec-002",
+        "test_search_existing",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_api_health",
+        "kind": "regression",
+        "spec_ids": [
+          "BOOK-SPEC-002"
+        ],
+        "start_line": 73,
+        "end_line": 76
+      },
+      "content": "def test_api_health(live_api):\n    status, body = get_json(live_api, \"/health\")\n    assert status == 200\n    assert body == {\"status\": \"ok\"}"
+    },
+    {
+      "doc_key": "test:tests/test_search_existing.py::test_api_keeps_existing_query_contract",
+      "type": "test",
+      "path": "tests/test_search_existing.py",
+      "title": "test_api_keeps_existing_query_contract",
+      "version": 1,
+      "tags": [
+        "test",
+        "regression",
+        "book-spec-002",
+        "book-spec-003",
+        "test_search_existing",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_api_keeps_existing_query_contract",
+        "kind": "regression",
+        "spec_ids": [
+          "BOOK-SPEC-002",
+          "BOOK-SPEC-003"
+        ],
+        "start_line": 82,
+        "end_line": 86
+      },
+      "content": "def test_api_keeps_existing_query_contract(live_api):\n    status, body = get_json(live_api, \"/api/products?category=technology&limit=2\")\n    assert status == 200\n    assert body[\"count\"] == 2\n    assert all(item[\"category\"] == \"Technology\" for item in body[\"items\"])"
+    },
+    {
+      "doc_key": "test:tests/test_search_existing.py::test_category_filter_is_case_insensitive",
+      "type": "test",
+      "path": "tests/test_search_existing.py",
+      "title": "test_category_filter_is_case_insensitive",
+      "version": 1,
+      "tags": [
+        "test",
+        "regression",
+        "book-spec-002",
+        "test_search_existing",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_category_filter_is_case_insensitive",
+        "kind": "regression",
+        "spec_ids": [
+          "BOOK-SPEC-002"
+        ],
+        "start_line": 15,
+        "end_line": 17
+      },
+      "content": "def test_category_filter_is_case_insensitive(products):\n    items = search_products(products, category=\"technology\")\n    assert {item.id for item in items} == {\"BK-1002\", \"BK-1003\", \"BK-1004\", \"BK-1008\"}"
+    },
+    {
+      "doc_key": "test:tests/test_search_existing.py::test_default_search_returns_all_seed_rows",
+      "type": "test",
+      "path": "tests/test_search_existing.py",
+      "title": "test_default_search_returns_all_seed_rows",
+      "version": 1,
+      "tags": [
+        "test",
+        "regression",
+        "book-spec-002",
+        "test_search_existing",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_default_search_returns_all_seed_rows",
+        "kind": "regression",
+        "spec_ids": [
+          "BOOK-SPEC-002"
+        ],
+        "start_line": 36,
+        "end_line": 37
+      },
+      "content": "def test_default_search_returns_all_seed_rows(products):\n    assert len(search_products(products)) == 10"
+    },
+    {
+      "doc_key": "test:tests/test_search_existing.py::test_keyword_matches_title_and_tags",
+      "type": "test",
+      "path": "tests/test_search_existing.py",
+      "title": "test_keyword_matches_title_and_tags",
+      "version": 1,
+      "tags": [
+        "test",
+        "regression",
+        "book-spec-002",
+        "test_search_existing",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_keyword_matches_title_and_tags",
+        "kind": "regression",
+        "spec_ids": [
+          "BOOK-SPEC-002"
+        ],
+        "start_line": 22,
+        "end_line": 24
+      },
+      "content": "def test_keyword_matches_title_and_tags(products):\n    items = search_products(products, keyword=\"programming\")\n    assert {item.id for item in items} == {\"BK-1002\", \"BK-1003\", \"BK-1008\"}"
+    },
+    {
+      "doc_key": "test:tests/test_search_existing.py::test_limit_is_validated",
+      "type": "test",
+      "path": "tests/test_search_existing.py",
+      "title": "test_limit_is_validated",
+      "version": 1,
+      "tags": [
+        "test",
+        "regression",
+        "book-spec-002",
+        "test_search_existing",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_limit_is_validated",
+        "kind": "regression",
+        "spec_ids": [
+          "BOOK-SPEC-002"
+        ],
+        "start_line": 56,
+        "end_line": 62
+      },
+      "content": "def test_limit_is_validated(products):\n    try:\n        search_products(products, limit=0)\n    except ValueError as error:\n        assert \"limit\" in str(error)\n    else:\n        raise AssertionError(\"limit=0 must raise ValueError\")"
+    },
+    {
+      "doc_key": "test:tests/test_search_existing.py::test_no_price_parameters_keeps_previous_result",
+      "type": "test",
+      "path": "tests/test_search_existing.py",
+      "title": "test_no_price_parameters_keeps_previous_result",
+      "version": 1,
+      "tags": [
+        "test",
+        "regression",
+        "book-spec-002",
+        "test_search_existing",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_no_price_parameters_keeps_previous_result",
+        "kind": "regression",
+        "spec_ids": [
+          "BOOK-SPEC-002"
+        ],
+        "start_line": 42,
+        "end_line": 51
+      },
+      "content": "def test_no_price_parameters_keeps_previous_result(products):\n    baseline = search_products(products, category=\"Business\", keyword=\"startup\")\n    explicit_none = search_products(\n        products,\n        category=\"Business\",\n        keyword=\"startup\",\n        min_price=None,\n        max_price=None,\n    )\n    assert _ids(baseline) == _ids(explicit_none)"
+    },
+    {
+      "doc_key": "test:tests/test_search_existing.py::test_price_desc_sort_is_unchanged",
+      "type": "test",
+      "path": "tests/test_search_existing.py",
+      "title": "test_price_desc_sort_is_unchanged",
+      "version": 1,
+      "tags": [
+        "test",
+        "regression",
+        "book-spec-002",
+        "test_search_existing",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_price_desc_sort_is_unchanged",
+        "kind": "regression",
+        "spec_ids": [
+          "BOOK-SPEC-002"
+        ],
+        "start_line": 29,
+        "end_line": 31
+      },
+      "content": "def test_price_desc_sort_is_unchanged(products):\n    items = search_products(products, sort=\"price_desc\", limit=3)\n    assert _ids(items) == [\"BK-1004\", \"BK-1008\", \"BK-1002\"]"
+    },
+    {
+      "doc_key": "test:tests/test_search_existing.py::test_unknown_category_returns_empty",
+      "type": "test",
+      "path": "tests/test_search_existing.py",
+      "title": "test_unknown_category_returns_empty",
+      "version": 1,
+      "tags": [
+        "test",
+        "regression",
+        "book-spec-002",
+        "test_search_existing",
+        "py"
+      ],
+      "score": 0.95,
+      "reasons": [
+        "linked from an applicable spec via seekdb.links"
+      ],
+      "source": "seekdb:sdd_context.documents",
+      "metadata": {
+        "test_name": "test_unknown_category_returns_empty",
+        "kind": "regression",
+        "spec_ids": [
+          "BOOK-SPEC-002"
+        ],
+        "start_line": 67,
+        "end_line": 68
+      },
+      "content": "def test_unknown_category_returns_empty(products):\n    assert search_products(products, category=\"NoSuchCategory\") == []"
+    }
+  ],
+  "state": {
+    "source": "powercontext",
+    "status": "loaded",
+    "task_id": "BOOK-001",
+    "seq": 1,
+    "completed": [
+      "ingested v1 specs, code, and tests into seekdb",
+      "built the first SDD context bundle",
+      "ran baseline functional tests and captured the expected failure"
+    ],
+    "todos": [
+      "apply a MiniMax-generated patch",
+      "run functional and regression tests"
+    ],
+    "verifications": [
+      {
+        "command": "D:\\agent\\sandbox\\comp\\comp\\minimax\\.venv\\Scripts\\python.exe -m pytest -q",
+        "exit_code": 1,
+        "summary": "11 failed, 9 passed in 3.18s",
+        "log": "artifacts\\test_logs\\01_tests_before.log",
+        "code_version": "sha256:ac5d907f8ff183cfae5309110d23763eacca464da973cbe944ba2c544b9f0327"
+      }
+    ],
+    "updated_at": "2026-10-29T08:41:24.413744+00:00",
+    "state": {
+      "task_id": "BOOK-001",
+      "seq": 1,
+      "updated_at": "2026-10-29T08:41:24.413744+00:00",
+      "completed": [
+        "ingested v1 specs, code, and tests into seekdb",
+        "built the first SDD context bundle",
+        "ran baseline functional tests and captured the expected failure"
+      ],
+      "todos": [
+        "apply a MiniMax-generated patch",
+        "run functional and regression tests"
+      ],
+      "verifications": [
+        {
+          "command": "D:\\agent\\sandbox\\comp\\comp\\minimax\\.venv\\Scripts\\python.exe -m pytest -q",
+          "exit_code": 1,
+          "summary": "11 failed, 9 passed in 3.18s",
+          "log": "artifacts\\test_logs\\01_tests_before.log",
+          "code_version": "sha256:ac5d907f8ff183cfae5309110d23763eacca464da973cbe944ba2c544b9f0327"
+        }
+      ],
+      "context_run_id": "ctx-before-20261029-164105",
+      "code_version": "sha256:ac5d907f8ff183cfae5309110d23763eacca464da973cbe944ba2c544b9f0327",
+      "evidence_sources": [
+        {
+          "name": "content",
+          "source_id": "book-001-tests-before-20261029-164105"
+        }
+      ]
+    },
+    "powercontext": {
+      "scope_id": "scp_3hdqn9aw6s4q80a1eq60g2jwv7",
+      "artifact_id": "art_2b0d64d99cd74fc9872ab2b076811f2c",
+      "revision": 1,
+      "state": "active",
+      "state_version": 0
+    }
+  },
+  "code_version": "sha256:9e4add80fb4e70a7c2d8eabe0954e0fe3d378b301875b77f05dd376ffeeff2a8",
+  "code_file_hashes": {
+    "booknest/api.py": "7ae62f90a9bf831cc62644257efd98fe3a8ef9639903cc067797e13f1afe8815",
+    "booknest/service.py": "9bbf06a7e9050695e3c04e1ed2154e650d6a7b7ae0f40205952eb9f63d066452"
+  },
+  "retrieval": {
+    "engine": "seekdb",
+    "database": "sdd_context",
+    "tables": [
+      "documents",
+      "links",
+      "document_versions"
+    ],
+    "embedding_provider": "minimax",
+    "embedding_tokens": 296,
+    "queries": [
+      {
+        "sql": "SELECT doc_key, doc_type, source_path, title, version, status, tags, metadata_json, content, cosine_distance(embedding, %s) AS vector_distance, MATCH(search_text) AGAINST(%s) AS text_score FROM documents WHERE status='active' AND doc_type IN ('spec', 'decision') ORDER BY vector_distance ASC LIMIT %s",
+        "params": [
+          "[0.00708034,-0.03951863,0.03061270,-0.01082973,-0.00513421,-0.01070714,-0.01530561,0.01140933,-0.02595778,-0.01552382,0.00564946,-0.01981618,0.02946113,-0.04149255,-0.00891604,-0.00525498,0.00088084,-0.01535700,0.00366830,-0.01337919,0.01643117,-0.01745139,-0.00451617,-0.02899971,0.00866705,0.01939660,-0.03225017,0.00601382,-0.00433891,0.01785281,-0.01553909,0.01795563,0.01037784,-0.01827646,-0.00363207,-0.02692607,0.01409027,0.05129603,0.01214352,-0.00003594,-0.00304453,-0.00164744,-0.01206877,",
+          "为 BookNest 商品搜索增加价格区间筛选\nprice filter search api regression\nbooknest.service.search_products booknest.api.ProductRequestHandler\n# 任务 BOOK-001\n\n## 要改什么\n\n为 `booknest.service.search_products` 增加 `min_price` / `max_price` 两个可选\n参数，按闭区间过滤商品；在 `GET /api/products` 暴露同名查询参数，非法价格\n或倒置区间返回 HTTP 400。\n\n## 必须保持什么\n\n1. 分类筛选仍大小写不敏感，关键词仍匹配标题/分类/标签。\n2. `price_asc`、`price_desc`、`rating_desc` 的既有排序不变。\n3. 不传价格参数时，结果与改动前逐项一致。\n4. `limit` 仍校验 1..100，`/health` 仍返回 200。\n\n## 验收命令\n\n```bash\npython -m pytest -q\n```",
+          "50"
+        ],
+        "row_count": 4,
+        "elapsed_ms": 14
+      },
+      {
+        "sql": "SELECT d.doc_key, d.doc_type, d.source_path, d.title, d.version, d.status, d.tags, d.metadata_json, d.content, 0.0 AS vector_distance, 0.0 AS text_score FROM documents d JOIN links l ON l.to_key = d.doc_key WHERE l.from_key IN (%s,%s,%s,%s) AND l.relation='applies_to' AND d.status='active' ORDER BY d.doc_key",
+        "params": [
+          "spec:BOOK-SPEC-001",
+          "spec:BOOK-SPEC-003",
+          "spec:BOOK-SPEC-002",
+          "decision:BOOK-DEC-001"
+        ],
+        "row_count": 7,
+        "elapsed_ms": 1
+      },
+      {
+        "sql": "SELECT doc_key, doc_type, source_path, title, version, status, tags, metadata_json, content, cosine_distance(embedding, %s) AS vector_distance, MATCH(search_text) AGAINST(%s) AS text_score FROM documents WHERE status='active' AND doc_type='code' ORDER BY vector_distance ASC LIMIT %s",
+        "params": [
+          "[0.00708034,-0.03951863,0.03061270,-0.01082973,-0.00513421,-0.01070714,-0.01530561,0.01140933,-0.02595778,-0.01552382,0.00564946,-0.01981618,0.02946113,-0.04149255,-0.00891604,-0.00525498,0.00088084,-0.01535700,0.00366830,-0.01337919,0.01643117,-0.01745139,-0.00451617,-0.02899971,0.00866705,0.01939660,-0.03225017,0.00601382,-0.00433891,0.01785281,-0.01553909,0.01795563,0.01037784,-0.01827646,-0.00363207,-0.02692607,0.01409027,0.05129603,0.01214352,-0.00003594,-0.00304453,-0.00164744,-0.01206877,",
+          "为 BookNest 商品搜索增加价格区间筛选\nprice filter search api regression\nbooknest.service.search_products booknest.api.ProductRequestHandler\n# 任务 BOOK-001\n\n## 要改什么\n\n为 `booknest.service.search_products` 增加 `min_price` / `max_price` 两个可选\n参数，按闭区间过滤商品；在 `GET /api/products` 暴露同名查询参数，非法价格\n或倒置区间返回 HTTP 400。\n\n## 必须保持什么\n\n1. 分类筛选仍大小写不敏感，关键词仍匹配标题/分类/标签。\n2. `price_asc`、`price_desc`、`rating_desc` 的既有排序不变。\n3. 不传价格参数时，结果与改动前逐项一致。\n4. `limit` 仍校验 1..100，`/health` 仍返回 200。\n\n## 验收命令\n\n```bash\npython -m pytest -q\n```",
+          "50"
+        ],
+        "row_count": 7,
+        "elapsed_ms": 11
+      },
+      {
+        "sql": "SELECT d.doc_key, d.doc_type, d.source_path, d.title, d.version, d.status, d.tags, d.metadata_json, d.content, 0.0 AS vector_distance, 0.0 AS text_score FROM documents d JOIN links l ON l.to_key = d.doc_key WHERE l.from_key IN (%s,%s,%s,%s) AND l.relation='verified_by' AND d.status='active' ORDER BY d.doc_key",
+        "params": [
+          "spec:BOOK-SPEC-001",
+          "spec:BOOK-SPEC-003",
+          "spec:BOOK-SPEC-002",
+          "decision:BOOK-DEC-001"
+        ],
+        "row_count": 25,
+        "elapsed_ms": 1
+      },
+      {
+        "sql": "SELECT d.doc_key, d.doc_type, d.source_path, d.title, d.version, d.status, d.tags, d.metadata_json, d.content, 0.0 AS vector_distance, 0.0 AS text_score FROM documents d JOIN links l ON l.to_key = d.doc_key WHERE l.from_key IN (%s,%s,%s,%s,%s,%s,%s) AND l.relation='covered_by' AND d.status='active' ORDER BY d.doc_key",
+        "params": [
+          "code:booknest/api.py#create_server",
+          "code:booknest/api.py#ProductRequestHandler",
+          "code:booknest/service.py#search_products",
+          "code:booknest/cli.py#main",
+          "code:booknest/repository.py#load_products",
+          "code:booknest/repository.py#find_by_id",
+          "code:booknest/models.py#Product"
+        ],
+        "row_count": 14,
+        "elapsed_ms": 1
+      },
+      {
+        "sql": "SELECT doc_key, doc_type, source_path, title, version, status, tags, metadata_json, content, cosine_distance(embedding, %s) AS vector_distance, MATCH(search_text) AGAINST(%s) AS text_score FROM documents WHERE status='active' AND doc_type='test' ORDER BY vector_distance ASC LIMIT %s",
+        "params": [
+          "[0.00708034,-0.03951863,0.03061270,-0.01082973,-0.00513421,-0.01070714,-0.01530561,0.01140933,-0.02595778,-0.01552382,0.00564946,-0.01981618,0.02946113,-0.04149255,-0.00891604,-0.00525498,0.00088084,-0.01535700,0.00366830,-0.01337919,0.01643117,-0.01745139,-0.00451617,-0.02899971,0.00866705,0.01939660,-0.03225017,0.00601382,-0.00433891,0.01785281,-0.01553909,0.01795563,0.01037784,-0.01827646,-0.00363207,-0.02692607,0.01409027,0.05129603,0.01214352,-0.00003594,-0.00304453,-0.00164744,-0.01206877,",
+          "为 BookNest 商品搜索增加价格区间筛选\nprice filter search api regression\nbooknest.service.search_products booknest.api.ProductRequestHandler\n# 任务 BOOK-001\n\n## 要改什么\n\n为 `booknest.service.search_products` 增加 `min_price` / `max_price` 两个可选\n参数，按闭区间过滤商品；在 `GET /api/products` 暴露同名查询参数，非法价格\n或倒置区间返回 HTTP 400。\n\n## 必须保持什么\n\n1. 分类筛选仍大小写不敏感，关键词仍匹配标题/分类/标签。\n2. `price_asc`、`price_desc`、`rating_desc` 的既有排序不变。\n3. 不传价格参数时，结果与改动前逐项一致。\n4. `limit` 仍校验 1..100，`/health` 仍返回 200。\n\n## 验收命令\n\n```bash\npython -m pytest -q\n```",
+          "50"
+        ],
+        "row_count": 20,
+        "elapsed_ms": 81
+      }
+    ],
+    "selected": {
+      "specs": [
+        "spec:BOOK-SPEC-001",
+        "spec:BOOK-SPEC-003",
+        "spec:BOOK-SPEC-002",
+        "decision:BOOK-DEC-001"
+      ],
+      "code": [
+        "code:booknest/api.py#create_server",
+        "code:booknest/api.py#ProductRequestHandler",
+        "code:booknest/service.py#search_products"
+      ],
+      "tests": [
+        "test:tests/test_api_price_filter.py::test_api_accepts_zero_upper_bound",
+        "test:tests/test_api_price_filter.py::test_api_filters_by_price_range",
+        "test:tests/test_api_price_filter.py::test_api_rejects_inverted_range",
+        "test:tests/test_api_price_filter.py::test_api_rejects_non_numeric_price",
+        "test:tests/test_price_filter.py::test_empty_range_returns_empty_list",
+        "test:tests/test_price_filter.py::test_equal_min_and_max_selects_exact_boundary",
+        "test:tests/test_price_filter.py::test_inverted_range_is_rejected",
+        "test:tests/test_price_filter.py::test_max_price_zero_selects_free_item",
+        "test:tests/test_price_filter.py::test_min_price_only_filters_lower_bound",
+        "test:tests/test_price_filter.py::test_negative_price_is_rejected",
+        "test:tests/test_price_filter.py::test_price_range_is_inclusive",
+        "test:tests/test_search_existing.py::test_api_health",
+        "test:tests/test_search_existing.py::test_api_keeps_existing_query_contract",
+        "test:tests/test_search_existing.py::test_category_filter_is_case_insensitive",
+        "test:tests/test_search_existing.py::test_default_search_returns_all_seed_rows",
+        "test:tests/test_search_existing.py::test_keyword_matches_title_and_tags",
+        "test:tests/test_search_existing.py::test_limit_is_validated",
+        "test:tests/test_search_existing.py::test_no_price_parameters_keeps_previous_result",
+        "test:tests/test_search_existing.py::test_price_desc_sort_is_unchanged",
+        "test:tests/test_search_existing.py::test_unknown_category_returns_empty"
+      ]
+    },
+    "warnings": []
+  },
+  "context_markdown": "# SDD Context — BOOK-001: 为 BookNest 商品搜索增加价格区间筛选\n\n- Context run: `ctx-prompt-20261029-164105`\n- Code version: `sha256:9e4add80fb4e70a7c2d8eabe0954e0fe3d378b301875b77f05dd376ffeeff2a8`\n- Assembled: 2026-10-29T08:41:25.093144+00:00\n\n## 1. Task\n\nSource: `tasks/BOOK-001.md`\n\n# 任务 BOOK-001\n\n## 要改什么\n\n为 `booknest.service.search_products` 增加 `min_price` / `max_price` 两个可选\n参数，按闭区间过滤商品；在 `GET /api/products` 暴露同名查询参数，非法价格\n或倒置区间返回 HTTP 400。\n\n## 必须保持什么\n\n1. 分类筛选仍大小写不敏感，关键词仍匹配标题/分类/标签。\n2. `price_asc`、`price_desc`、`rating_desc` 的既有排序不变。\n3. 不传价格参数时，结果与改动前逐项一致。\n4. `limit` 仍校验 1..100，`/health` 仍返回 200。\n\n## 验收命令\n\n```bash\npython -m pytest -q\n```\n\n## 2. Applicable specifications\n\n### BOOK-SPEC-001 — 商品价格区间筛选 (v1)\n\n- Source: `specs/BOOK-SPEC-001-price-filter.md`\n- Status: `active`\n- Why selected: vector=0.905, text=1.000, tags=api,filter,price,search, symbol=booknest.service.search_products\n- Applies to: `booknest.service.search_products`, `booknest.api.ProductRequestHandler`\n\n#### REQ-001 区间上下界都包含\n\n`search_products` MUST 接受可选参数 `min_price` 与 `max_price`，并按**闭区间**\n过滤：`min_price <= product.price <= max_price`。\n\n#### REQ-002 只给一侧边界\n\n只给 `min_price` 时 MUST 过滤掉更低价格的商品；只给 `max_price` 时 MUST\n过滤掉更高价格的商品。两个参数都为空时结果 MUST 与引入该功能前完全一致。\n\n#### REQ-003 非法价格区间\n\n`min_price` 或 `max_price` 为负数，或 `min_price > max_price` 时 MUST 抛出\n`ValueError`，错误信息中 MUST 含 `min_price`。\n\n#### REQ-004 边界与空结果\n\n`min_price == max_price` MUST 返回恰好等于该价格的商品；区间内没有商品时\nMUST 返回空列表，不得抛出异常，也不得回退到未过滤结果。\n\n### BOOK-SPEC-003 — 商品查询 HTTP 接口行为 (v1)\n\n- Source: `specs/BOOK-SPEC-003-api-contract.md`\n- Status: `active`\n- Why selected: vector=0.834, text=1.000, tags=api,filter,price, symbol=booknest.api.ProductRequestHandler\n- Applies to: `booknest.api.ProductRequestHandler`, `booknest.api.create_server`\n\n#### REQ-001 查询参数\n\n`GET /api/products` MUST 接受 `min_price` 与 `max_price` 查询参数，并把它们\n传给 `search_products`。\n\n#### REQ-002 参数校验\n\n`min_price` / `max_price` 不是数字、为负数或区间倒置时，接口 MUST 返回\nHTTP 400，响应体 MUST 是含 `error` 字段的 JSON。\n\n#### REQ-003 成功响应\n\n成功时 MUST 返回 HTTP 200，响应体为 `{\"items\": [...], \"count\": N}`；空结果\nMUST 是 200 且 `count` 为 0。\n\n#### REQ-004 健康检查\n\n`GET /health` MUST 返回 HTTP 200 与 `{\"status\": \"ok\"}`。\n\n### BOOK-SPEC-002 — 既有搜索行为兼容约束 (v1)\n\n- Source: `specs/BOOK-SPEC-002-search-compatibility.md`\n- Status: `active`\n- Why selected: vector=0.856, text=1.000, tags=regression,search, symbol=booknest.service.search_products\n- Applies to: `booknest.service.search_products`, `booknest.api.ProductRequestHandler`\n\n#### REQ-001 分类筛选\n\n`category` MUST 大小写不敏感地精确匹配商品分类。\n\n#### REQ-002 关键词筛选\n\n`keyword` MUST 在标题、分类和标签中做大小写不敏感的子串匹配。\n\n#### REQ-003 排序与数量\n\n`price_asc`、`price_desc`、`rating_desc` MUST 保持原有排序；`limit` MUST\n维持在 1 到 100 之间，越界时抛出 `ValueError`。\n\n#### REQ-004 无价格参数时结果不变\n\n不传 `min_price` / `max_price` 时，搜索结果 MUST 与改动前逐项一致。\n\n### BOOK-DEC-001 — 价格边界与空结果决策 (v1)\n\n- Source: `specs/BOOK-DEC-001-price-boundaries.md`\n- Status: `active`\n- Why selected: vector=0.599, text=1.000, tags=filter,price, symbol=booknest.service.search_products\n- Applies to: `booknest.service.search_products`\n\n#### DEC-001 闭区间\n\n价格筛选采用闭区间，`max_price=99` 必须包含价格为 99 的商品。\n\n#### DEC-002 零价商品\n\n`max_price=0` 是合法输入，必须能筛出价格为 0 的商品；不得把 0 当成“未设置”。\n\n#### DEC-003 空结果\n\n没有命中商品是正常业务结果，服务返回空列表，HTTP 返回 200 与 `count=0`。\n\n## 3. Code to inspect or modify\n\n### `booknest/api.py` :: `booknest.api.create_server`\n\n- Lines: 86-96 · kind: `function`\n- Why selected: declared in spec applies_to via seekdb.links\n\n```python\ndef create_server(\n    host: str = \"127.0.0.1\",\n    port: int = 8080,\n    products: list[Product] | None = None,\n) -> ThreadingHTTPServer:\n    handler = type(\n        \"BoundProductRequestHandler\",\n        (ProductRequestHandler,),\n        {\"products\": list(products if products is not None else load_products())},\n    )\n    return ThreadingHTTPServer((host, port), handler)\n```\n\n### `booknest/api.py` :: `booknest.api.ProductRequestHandler`\n\n- Lines: 19-65 · kind: `class`\n- Why selected: declared in spec applies_to via seekdb.links\n\n```python\nclass ProductRequestHandler(BaseHTTPRequestHandler):\n    \"\"\"Serve two read-only routes: /health and /api/products.\"\"\"\n\n    products: list[Product] = []\n    server_version = \"BookNest/0.1\"\n\n    def do_GET(self) -> None:  # noqa: N802 - stdlib naming\n        parsed = urlparse(self.path)\n        if parsed.path == \"/health\":\n            self._send_json(200, {\"status\": \"ok\"})\n            return\n        if parsed.path != \"/api/products\":\n            self._send_json(404, {\"error\": \"not found\"})\n            return\n\n        params = parse_qs(parsed.query, keep_blank_values=True)\n        try:\n            category = _single(params, \"category\")\n            keyword = _single(params, \"keyword\")\n            sort = _single(params, \"sort\") or \"relevance\"\n            limit = _parse_int(_single(params, \"limit\"), default=20, field=\"limit\")\n            items = search_products(\n                self.products,\n                category=category,\n                keyword=keyword,\n                sort=sort,\n                limit=limit,\n            )\n        except ValueError as error:\n            self._send_json(400, {\"error\": str(error)})\n            return\n        except NotImplementedError as error:\n            self._send_json(500, {\"error\": str(error)})\n            return\n\n        self._send_json(200, {\"items\": [item.to_dict() for item in items], \"count\": len(items)})\n\n    def _send_json(self, status: int, payload: dict[str, Any]) -> None:\n        body = json.dumps(payload, ensure_ascii=False).encode(\"utf-8\")\n        self.send_response(status)\n        self.send_header(\"Content-Type\", \"application/json; charset=utf-8\")\n        self.send_header(\"Content-Length\", str(len(body)))\n        self.end_headers()\n        self.wfile.write(body)\n\n    def log_message(self, format: str, *args: Any) -> None:  # noqa: A002\n        \"\"\"Keep test output clean.\"\"\"\n```\n\n### `booknest/service.py` :: `booknest.service.search_products`\n\n- Lines: 16-65 · kind: `function`\n- Why selected: declared in spec applies_to via seekdb.links\n\n```python\ndef search_products(\n    products: Iterable[Product],\n    *,\n    category: str | None = None,\n    keyword: str | None = None,\n    sort: str = \"relevance\",\n    limit: int = 20,\n    min_price: float | None = None,\n    max_price: float | None = None,\n) -> list[Product]:\n    \"\"\"Return products matching the supported filters.\n\n    Existing behaviour: category matching is case-insensitive, keyword matching\n    covers title/tags/category, and ``limit`` must be between 1 and 100.\n    \"\"\"\n\n    if min_price is not None or max_price is not None:\n        raise NotImplementedError(\"price-range filtering is not implemented yet\")\n\n    if sort not in _SORT_CHOICES:\n        raise ValueError(f\"unsupported sort: {sort}\")\n    if limit < 1 or limit > 100:\n        raise ValueError(\"limit must be between 1 and 100\")\n\n    items = list(products)\n\n    if category:\n        needle = category.strip().lower()\n        items = [item for item in items if item.category.lower() == needle]\n\n    if keyword:\n        needle = keyword.strip().lower()\n        items = [\n            item\n            for item in items\n            if needle in item.title.lower()\n            or needle in item.category.lower()\n            or any(needle in tag.lower() for tag in item.tags)\n        ]\n\n    if sort == \"price_asc\":\n        items.sort(key=lambda item: (item.price, item.id))\n    elif sort == \"price_desc\":\n        items.sort(key=lambda item: (-item.price, item.id))\n    elif sort == \"rating_desc\":\n        items.sort(key=lambda item: (-item.rating, item.id))\n    else:\n        items = _relevance_order(items, keyword)\n\n    return items[:limit]\n```\n\n## 4. Tests for functional and compatibility verification\n\n### `tests/test_api_price_filter.py::test_api_accepts_zero_upper_bound` (target)\n\n- Specs: BOOK-SPEC-003, BOOK-SPEC-001\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_api_accepts_zero_upper_bound(live_api):\n    status, body = get_json(live_api, \"/api/products?max_price=0\")\n    assert status == 200\n    assert body[\"count\"] == 1\n    assert body[\"items\"][0][\"id\"] == \"BK-1007\"\n```\n\n### `tests/test_api_price_filter.py::test_api_filters_by_price_range` (target)\n\n- Specs: BOOK-SPEC-003, BOOK-SPEC-001\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_api_filters_by_price_range(live_api):\n    status, body = get_json(live_api, \"/api/products?min_price=58&max_price=99&sort=price_asc\")\n    assert status == 200\n    assert body[\"count\"] == 4\n    assert [item[\"id\"] for item in body[\"items\"]] == [\"BK-1005\", \"BK-1001\", \"BK-1006\", \"BK-1003\"]\n```\n\n### `tests/test_api_price_filter.py::test_api_rejects_inverted_range` (target)\n\n- Specs: BOOK-SPEC-003, BOOK-SPEC-001\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_api_rejects_inverted_range(live_api):\n    status, body = get_json(live_api, \"/api/products?min_price=100&max_price=50\")\n    assert status == 400\n    assert \"min_price\" in body[\"error\"]\n```\n\n### `tests/test_api_price_filter.py::test_api_rejects_non_numeric_price` (target)\n\n- Specs: BOOK-SPEC-003, BOOK-SPEC-001\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_api_rejects_non_numeric_price(live_api):\n    status, body = get_json(live_api, \"/api/products?min_price=cheap\")\n    assert status == 400\n    assert \"min_price\" in body[\"error\"]\n```\n\n### `tests/test_price_filter.py::test_empty_range_returns_empty_list` (target)\n\n- Specs: BOOK-SPEC-001\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_empty_range_returns_empty_list(products):\n    assert search_products(products, min_price=500.0) == []\n```\n\n### `tests/test_price_filter.py::test_equal_min_and_max_selects_exact_boundary` (target)\n\n- Specs: BOOK-SPEC-001\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_equal_min_and_max_selects_exact_boundary(products):\n    items = search_products(products, min_price=99.0, max_price=99.0)\n    assert _ids(items) == [\"BK-1003\"]\n```\n\n### `tests/test_price_filter.py::test_inverted_range_is_rejected` (target)\n\n- Specs: BOOK-SPEC-001\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_inverted_range_is_rejected(products):\n    with pytest.raises(ValueError, match=\"min_price\"):\n        search_products(products, min_price=100.0, max_price=50.0)\n```\n\n### `tests/test_price_filter.py::test_max_price_zero_selects_free_item` (target)\n\n- Specs: BOOK-SPEC-001\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_max_price_zero_selects_free_item(products):\n    items = search_products(products, max_price=0.0)\n    assert _ids(items) == [\"BK-1007\"]\n```\n\n### `tests/test_price_filter.py::test_min_price_only_filters_lower_bound` (target)\n\n- Specs: BOOK-SPEC-001\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_min_price_only_filters_lower_bound(products):\n    items = search_products(products, min_price=128.0, sort=\"price_asc\")\n    assert _ids(items) == [\"BK-1002\", \"BK-1008\", \"BK-1004\"]\n```\n\n### `tests/test_price_filter.py::test_negative_price_is_rejected` (target)\n\n- Specs: BOOK-SPEC-001\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_negative_price_is_rejected(products):\n    with pytest.raises(ValueError, match=\"min_price\"):\n        search_products(products, min_price=-0.01)\n```\n\n### `tests/test_price_filter.py::test_price_range_is_inclusive` (target)\n\n- Specs: BOOK-SPEC-001\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_price_range_is_inclusive(products):\n    items = search_products(\n        products,\n        min_price=58.0,\n        max_price=99.0,\n        sort=\"price_asc\",\n    )\n    assert _ids(items) == [\"BK-1005\", \"BK-1001\", \"BK-1006\", \"BK-1003\"]\n```\n\n### `tests/test_search_existing.py::test_api_health` (regression)\n\n- Specs: BOOK-SPEC-002\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_api_health(live_api):\n    status, body = get_json(live_api, \"/health\")\n    assert status == 200\n    assert body == {\"status\": \"ok\"}\n```\n\n### `tests/test_search_existing.py::test_api_keeps_existing_query_contract` (regression)\n\n- Specs: BOOK-SPEC-002, BOOK-SPEC-003\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_api_keeps_existing_query_contract(live_api):\n    status, body = get_json(live_api, \"/api/products?category=technology&limit=2\")\n    assert status == 200\n    assert body[\"count\"] == 2\n    assert all(item[\"category\"] == \"Technology\" for item in body[\"items\"])\n```\n\n### `tests/test_search_existing.py::test_category_filter_is_case_insensitive` (regression)\n\n- Specs: BOOK-SPEC-002\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_category_filter_is_case_insensitive(products):\n    items = search_products(products, category=\"technology\")\n    assert {item.id for item in items} == {\"BK-1002\", \"BK-1003\", \"BK-1004\", \"BK-1008\"}\n```\n\n### `tests/test_search_existing.py::test_default_search_returns_all_seed_rows` (regression)\n\n- Specs: BOOK-SPEC-002\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_default_search_returns_all_seed_rows(products):\n    assert len(search_products(products)) == 10\n```\n\n### `tests/test_search_existing.py::test_keyword_matches_title_and_tags` (regression)\n\n- Specs: BOOK-SPEC-002\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_keyword_matches_title_and_tags(products):\n    items = search_products(products, keyword=\"programming\")\n    assert {item.id for item in items} == {\"BK-1002\", \"BK-1003\", \"BK-1008\"}\n```\n\n### `tests/test_search_existing.py::test_limit_is_validated` (regression)\n\n- Specs: BOOK-SPEC-002\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_limit_is_validated(products):\n    try:\n        search_products(products, limit=0)\n    except ValueError as error:\n        assert \"limit\" in str(error)\n    else:\n        raise AssertionError(\"limit=0 must raise ValueError\")\n```\n\n### `tests/test_search_existing.py::test_no_price_parameters_keeps_previous_result` (regression)\n\n- Specs: BOOK-SPEC-002\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_no_price_parameters_keeps_previous_result(products):\n    baseline = search_products(products, category=\"Business\", keyword=\"startup\")\n    explicit_none = search_products(\n        products,\n        category=\"Business\",\n        keyword=\"startup\",\n        min_price=None,\n        max_price=None,\n    )\n    assert _ids(baseline) == _ids(explicit_none)\n```\n\n### `tests/test_search_existing.py::test_price_desc_sort_is_unchanged` (regression)\n\n- Specs: BOOK-SPEC-002\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_price_desc_sort_is_unchanged(products):\n    items = search_products(products, sort=\"price_desc\", limit=3)\n    assert _ids(items) == [\"BK-1004\", \"BK-1008\", \"BK-1002\"]\n```\n\n### `tests/test_search_existing.py::test_unknown_category_returns_empty` (regression)\n\n- Specs: BOOK-SPEC-002\n- Why selected: linked from an applicable spec via seekdb.links\n\n```python\ndef test_unknown_category_returns_empty(products):\n    assert search_products(products, category=\"NoSuchCategory\") == []\n```\n\n## 5. Saved task state (PowerContext)\n\n- Source: `powercontext` · status: `loaded`\n- Artifact: `art_2b0d64d99cd74fc9872ab2b076811f2c` revision `1` state_version `0`\n- Checkpoint seq: 1\n\n### Completed\n- [x] ingested v1 specs, code, and tests into seekdb\n- [x] built the first SDD context bundle\n- [x] ran baseline functional tests and captured the expected failure\n\n### Todo\n- [ ] apply a MiniMax-generated patch\n- [ ] run functional and regression tests\n\n### Verification results\n- `D:\\agent\\sandbox\\comp\\comp\\minimax\\.venv\\Scripts\\python.exe -m pytest -q` → exit `1` · 11 failed, 9 passed in 3.18s\n\n## 6. Retrieval provenance\n\n- Engine: `seekdb` database `sdd_context`\n- Embedding provider: `minimax` (296 tokens)\n- Queries executed against seekdb:\n  - rows=4 · SELECT doc_key, doc_type, source_path, title, version, status, tags, metadata_json, content, cosine_distance(embedding, %s) AS vector_distance, MATCH(search_text) AGAINST(%s) AS te\n  - rows=7 · SELECT d.doc_key, d.doc_type, d.source_path, d.title, d.version, d.status, d.tags, d.metadata_json, d.content, 0.0 AS vector_distance, 0.0 AS text_score FROM documents d JOIN links\n  - rows=7 · SELECT doc_key, doc_type, source_path, title, version, status, tags, metadata_json, content, cosine_distance(embedding, %s) AS vector_distance, MATCH(search_text) AGAINST(%s) AS te\n  - rows=25 · SELECT d.doc_key, d.doc_type, d.source_path, d.title, d.version, d.status, d.tags, d.metadata_json, d.content, 0.0 AS vector_distance, 0.0 AS text_score FROM documents d JOIN links\n  - rows=14 · SELECT d.doc_key, d.doc_type, d.source_path, d.title, d.version, d.status, d.tags, d.metadata_json, d.content, 0.0 AS vector_distance, 0.0 AS text_score FROM documents d JOIN links\n  - rows=20 · SELECT doc_key, doc_type, source_path, title, version, status, tags, metadata_json, content, cosine_distance(embedding, %s) AS vector_distance, MATCH(search_text) AGAINST(%s) AS te\n"
+}

@@ -1,0 +1,13 @@
+{
+  "run_id": "ingest-20261029164157-870dbb",
+  "counts": {
+    "specs": 4,
+    "code": 7,
+    "tests": 20,
+    "changed": 3,
+    "retired": 0
+  },
+  "embedding_provider": "minimax",
+  "embedding_tokens": 7832,
+  "versions": 34
+}

@@ -1,0 +1,47 @@
+{
+  "seekdb": {
+    "active_docs": 31,
+    "links": 78,
+    "specs": {
+      "decision:BOOK-DEC-001": {
+        "version": 1,
+        "status": "active"
+      },
+      "spec:BOOK-SPEC-001": {
+        "version": 2,
+        "status": "active"
+      },
+      "spec:BOOK-SPEC-002": {
+        "version": 1,
+        "status": "active"
+      },
+      "spec:BOOK-SPEC-003": {
+        "version": 1,
+        "status": "active"
+      }
+    },
+    "missing": []
+  },
+  "spec_001_versions": [
+    {
+      "version": 2,
+      "status": "active"
+    },
+    {
+      "version": 1,
+      "status": "superseded"
+    }
+  ],
+  "powercontext": {
+    "reachable": true,
+    "state_status": "loaded",
+    "state_seq": 3
+  },
+  "source_files": {
+    "service": true,
+    "api": true,
+    "target_tests": true,
+    "regression_tests": true
+  }
+}
+

@@ -1,0 +1,43 @@
+{
+  "scope_id": "scp_3hdqn9aw6s4q80a1eq60g2jwv7",
+  "state": {
+    "task_id": "BOOK-001",
+    "seq": 1,
+    "updated_at": "2026-10-29T08:41:24.413744+00:00",
+    "completed": [
+      "ingested v1 specs, code, and tests into seekdb",
+      "built the first SDD context bundle",
+      "ran baseline functional tests and captured the expected failure"
+    ],
+    "todos": [
+      "apply a MiniMax-generated patch",
+      "run functional and regression tests"
+    ],
+    "verifications": [
+      {
+        "command": "D:\\agent\\sandbox\\comp\\comp\\minimax\\.venv\\Scripts\\python.exe -m pytest -q",
+        "exit_code": 1,
+        "summary": "11 failed, 9 passed in 3.18s",
+        "log": "artifacts\\test_logs\\01_tests_before.log",
+        "code_version": "sha256:ac5d907f8ff183cfae5309110d23763eacca464da973cbe944ba2c544b9f0327"
+      }
+    ],
+    "context_run_id": "ctx-before-20261029-164105",
+    "code_version": "sha256:ac5d907f8ff183cfae5309110d23763eacca464da973cbe944ba2c544b9f0327",
+    "evidence_sources": [
+      {
+        "name": "content",
+        "source_id": "book-001-tests-before-20261029-164105"
+      }
+    ]
+  },
+  "artifact": {
+    "family": "atomic-memory",
+    "artifact_id": "art_2b0d64d99cd74fc9872ab2b076811f2c",
+    "revision": 1
+  },
+  "artifact_id": "art_2b0d64d99cd74fc9872ab2b076811f2c",
+  "revision": 1,
+  "state_version": 0,
+  "changed": true
+}
