@@ -3,17 +3,16 @@
 > **证据状态说明（提交前请读）**
 >
 > 本文件是项目的开发过程记录与 Qoder 重放脚本。仓库里的代码、测试和截图已经完成；
-> **Qoder CN 已实际完成一次 BibTeX 功能开发（12 passed / 23 checks），但对话截图仍需从
-> 当前 Qoder 会话中保存到 `docs/qoder-evidence/`，Qoder UID 也需填写。**
-> 请按 [`QODER_HANDOFF.md`](QODER_HANDOFF.md) 在 Qoder 中导入本目录，依次发送下面的任务，
-> 把每一步的对话与运行结果截图保存到 `docs/qoder-evidence/`，再把本页的“证据”列替换为实际截图链接。
-> 不要把本页当作已经完成的 Qoder 使用证明；赛题要求的是可核对的真实记录。
+> **Qoder CN 已实际完成一次 BibTeX 功能开发（12 passed / 23 checks），4 张真实会话截图
+> 已归档到 `docs/qoder-evidence/`，Qoder UID 已填写。**
+> 剩余可选项是按 [`QODER_HANDOFF.md`](QODER_HANDOFF.md) 重放其他截图；当前材料已可核对
+> Qoder 的代码修改、测试执行与站点发布。不要用 P 图或补造对话。
 
 - Qoder 账号 UID：`1473193271554286`（Qoder CN 个人信息页的阿里云账号 ID；如客户端显示不同 UID，以客户端为准）
 - 项目目录：`qoder/`
 - 分支/基线：`2026-competition-ecosystem` 导入后的同名分支；本目录位于 `qoder/`
-- 站点：`site/`（静态网站，发布后填写 URL）
-- 代码仓库：`<填写公开仓库或评审可访问地址>`
+- 站点：<https://research-pulse-md400bulau4.qoder.zone/>（Qoder Sites，任何人可访问）
+- 代码仓库：<https://github.com/2433109486/ob-2026-competition/tree/submission-2026/qoder>
 
 ## 1. 任务拆解与实现顺序
 
@@ -166,14 +165,13 @@ pytest:             12 passed
 acceptance.py:      PASS 23 checks（原 21 + BibTeX 2）
 ```
 
-对应截图请补：
+对应截图已归档：
 
 ```text
 docs/qoder-evidence/09-bibtex.png
 ```
 
 > 这一节证明 Qoder 不是只用来发布网站，而是实际读取了代码、实现了功能、补了测试并跑通验收。
-> 仍建议补一张 Qoder 终端截图（能同时看到账号、任务和 `PASS 23 checks`）。
 
 ## 3. 实际调试记录（可作为 Qoder 对话素材）
 
@@ -198,10 +196,24 @@ docs/qoder-evidence/09-bibtex.png
 
 ## 5. 提交前证据核对
 
-- [ ] Qoder UID 已填写
-- [ ] 8 个截图位都有真实截图（不是本页文字）
-- [ ] Qoder Sites URL 可无痕访问
-- [ ] 仓库 `qoder/` 目录代码与截图一致
-- [ ] `.env`、`runtime/`、真实 Key 未提交
-- [ ] `scripts/acceptance.py` 在干净环境重跑通过
-- [ ] 项目网站包含代码仓库链接与运行说明入口
+- [x] Qoder UID 已填写
+- [x] 已归档 5 张真实截图：status / prompt / read-docs / bibtex / sites
+- [x] Qoder Sites URL 可无痕访问
+- [x] 仓库 `qoder/` 目录代码与截图一致
+- [x] `.env`、`runtime/`、真实 Key 未提交
+- [x] `scripts/acceptance.py` 在干净环境重跑通过（23/23）
+- [x] 项目网站包含代码仓库链接与运行说明入口
+
+## 6. Qoder Sites 使用效果
+
+- 公开 URL：<https://research-pulse-md400bulau4.qoder.zone/>
+- 查询时间：2026-10-30 10:59:31（最近 7 天）
+- 访问次数：4
+- 独立访客：3
+- 人均访问次数：1.33
+- 来源截图：`docs/qoder-evidence/08-sites.png`
+- 无登录验证：全新浏览器上下文 HTTP 200，5 张图片 + 1 个视频元素正常，
+  截图 `docs/screenshots/12-public-site.png`
+
+> 样本很小，可能包含开发者本人和评审预览，不据此声称外部用户提效。
+> 详细说明见 `docs/evidence/usage.md`。

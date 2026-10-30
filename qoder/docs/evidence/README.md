@@ -11,5 +11,6 @@
 | `acceptance.json` | 23 项自动验收结果 | `scripts/acceptance.py` |
 | `pytest.txt` | 12 项 pytest 结果 | `pytest -q` |
 | `bibtex-sample.bib` | 从精读抽屉实际下载的 BibTeX 样例 | `GET /api/papers/{id}/bibtex` |
+| `usage.md` | Qoder Sites 公开 URL、访问统计与效果边界 | Qoder Sites 控制台 |
 
 > 这些文件由本机真实运行生成。UUID、时间戳、耗时每次重跑会变化。

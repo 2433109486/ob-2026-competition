@@ -1,7 +1,10 @@
 # Qoder 交接：从导入到 Qoder Sites 公开
 
 > 目标：让本目录成为**可核对的 Qoder 开发作品**，并把 `site/` 发布成「任何人都可访问」的项目网站。
-> 本仓库已完成代码、测试、截图和站点素材；你只需要在 Qoder 中登录、重放关键任务、截图、发布。
+>
+> **发布状态（2026-10-30）**：已完成，公开 URL：
+> <https://research-pulse-md400bulau4.qoder.zone/>。访问统计 4 次 / 3 独立访客，
+> 截图 `docs/qoder-evidence/08-sites.png`。
 
 ## 0. 前置
 

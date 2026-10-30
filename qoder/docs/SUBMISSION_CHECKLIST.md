@@ -11,21 +11,19 @@
 - [x] 运行说明 `docs/RUNBOOK.md`
 - [x] 验证样例 `docs/VALIDATION.md`
 - [x] 技术证据 `docs/TECH_USAGE.md` + `docs/evidence/`
-- [x] 真实截图 11 张 + 35 秒录屏 `docs/demo/demo.webm`
-- [x] 项目网站 `site/`（静态，可直接发布）
-- [x] 提交代码到 `qoder/` 目录
+- [x] 真实截图 12 张 + 35 秒录屏 `docs/demo/demo.webm`
+- [x] Qoder Sites 已发布，任何人可访问：<https://research-pulse-md400bulau4.qoder.zone/>
+- [x] Qoder CN 真实会话截图已归档（status / prompt / read-docs / bibtex / sites）
+- [x] Qoder UID、站点 URL 已写入 `docs/QODER_DEVLOG.md`
+- [x] 代码已提交到 `qoder/` 目录
 
-## 待完成（必须由 Qoder 账号本人操作）
+## 提交前核对
 
-- [ ] 在 Qoder 中登录个人账号（不要企业版）
-- [ ] 按 `docs/QODER_DEVLOG.md` 第 2 节依次重放 7 个任务
-- [ ] 把 Qoder 对话/终端截图放入 `docs/qoder-evidence/`（8 个命名，见该目录 README）
-- [ ] 填写 Qoder 账号 UID 到 `docs/QODER_DEVLOG.md` 顶部
-- [ ] 用 Qoder Sites 发布 `site/`，可见范围设为「任何人都可访问」
-- [ ] 无痕窗口验证站点；记录 URL
-- [ ] 把站点 URL 填入提交平台、`docs/QODER_DEVLOG.md`
-- [ ] 记录最终分支/commit hash 到本页
-- [ ] 清理 `.env` / `runtime/` / 真实凭据，确认仓库可被评审访问
+- [x] 无痕窗口访问站点成功（HTTP 200，图片/视频正常）
+- [x] Qoder Sites 访问统计：4 次 / 3 独立访客（2026-10-30 10:59）
+- [x] 未提交 `.env` / `runtime/` / 真实凭据
+- [ ] 仓库已 push 到远端（本地 commit 需推送）
+- [ ] 仓库已向评审开放访问
 
 ## 分支与提交
 
@@ -34,6 +32,7 @@ repository: https://github.com/2433109486/ob-2026-competition
 branch:     submission-2026
 commit:     <见最终提交；运行 git log -1 --format=%H 获取>
 asset dir:  qoder/
+website:    https://research-pulse-md400bulau4.qoder.zone/
 ```
 
 > 赛题基线为 `oceanbase/powercontext` 的 `2026-competition-ecosystem`。
@@ -43,13 +42,13 @@ asset dir:  qoder/
 
 | 字段 | 填什么 |
 | --- | --- |
-| 项目网站网址 | Qoder Sites 发布后的完整 URL（无痕可打开） |
-| 代码仓库地址 | 仓库 URL + 访问说明（私有则邀请评审） |
-| Qoder 账号 UID | Qoder → Settings → Profile → Edit |
-| 运行说明 | 上传 `docs/RUNBOOK.md` 或填仓库内路径 |
-| 验证样例 | 上传 `docs/VALIDATION.md` 或填仓库内路径 |
-| Qoder 开发记录 | `docs/qoder-evidence/` 截图 + UID |
-| 使用效果（可选） | 当前只有开发自测，不伪造；可后续补访问统计 |
+| 项目网站网址 | https://research-pulse-md400bulau4.qoder.zone/ |
+| 代码仓库地址 | https://github.com/2433109486/ob-2026-competition（私有则邀请评审） |
+| Qoder 账号 UID | 1473193271554286（Qoder CN 个人信息页） |
+| 运行说明 | `qoder/docs/RUNBOOK.md` |
+| 验证样例 | `qoder/docs/VALIDATION.md` |
+| Qoder 开发记录 | `qoder/docs/qoder-evidence/` 截图 + UID |
+| 使用效果（可选） | Qoder Sites 4 次访问 / 3 独立访客；`docs/evidence/usage.md` |
 
 ## 评审复现最短路径
 
