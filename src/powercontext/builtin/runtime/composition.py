@@ -107,6 +107,7 @@ from powercontext.builtin.persistence.sqlite.topic_memory_index import (
     SQLiteTopicMemoryVectorIndex,
 )
 from powercontext.builtin.persistence.tables import BUILTIN_TABLES
+from powercontext.builtin.runtime.source_lifecycle import SourceLifecycleApplication
 from powercontext.builtin.persistence.tag_schema import ensure_topic_memory_tag_schema
 from powercontext.builtin.persistence.topic_memory import TopicMemoryRepository
 from powercontext.builtin.persistence.topic_memory_index import (
@@ -657,6 +658,11 @@ async def open_builtin_runtime(
             _open_artifact_processing_supervisor(config, contexts, processing_bindings, tracing=tracing)
         )
         contexts.profiles.operation_context = runtime._operation
+        runtime.lifecycle = SourceLifecycleApplication(
+            runtime,
+            contexts.database,
+            contexts.repositories.governance,
+        )
         if config.handoff_report.enabled:
             runtime.handoff_report = HandoffReportApplication(
                 contexts.scopes,

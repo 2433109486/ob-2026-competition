@@ -1180,6 +1180,35 @@ RECURRENCE_OBSERVATION_TABLE = Table(
 
 RECURRENCE_TABLES = (RECURRENCE_MATCH_TABLE, RECURRENCE_OBSERVATION_TABLE)
 
+SOURCE_LIFECYCLE_NODE_TABLE = Table(
+    "pc_source_lifecycle_node",
+    SHARED_METADATA,
+    Column("scope_id", identity_string(MAX_SCOPE_ID_LENGTH), primary_key=True),
+    Column("node_id", identity_string(128), primary_key=True),
+    Column("kind", String(16), nullable=False),
+    Column("reference", _canonical_payload_type(), nullable=False),
+    Column("parents", _canonical_payload_type(), nullable=False),
+    Column("policy", String(8), nullable=False),
+    Column("revision", Integer),
+    Column("sequence", Integer),
+    Column("available", Boolean),
+    Column("reason", _entry_text_type()),
+    Column("digest", identity_string(71)),
+    ForeignKeyConstraint(("scope_id",), ("pc_scopes.scope_id",), ondelete="CASCADE"),
+    CheckConstraint(
+        "kind IN ('source', 'memory', 'topic')",
+        name="ck_pc_source_lifecycle_kind",
+    ),
+    CheckConstraint(
+        "policy IN ('all', 'any')",
+        name="ck_pc_source_lifecycle_policy",
+    ),
+    CheckConstraint(
+        "sequence IS NULL OR sequence > 0",
+        name="ck_pc_source_lifecycle_sequence_positive",
+    ),
+)
+
 BUILTIN_TABLES = (
     SCOPE_TABLES
     + SHARED_TABLES
@@ -1187,5 +1216,6 @@ BUILTIN_TABLES = (
     + MEMORY_TABLES
     + STATISTICS_TABLES
     + RECURRENCE_TABLES
+    + (SOURCE_LIFECYCLE_NODE_TABLE,)
     + (ARTIFACT_TAGS_TABLE, DREAM_RUNS_TABLE, RECEIPT_MIGRATION_REVIEW_TABLE)
 )

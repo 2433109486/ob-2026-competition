@@ -3140,6 +3140,9 @@ class BuiltinRuntime:
         self.skill = SkillApplication(self)
         self.remote_skills = RemoteSkillApplication(self)
         self.statistics = StatisticsApplication(self)
+        # Assigned by composition: source lifecycle needs the relational database
+        # and the Artifact governance repository, which the Runtime does not own.
+        self.lifecycle: Any = None
         self.handoff_report: HandoffReportApplication | None = None
         self.artifact_processing_supervisor: ArtifactProcessingSupervisors | None = None
         self.processor = None if scope_ids is None else ScheduledSourceProcessor(self, scope_ids)

@@ -40,6 +40,7 @@ from powercontext.builtin.artifacts.topic_memory import (
     TopicMemoryDraft,
     TopicMemoryProjection,
     TopicMemoryProjectionError,
+    TopicMemorySearchChannels,
     TopicMemorySearchMode,
     TopicMemorySearchRequest,
     TopicMemorySearchResult,
@@ -48,6 +49,7 @@ from powercontext.builtin.artifacts.topic_memory import (
     chunk_topic_memory_detail,
 )
 from powercontext.builtin.artifacts.topic_memory.fusion import _fuse_topic_memory_rankings
+from powercontext.builtin.persistence.artifact_governance import ArtifactLifecycleState
 from powercontext.builtin.persistence.artifacts import ArtifactRepository
 from powercontext.builtin.persistence.errors import InvalidRepositoryArgumentError
 from powercontext.builtin.persistence.supervision import database_utc_now
@@ -487,6 +489,7 @@ class TopicMemoryRepository:
             admission=admission,
         )
         channels = await self.index.search(connection, scope_id, request)
+        channels = await self._only_lifecycle_active(connection, scope_id, channels)
         await self._check_retrieval_shape(connection)
         outcome = _fuse_topic_memory_rankings(query, channels, limit, mode=used_mode, admission=admission)
         return TopicMemorySearchResult(
@@ -499,6 +502,46 @@ class TopicMemoryRepository:
                 admitted=outcome.admitted,
                 rejected=outcome.rejected,
             ),
+        )
+
+    async def _only_lifecycle_active(
+        self,
+        connection: AsyncConnection,
+        scope_id: str,
+        channels: TopicMemorySearchChannels,
+    ) -> TopicMemorySearchChannels:
+        """Drop hits whose Topic governance head left the active lifecycle state.
+
+        A Source withdrawal deactivates a Topic instead of deleting its
+        projections, so every channel has to honour the governance head or the
+        Topic would keep matching and keep entering generated Context.
+        """
+
+        names = ("topic_fts", "topic_vector", "detail_fts", "detail_vector")
+        identities = {hit.artifact_ref.artifact_id for name in names for hit in getattr(channels, name)}
+        if not identities:
+            return channels
+        supported = set(
+            (
+                await connection.execute(
+                    select(ARTIFACT_HEADS_TABLE.c.artifact_id).where(
+                        ARTIFACT_HEADS_TABLE.c.scope_id == scope_id,
+                        ARTIFACT_HEADS_TABLE.c.family == TopicMemory.family,
+                        ARTIFACT_HEADS_TABLE.c.lifecycle_state == ArtifactLifecycleState.ACTIVE.value,
+                        ARTIFACT_HEADS_TABLE.c.artifact_id.in_(identities),
+                    )
+                )
+            ).scalars()
+        )
+        if len(supported) == len(identities):
+            return channels
+        return channels.model_copy(
+            update={
+                name: tuple(
+                    hit for hit in getattr(channels, name) if hit.artifact_ref.artifact_id in supported
+                )
+                for name in names
+            }
         )
 
     async def _activate(
