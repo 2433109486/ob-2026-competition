@@ -207,14 +207,14 @@ def _relevance(question_terms: list[str], text: str) -> float:
 
 
 async def search_pdf_pages(
-    memory: "Any",
+    memory: Any,
     question: str,
     limit: int = 10,
-) -> "tuple[MemoryCitation, ...]":
+) -> tuple[MemoryCitation, ...]:
     """Return up to ``limit`` distinct page citations for one natural-language question."""
 
     from powercontext.builtin.artifacts.memory.models import MemoryCitation
-    from powercontext.builtin.runtime.models import SearchMemoryRequest
+    from powercontext.builtin.runtime.models import GetMemoryEntryRequest, SearchMemoryRequest
 
     if not isinstance(question, str) or not question.strip():
         raise ValueError("question must be a non-empty string")
@@ -222,27 +222,36 @@ async def search_pdf_pages(
         raise ValueError("limit must be a positive integer")
 
     pool = await memory.search(
-        SearchMemoryRequest(query=question, mode="fts", limit=max(limit * 10, 100))
-    )
-    terms = _tokens(question)
-    ranked = sorted(
-        pool.hits,
-        key=lambda hit: (-_relevance(terms, hit.text), hit.entry_id),
+        SearchMemoryRequest(query=question, mode="fts", limit=max(limit * 2, 40))
     )
     citations: list[MemoryCitation] = []
-    seen: set[tuple[str, str]] = set()
-    for hit in ranked:
-        key = (hit.memory_ref.artifact_id, hit.entry_id)
-        if key in seen:
-            continue
-        seen.add(key)
-        citations.append(
-            MemoryCitation(
-                memory_ref=hit.memory_ref,
-                entry_id=hit.entry_id,
-                entry_version_id=hit.entry_version_id,
+    seen: set[int] = set()
+    for hit in pool.hits:
+        entry = (
+            await memory.get(
+                GetMemoryEntryRequest(
+                    citation=MemoryCitation(
+                        memory_ref=hit.memory_ref,
+                        entry_id=hit.entry_id,
+                        entry_version_id=hit.entry_version_id,
+                    )
+                )
             )
-        )
+        ).entry
+        for source in entry.sources:
+            tail = source.source_id.rsplit(":", 1)[-1]
+            page = int(tail) if tail.isdigit() else None
+            if page is None or page in seen:
+                continue
+            seen.add(page)
+            citations.append(
+                MemoryCitation(
+                    memory_ref=hit.memory_ref,
+                    entry_id=hit.entry_id,
+                    entry_version_id=hit.entry_version_id,
+                )
+            )
+            break
         if len(citations) >= limit:
             break
     return tuple(citations)
