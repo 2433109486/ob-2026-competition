@@ -936,6 +936,16 @@ class RelationalContexts:
             except RepositoryNotFoundError as error:
                 raise ArtifactNotFoundError(artifact_ref) from error
 
+    async def pending_source_count(self, scope_id: str, binding_name: str, /) -> int:
+        """Return journal entries recorded after one binding's last successful cursor."""
+
+        scope = validate_scope_id(scope_id)
+        async with self.database.transaction() as connection:
+            row = await self.repositories.cursors.load(connection, scope, binding_name)
+            head = await self.repositories.sources.journal_position(connection, scope)
+        current = 0 if row is None else int(row.cursor.sequence)
+        return max(0, int(head) - current)
+
     async def request_topic_memory_flush(self, scope_id: str, /) -> bool:
         """Persist one flush generation and return only after its transaction commits."""
 

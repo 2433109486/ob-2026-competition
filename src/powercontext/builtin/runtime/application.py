@@ -250,6 +250,7 @@ from powercontext.builtin.runtime.recall_sufficiency import (
 )
 from powercontext.builtin.runtime.statistics import RelationalScopedStatistics, overview_selection
 from powercontext.builtin.scope import ScopeApplication, ScopeDescriptor, ScopeSelection
+from powercontext.builtin.triggers import SOURCE_WINDOW_TRIGGER_NAME
 from powercontext.builtin.scope.subject_sources import SubjectSourceService
 from powercontext.builtin.sources import (
     CONTENT_SOURCE_NAME,
@@ -469,7 +470,10 @@ class ScopedSourceApplication:
         self.scope_id = validate_scope_id(scope_id)
 
     async def capture(self, value: CaptureSource, /) -> SourceReceipt:
-        return await self._capture(value)
+        receipt = await self._capture(value)
+        # Count admission only observes the committed journal entry; it never delays capture.
+        self._runtime.note_source_captured(self.scope_id)
+        return receipt
 
     async def _capture(self, value: CaptureSource, /, *, handoff_receipt: bool = False) -> SourceReceipt:
         if self._runtime._record_service is not None:
@@ -563,7 +567,11 @@ class ScopedRecordApplication:
         /,
     ) -> ArtifactCreated:
         async with self._runtime._scope_operation(self.scope_id), self._runtime._locked(self.scope_id):
-            return await self._runtime._records().create_artifact(self.scope_id, family, write)
+            created = await self._runtime._records().create_artifact(self.scope_id, family, write)
+        # A lineage-only Source is a journal entry too: it counts toward admission even
+        # though it never becomes generation evidence.
+        self._runtime.note_source_captured(self.scope_id)
+        return created
 
     async def get_artifact(self, family: str, artifact_id: str, /) -> ArtifactRecord:
         async with self._runtime._scope_operation(self.scope_id):
@@ -3037,6 +3045,9 @@ class BuiltinRuntime:
         remote_skill_distribution: RemoteSkillDistributionService | None = None,
         statistics_service: StatisticsServiceFactory | None = None,
         record_service: RecordService | None = None,
+        pending_source_count: Callable[[str, str], Awaitable[int]] | None = None,
+        memory_source_count_threshold: int | None = None,
+        topic_memory_source_count_threshold: int | None = None,
         prompt_service: PromptService | None = None,
         recall_token_estimator: RecallTokenEstimator | None = None,
         recall_effort_sink: RecallEffortSink | None = None,
@@ -3093,6 +3104,10 @@ class BuiltinRuntime:
         self._remote_skill_distribution = remote_skill_distribution
         self._statistics_service = statistics_service
         self._record_service = record_service
+        self._pending_source_count = pending_source_count
+        self._memory_count_threshold = memory_source_count_threshold
+        self._topic_count_threshold = topic_memory_source_count_threshold
+        self._count_trigger_tasks: dict[str, asyncio.Task[None]] = {}
         self._prompt_service = prompt_service
         self._recall_token_estimator = recall_token_estimator
         self._recall_effort_sink = recall_effort_sink
@@ -3310,6 +3325,9 @@ class BuiltinRuntime:
                     unregister_processor(self._scheduler_runtime_key)
                     self._scheduler_runtime_key = None
                 self._scheduler = None
+            for task in tuple(self._count_trigger_tasks.values()):
+                task.cancel()
+            self._count_trigger_tasks.clear()
             self._scope_cache.clear()
             self._closed = True
 
@@ -3454,6 +3472,78 @@ class BuiltinRuntime:
         if authorizer is not None:
             service.configure_authorization(lambda ref: authorizer(scope, ref), self._review_authorization_context)
         return service
+
+    def note_source_captured(self, scope_id: str, /) -> None:
+        """Re-check count admission after a capture committed a journal entry."""
+
+        if self._memory_count_threshold is None and self._topic_count_threshold is None:
+            return
+        if self._pending_source_count is None or self._closing or self._closed:
+            return
+        scope = validate_scope_id(scope_id)
+        if scope in self._count_trigger_tasks:
+            return
+        task = asyncio.get_running_loop().create_task(self._run_source_count_trigger(scope))
+        self._count_trigger_tasks[scope] = task
+        task.add_done_callback(lambda _task, scope=scope: self._count_trigger_tasks.pop(scope, None))
+
+    def start_source_count_scan(self) -> None:
+        """Resume below-threshold and already-accepted work after a restart."""
+
+        if self._memory_count_threshold is None and self._topic_count_threshold is None:
+            return
+        if self._pending_source_count is None or self._record_service is None:
+            return
+        asyncio.get_running_loop().create_task(self._scan_source_counts())
+
+    async def _scan_source_counts(self) -> None:
+        cursor: str | None = None
+        try:
+            while not (self._closing or self._closed):
+                page = await self.records.list_scopes(limit=100, cursor=cursor)
+                for item in page.items:
+                    self.note_source_captured(item.scope_id)
+                cursor = page.next_cursor
+                if cursor is None:
+                    return
+        except Exception as error:  # noqa: BLE001 - admission must never break runtime start-up
+            log_safely(
+                logger,
+                logging.WARNING,
+                "Source count start-up scan failed",
+                exc_info=error,
+                extra={"event": "source_count.scan.failed", "outcome": "failure", "unit": "processing"},
+            )
+
+    async def _run_source_count_trigger(self, scope_id: str) -> None:
+        """Run one processing call per satisfied threshold, then re-judge the remainder."""
+
+        try:
+            while not (self._closing or self._closed):
+                processed = False
+                if self._memory_count_threshold is not None:
+                    pending = await self._pending_source_count(scope_id, SOURCE_WINDOW_TRIGGER_NAME)
+                    if pending >= self._memory_count_threshold:
+                        result = await self.memory.for_scope(scope_id).flush()
+                        processed = bool(result.processed)
+                if self._topic_count_threshold is not None and self._topic_memory_processing_available:
+                    pending = await self._pending_source_count(scope_id, TOPIC_MEMORY_SOURCE_WINDOW_BINDING)
+                    if pending >= self._topic_count_threshold:
+                        # The accepted wave drains its own remaining windows under the
+                        # binding's existing policy, so admission does not re-apply the
+                        # threshold to those windows.
+                        await self.topic_memory.for_scope(scope_id).flush()
+                        return
+                if not processed:
+                    return
+        except Exception as error:  # noqa: BLE001 - a failed call keeps its cursor and stays retryable
+            log_safely(
+                logger,
+                logging.WARNING,
+                "Source count trigger failed",
+                exc_info=error,
+                extra={"event": "source_count.trigger.failed", "outcome": "failure", "unit": "processing"},
+            )
 
     def _records(self) -> RecordService:
         if self._record_service is None:
