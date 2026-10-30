@@ -206,6 +206,172 @@ def _relevance(question_terms: list[str], text: str) -> float:
     return (hits + 2.0 * coverage) / length_penalty
 
 
+_STOPWORDS = frozenset(
+    """
+    a an the of and or to in on for by with from as at is are was were be been being that this these those it its
+    what which who whom how many much does do did has have had reported report any there their they them we our us
+    if then than about into over under between during within without after before above below not no can could should
+    would may might will shall per each other such same also more most less least
+    """.split()
+)
+
+
+def _query_tokens(text: str) -> list[str]:
+    return [token for token in _WORD.findall(text.lower()) if token not in _STOPWORDS]
+
+
+def _page_from_sources(sources: object) -> int | None:
+    for source in sources:
+        tail = source.source_id.rsplit(":", 1)[-1]
+        if tail.isdigit():
+            return int(tail)
+    return None
+
+
+async def _search_via_listing(
+    memory: Any, question: str, limit: int
+) -> tuple["MemoryCitation", ...] | None:
+    try:
+        listing = await memory.list()
+    except Exception:  # noqa: BLE001 - fall back to plain FTS when listing is unavailable
+        return None
+    records = list(getattr(listing, "entries", ()))
+    if not records:
+        return None
+    from powercontext.builtin.artifacts.memory.models import MemoryCitation
+
+    texts = [record.entry.text for record in records]
+    docs = [_query_tokens(text) for text in texts]
+    pages = [_page_from_sources(record.entry.sources) for record in records]
+    count = len(docs)
+    document_frequency: dict[str, int] = {}
+    for doc in docs:
+        for term in set(doc):
+            document_frequency[term] = document_frequency.get(term, 0) + 1
+    terms: list[str] = []
+    for token in _query_tokens(question):
+        if token not in terms:
+            terms.append(token)
+    if not terms:
+        return None
+    idf = {
+        term: math.log(1 + (count - document_frequency.get(term, 0) + 0.5) / (document_frequency.get(term, 0) + 0.5))
+        for term in terms
+    }
+
+    def score(doc: list[str]) -> float:
+        seen = set(doc)
+        return sum(idf[term] for term in terms if term in seen)
+
+    scored = sorted(range(count), key=lambda index: (-score(docs[index]), index))
+    ranked_pages: list[int] = []
+    seen_pages: set[int] = set()
+
+    def add(index: int) -> None:
+        page = pages[index]
+        if page is not None and page not in seen_pages:
+            seen_pages.add(page)
+            ranked_pages.append(page)
+
+    for index in scored[:10]:
+        add(index)
+    for term in sorted(terms, key=lambda item: -idf[item]):
+        candidates = [index for index in range(count) if term in set(docs[index])]
+        candidates.sort(key=lambda index: (-docs[index].count(term), index))
+        for index in candidates[:3]:
+            add(index)
+
+    by_page: dict[int, MemoryCitation] = {}
+    for index, record in enumerate(records):
+        if pages[index] is not None:
+            by_page.setdefault(pages[index], record.citation)
+    ordered = [page for page in ranked_pages if page in by_page][:limit]
+    return tuple(by_page[page] for page in ordered)
+
+
+_STOPWORDS = frozenset(
+    """
+    a an the of and or to in on for by with from as at is are was were be been being that this these those it its
+    what which who whom how many much does do did has have had reported report any there their they them we our us
+    if then than about into over under between during within without after before above below not no can could should
+    would may might will shall per each other such same also more most less least
+    """.split()
+)
+
+
+def _query_tokens(text: str) -> list[str]:
+    return [token for token in _WORD.findall(text.lower()) if token not in _STOPWORDS]
+
+
+def _page_from_sources(sources: object) -> int | None:
+    for source in sources:
+        tail = source.source_id.rsplit(":", 1)[-1]
+        if tail.isdigit():
+            return int(tail)
+    return None
+
+
+async def _search_via_listing(
+    memory: Any, question: str, limit: int
+) -> tuple["MemoryCitation", ...] | None:
+    try:
+        listing = await memory.list()
+    except Exception:  # noqa: BLE001 - fall back to plain FTS when listing is unavailable
+        return None
+    records = list(getattr(listing, "entries", ()))
+    if not records:
+        return None
+    from powercontext.builtin.artifacts.memory.models import MemoryCitation
+
+    texts = [record.entry.text for record in records]
+    docs = [_query_tokens(text) for text in texts]
+    pages = [_page_from_sources(record.entry.sources) for record in records]
+    count = len(docs)
+    document_frequency: dict[str, int] = {}
+    for doc in docs:
+        for term in set(doc):
+            document_frequency[term] = document_frequency.get(term, 0) + 1
+    terms: list[str] = []
+    for token in _query_tokens(question):
+        if token not in terms:
+            terms.append(token)
+    if not terms:
+        return None
+    idf = {
+        term: math.log(1 + (count - document_frequency.get(term, 0) + 0.5) / (document_frequency.get(term, 0) + 0.5))
+        for term in terms
+    }
+
+    def score(doc: list[str]) -> float:
+        seen = set(doc)
+        return sum(idf[term] for term in terms if term in seen)
+
+    scored = sorted(range(count), key=lambda index: (-score(docs[index]), index))
+    ranked_pages: list[int] = []
+    seen_pages: set[int] = set()
+
+    def add(index: int) -> None:
+        page = pages[index]
+        if page is not None and page not in seen_pages:
+            seen_pages.add(page)
+            ranked_pages.append(page)
+
+    for index in scored[:10]:
+        add(index)
+    for term in sorted(terms, key=lambda item: -idf[item]):
+        candidates = [index for index in range(count) if term in set(docs[index])]
+        candidates.sort(key=lambda index: (-docs[index].count(term), index))
+        for index in candidates[:3]:
+            add(index)
+
+    by_page: dict[int, MemoryCitation] = {}
+    for index, record in enumerate(records):
+        if pages[index] is not None:
+            by_page.setdefault(pages[index], record.citation)
+    ordered = [page for page in ranked_pages if page in by_page][:limit]
+    return tuple(by_page[page] for page in ordered)
+
+
 async def search_pdf_pages(
     memory: Any,
     question: str,
@@ -220,6 +386,10 @@ async def search_pdf_pages(
         raise ValueError("question must be a non-empty string")
     if not isinstance(limit, int) or isinstance(limit, bool) or limit < 1:
         raise ValueError("limit must be a positive integer")
+
+    ranked = await _search_via_listing(memory, question, limit)
+    if ranked is not None:
+        return ranked
 
     pool = await memory.search(
         SearchMemoryRequest(query=question, mode="fts", limit=max(limit * 2, 40))
@@ -238,20 +408,17 @@ async def search_pdf_pages(
                 )
             )
         ).entry
-        for source in entry.sources:
-            tail = source.source_id.rsplit(":", 1)[-1]
-            page = int(tail) if tail.isdigit() else None
-            if page is None or page in seen:
-                continue
-            seen.add(page)
-            citations.append(
-                MemoryCitation(
-                    memory_ref=hit.memory_ref,
-                    entry_id=hit.entry_id,
-                    entry_version_id=hit.entry_version_id,
-                )
+        page = _page_from_sources(entry.sources)
+        if page is None or page in seen:
+            continue
+        seen.add(page)
+        citations.append(
+            MemoryCitation(
+                memory_ref=hit.memory_ref,
+                entry_id=hit.entry_id,
+                entry_version_id=hit.entry_version_id,
             )
-            break
+        )
         if len(citations) >= limit:
             break
     return tuple(citations)
