@@ -58,9 +58,19 @@ workflow:
     - data:
         isInIteration: false
         sourceType: start
-        targetType: http-request
-      id: start-source-http_intake-target
+        targetType: code
+      id: start-source-code_intake_payload-target
       source: start
+      sourceHandle: source
+      target: code_intake_payload
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: http-request
+      id: code_intake_payload-source-http_intake-target
+      source: code_intake_payload
       sourceHandle: source
       target: http_intake
       targetHandle: target
@@ -78,16 +88,26 @@ workflow:
     - data:
         isInIteration: false
         sourceType: code
-        targetType: llm
-      id: code_intake-source-llm_judge-target
+        targetType: code
+      id: code_intake-source-code_prompt-target
       source: code_intake
+      sourceHandle: source
+      target: code_prompt
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: http-request
+      id: code_prompt-source-llm_judge-target
+      source: code_prompt
       sourceHandle: source
       target: llm_judge
       targetHandle: target
       type: custom
     - data:
         isInIteration: false
-        sourceType: llm
+        sourceType: http-request
         targetType: code
       id: llm_judge-source-code_verdict-target
       source: llm_judge
@@ -98,9 +118,19 @@ workflow:
     - data:
         isInIteration: false
         sourceType: code
-        targetType: http-request
-      id: code_verdict-source-http_commit-target
+        targetType: code
+      id: code_verdict-source-code_commit_payload-target
       source: code_verdict
+      sourceHandle: source
+      target: code_commit_payload
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: http-request
+      id: code_commit_payload-source-http_commit-target
+      source: code_commit_payload
       sourceHandle: source
       target: http_commit
       targetHandle: target
@@ -151,24 +181,61 @@ workflow:
       type: custom
       width: 244
     - data:
+        code: |
+          def main(player_id: str, user_id: str, conversation_id: str, message: str) -> dict:
+              import json
+              payload = {
+                  "player_id": player_id or "",
+                  "user_id": user_id or "",
+                  "conversation_id": conversation_id or "default",
+                  "message": message or "",
+              }
+              return {"json": json.dumps(payload, ensure_ascii=False)}
+        code_language: python3
+        desc: 构造 intake 请求体（raw JSON，避免 JSON body 结构差异）
+        outputs:
+          json:
+            children: null
+            type: string
+        title: ① 组装立案请求
+        type: code
+        variables:
+        - value_selector:
+          - start
+          - player_id
+          variable: player_id
+        - value_selector:
+          - sys
+          - user_id
+          variable: user_id
+        - value_selector:
+          - sys
+          - conversation_id
+          variable: conversation_id
+        - value_selector:
+          - sys
+          - query
+          variable: message
+      height: 110
+      id: code_intake_payload
+      position:
+        x: 160
+        y: 300
+      positionAbsolute:
+        x: 160
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
         authorization:
           config: null
           type: no-auth
         body:
-          data:
-          - key: player_id
-            type: text
-            value: '{{#start.player_id#}}'
-          - key: user_id
-            type: text
-            value: '{{#sys.user_id#}}'
-          - key: conversation_id
-            type: text
-            value: '{{#sys.conversation_id#}}'
-          - key: message
-            type: text
-            value: '{{#sys.query#}}'
-          type: json
+          data: '{{#code_intake_payload.json#}}'
+          type: raw-text
         desc: ① 立案：seekdb 混合检索法条/判例，PowerContext 召回跨会话记忆
         headers: 'Content-Type: application/json'
         method: post
@@ -345,88 +412,141 @@ workflow:
       type: custom
       width: 244
     - data:
-        context:
-          enabled: false
-          variable_selector: []
-        desc: 包大仁本尊：只负责叙事与庭审推进，法条与刑期由后端兜底
-        model:
-          completion_params:
-            max_tokens: 1200
-            temperature: 0.9
-          mode: chat
-          name: MiniMax-Text-01
-          provider: minimax
-        prompt_template:
-        - role: system
-          text: |
-            你是「宇宙离谱法庭」首席大法官包大仁（编号 JDG-3026），公元 3026 年上任。
+        code: |
+          def main(case_no: str, turn: int, phase: str, profile_text: str, defendant: str, charge: str, history: str, query: str, memories_text: str, statutes_text: str, precedents_text: str) -> dict:
+              import json
 
-            【人格】
-            - 半文半白，自称“本官”，称玩家为“原告”，偶尔敲法槌（🔨）。
-            - 冷幽默、见多识广，认真对待每一件离谱小事。你的信条是：法律不问事小，只问离不离谱。
-            - 嘲讽对象只能是案件和“被告”，绝不攻击原告本人。
-            - 判决必须“可执行的荒诞”，例如：判处被告连续七天在凌晨三点向原告道歉。
+              system = "你是「宇宙离谱法庭」首席大法官包大仁（编号 JDG-3026），公元 3026 年上任。\n\n【人格】\n- 半文半白，自称“本官”，称玩家为“原告”，偶尔敲法槌（🔨）。\n- 冷幽默、见多识广，认真对待每一件离谱小事。你的信条是：法律不问事小，只问离不离谱。\n- 嘲讽对象只能是案件和“被告”，绝不攻击原告本人。\n- 判决必须“可执行的荒诞”，例如：判处被告连续七天在凌晨三点向原告道歉。\n\n【铁律】\n1. 只能引用【法条】区块里给出的条文编号与内容，禁止编造编号、禁止自创法条。\n2. 判罚天数：初犯建议值须落在被引用法条的 min_days..max_days 区间；累犯由书记员在法定上限上每次加 3 天，你只给建议值。\n3. 三轮之内必须结案：当【阶段】为 verdict 时，必须宣判。\n4. 本案必须围绕【本案被告】与【本案案由】审理，不得中途换成别的案件；即使检索结果里出现无关法条，也要忽略。\n5. 如果【跨会话记忆】非空，必须在 reply 里自然地翻一次旧账（提及上次的案子或评语），并写入 memory_callback；如果为空，memory_callback 必须为 null，绝不能把【相似判例】说成“本官记得你”。\n6. 如果【相似判例】存在，可用“本院曾判……”提及；没有就不提。\n7. 全程中文，单次 reply 不超过 220 字，留出互动空间。\n\n【输出】\n只输出一个 JSON 对象，不要 Markdown 代码块，不要额外解释：\n{\n  \"reply\": \"法官本轮台词\",\n  \"phase\": \"intake|hearing|verdict\",\n  \"defendant\": \"被告（如：室友的袜子）\",\n  \"charge\": \"案由（如：袜子越界居住罪）\",\n  \"cited_codes\": [\"AB-000\"],\n  \"attitude\": \"认罪|狡辩|卖惨|沉默\",\n  \"absurdity\": 0,\n  \"verdict\": {\"sentence_days\": 0, \"compensation\": \"赔偿内容\", \"probation\": \"缓刑/执行方式\", \"reasoning\": \"判决理由\"}, \n  \"memory_callback\": \"翻旧账的原文，没有则填 null\",\n  \"next_prompt\": \"给原告的下一步提示\"\n}\n非宣判轮次，verdict 必须为 null。"
 
-            【铁律】
-            1. 只能引用【法条】区块里给出的条文编号与内容，禁止编造编号、禁止自创法条。
-            2. 判罚天数：初犯建议值须落在被引用法条的 min_days..max_days 区间；累犯由书记员在法定上限上每次加 3 天，你只给建议值。
-            3. 三轮之内必须结案：当【阶段】为 verdict 时，必须宣判。
-            4. 本案必须围绕【本案被告】与【本案案由】审理，不得中途换成别的案件；即使检索结果里出现无关法条，也要忽略。
-            5. 如果【跨会话记忆】非空，必须在 reply 里自然地翻一次旧账（提及上次的案子或评语），并写入 memory_callback；如果为空，memory_callback 必须为 null，绝不能把【相似判例】说成“本官记得你”。
-            6. 如果【相似判例】存在，可用“本院曾判……”提及；没有就不提。
-            7. 全程中文，单次 reply 不超过 220 字，留出互动空间。
+              user = f"""【案件信息】
+          案号：{case_no}　第 {turn} 次开庭　阶段：{phase}
+          原告档案：{profile_text}
+          本案被告：{defendant or "（尚未确定，请从原告陈述中归纳）"}
+          本案案由：{charge or "（尚未确定）"}
 
-            【输出】
-            只输出一个 JSON 对象，不要 Markdown 代码块，不要额外解释：
-            {
-              "reply": "法官本轮台词",
-              "phase": "intake|hearing|verdict",
-              "defendant": "被告（如：室友的袜子）",
-              "charge": "案由（如：袜子越界居住罪）",
-              "cited_codes": ["AB-000"],
-              "attitude": "认罪|狡辩|卖惨|沉默",
-              "absurdity": 0,
-              "verdict": {"sentence_days": 0, "compensation": "赔偿内容", "probation": "缓刑/执行方式", "reasoning": "判决理由"},
-              "memory_callback": "翻旧账的原文，没有则填 null",
-              "next_prompt": "给原告的下一步提示"
-            }
-            非宣判轮次，verdict 必须为 null。
-        - role: user
-          text: |
-            【案件信息】
-            案号：{{#code_intake.case_no#}}　第 {{#code_intake.turn#}} 次开庭　阶段：{{#code_intake.phase#}}
-            原告档案：{{#code_intake.profile_text#}}
-            本案被告：{{#code_intake.defendant#}}
-            本案案由：{{#code_intake.charge#}}
+          【本案此前庭审记录】
+          {history or "（本轮为第一次开庭）"}
 
-            【本案此前庭审记录】
-            {{#code_intake.history#}}
+          【原告本轮发言】
+          {query}
 
-            【原告本轮发言】
-            {{#sys.query#}}
+          【跨会话记忆（PowerContext，按相关度召回）】
+          {memories_text}
 
-            【跨会话记忆（PowerContext，按相关度召回）】
-            {{#code_intake.memories_text#}}
+          【法条（seekdb 混合检索：向量 + 全文 + 案由标量过滤，仅可引用以下条文）】
+          {statutes_text}
 
-            【法条（seekdb 混合检索：向量 + 全文 + 案由标量过滤，仅可引用以下条文）】
-            {{#code_intake.statutes_text#}}
+          【相似判例（seekdb 判例库，其他玩家的案子；只能以“本院曾判……”提及，不是你的个人记忆）】
+          {precedents_text}
 
-            【相似判例（seekdb 判例库，其他玩家的案子；只能以“本院曾判……”提及，不是你的个人记忆）】
-            {{#code_intake.precedents_text#}}
+          请以包大仁的身份作出本轮回应，严格输出 JSON。"""
 
-            请以包大仁的身份作出本轮回应，严格输出 JSON。
-        title: ③ 法官包大仁
-        type: llm
+              payload = {
+                  "messages": [
+                      {"role": "system", "content": system},
+                      {"role": "user", "content": user},
+                  ],
+                  "temperature": 0.9,
+                  "max_tokens": 1200,
+              }
+              return {"payload": json.dumps(payload, ensure_ascii=False)}
+        code_language: python3
+        desc: 组装法官提示词（与 backend/app/prompt.py 一致）
+        outputs:
+          payload:
+            children: null
+            type: string
+        title: ③ 组装提示词
+        type: code
+        variables:
+        - value_selector:
+          - code_intake
+          - case_no
+          variable: case_no
+        - value_selector:
+          - code_intake
+          - turn
+          variable: turn
+        - value_selector:
+          - code_intake
+          - phase
+          variable: phase
+        - value_selector:
+          - code_intake
+          - profile_text
+          variable: profile_text
+        - value_selector:
+          - code_intake
+          - defendant
+          variable: defendant
+        - value_selector:
+          - code_intake
+          - charge
+          variable: charge
+        - value_selector:
+          - code_intake
+          - history
+          variable: history
+        - value_selector:
+          - sys
+          - query
+          variable: query
+        - value_selector:
+          - code_intake
+          - memories_text
+          variable: memories_text
+        - value_selector:
+          - code_intake
+          - statutes_text
+          variable: statutes_text
+        - value_selector:
+          - code_intake
+          - precedents_text
+          variable: precedents_text
+      height: 110
+      id: code_prompt
+      position:
+        x: 920
+        y: 300
+      positionAbsolute:
+        x: 920
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: '{{#code_prompt.payload#}}'
+          type: raw-text
+        desc: 通过后端代理调用 MiniMax，Key 不进入 DSL
+        headers: 'Content-Type: application/json'
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 2
+          retry_enabled: true
+          retry_interval: 200
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: ④ 法官包大仁
+        type: http-request
+        url: http://host.docker.internal:8088/api/v1/llm/chat
         variables: []
-        vision:
-          enabled: false
       height: 110
       id: llm_judge
       position:
-        x: 960
+        x: 1200
         y: 300
       positionAbsolute:
-        x: 960
+        x: 1200
         y: 300
       selected: false
       sourcePosition: right
@@ -439,7 +559,11 @@ workflow:
               import json
               import re
 
-              text = (llm_text or "").strip()
+              try:
+                  envelope = json.loads(llm_text or "{}")
+              except Exception:
+                  envelope = {}
+              text = str(envelope.get("content") or "").strip()
               if text.startswith("```"):
                   text = re.sub(r"^```[a-zA-Z]*\s*", "", text)
                   text = re.sub(r"\s*```$", "", text)
@@ -498,7 +622,7 @@ workflow:
         variables:
         - value_selector:
           - llm_judge
-          - text
+          - body
           variable: llm_text
       height: 110
       id: code_verdict
@@ -514,33 +638,76 @@ workflow:
       type: custom
       width: 244
     - data:
+        code: |
+          def main(player_id: str, user_id: str, conversation_id: str, case_id: str, message: str, judge_json: str, fallback_json: str) -> dict:
+              import json
+              payload = {
+                  "player_id": player_id or "",
+                  "user_id": user_id or "",
+                  "conversation_id": conversation_id or "default",
+                  "case_id": case_id or "",
+                  "message": message or "",
+                  "judge": judge_json or "{}",
+                  "fallback_statutes": fallback_json or "[]",
+              }
+              return {"json": json.dumps(payload, ensure_ascii=False)}
+        code_language: python3
+        desc: 构造 commit 请求体（raw JSON，judge 以字符串传递）
+        outputs:
+          json:
+            children: null
+            type: string
+        title: ⑤ 组装结案请求
+        type: code
+        variables:
+        - value_selector:
+          - start
+          - player_id
+          variable: player_id
+        - value_selector:
+          - sys
+          - user_id
+          variable: user_id
+        - value_selector:
+          - sys
+          - conversation_id
+          variable: conversation_id
+        - value_selector:
+          - code_intake
+          - case_id
+          variable: case_id
+        - value_selector:
+          - sys
+          - query
+          variable: message
+        - value_selector:
+          - code_verdict
+          - judge_json
+          variable: judge_json
+        - value_selector:
+          - code_intake
+          - fallback_json
+          variable: fallback_json
+      height: 110
+      id: code_commit_payload
+      position:
+        x: 1440
+        y: 300
+      positionAbsolute:
+        x: 1440
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
         authorization:
           config: null
           type: no-auth
         body:
-          data:
-          - key: player_id
-            type: text
-            value: '{{#start.player_id#}}'
-          - key: user_id
-            type: text
-            value: '{{#sys.user_id#}}'
-          - key: conversation_id
-            type: text
-            value: '{{#sys.conversation_id#}}'
-          - key: case_id
-            type: text
-            value: '{{#code_intake.case_id#}}'
-          - key: message
-            type: text
-            value: '{{#sys.query#}}'
-          - key: judge
-            type: text
-            value: '{{#code_verdict.judge_json#}}'
-          - key: fallback_statutes
-            type: text
-            value: '{{#code_intake.fallback_json#}}'
-          type: json
+          data: '{{#code_commit_payload.json#}}'
+          type: raw-text
         desc: ⑤ 结案：校验引用、后端量刑、写判例与 PowerContext 记忆
         headers: 'Content-Type: application/json'
         method: post
@@ -649,4 +816,5 @@ workflow:
       x: 0
       y: 0
       zoom: 0.7
+
 

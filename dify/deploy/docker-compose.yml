@@ -51,6 +51,9 @@ services:
       POWERCONTEXT_ENABLED: "1"
       EMBEDDING_BACKEND: hash
       EMBEDDING_DIM: "128"
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_BASE_URL: ${LLM_BASE_URL:-https://api.minimax.chat/v1/text/chatcompletion_v2}
+      LLM_MODEL: ${LLM_MODEL:-MiniMax-M2.5}
       COURT_AUTO_INIT: "1"
       COURT_INIT_RETRIES: "60"
       COURT_INIT_DELAY: "2"

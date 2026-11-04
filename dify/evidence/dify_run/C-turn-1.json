@@ -1,0 +1,31 @@
+{
+  "event": "message",
+  "task_id": "dea0812d-2142-44d2-942f-1ed34ca65749",
+  "id": "04d1a72b-6315-4660-b05d-c7d441289b93",
+  "message_id": "04d1a72b-6315-4660-b05d-c7d441289b93",
+  "conversation_id": "2445b1e2-47d1-446b-b808-12c0b78a0dc2",
+  "mode": "advanced-chat",
+  "answer": "原告，状纸收悉。凌晨三点踩脸属夜间蹦迪，水杯倾覆另涉打翻水杯；请补告水杯落点及猫的惯犯证据。🔨\n\n📜 **本庭援引**\n- `AB-001`《宠物夜间蹦迪罪》 · 量刑 3–15 天\n- `AB-002`《猫主子打翻水杯罪》 · 量刑 1–7 天\n\n📊 **你的档案**：法庭新鲜人 · 已起诉 1 次 · 前科 0 次 · 累计刑期 0 天\n\n> 请提交水杯落点、购水记录及猫的既往扰民记录。",
+  "metadata": {
+    "annotation_reply": null,
+    "retriever_resources": [],
+    "usage": {
+      "prompt_tokens": 0,
+      "prompt_unit_price": "0.0",
+      "prompt_price_unit": "0.0",
+      "prompt_price": "0.0",
+      "completion_tokens": 0,
+      "completion_unit_price": "0.0",
+      "completion_price_unit": "0.0",
+      "completion_price": "0.0",
+      "total_tokens": 0,
+      "total_price": "0.0",
+      "currency": "USD",
+      "latency": 0.0,
+      "time_to_first_token": 5.772,
+      "time_to_generate": 0.0
+    },
+    "reasoning": {}
+  },
+  "created_at": 1793798802
+}

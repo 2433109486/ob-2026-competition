@@ -1,0 +1,31 @@
+{
+  "event": "message",
+  "task_id": "b26ff9e6-200c-4b1e-bfd7-cb3069badc35",
+  "id": "727b42e5-2cf5-4fc5-8722-185e8ae97dca",
+  "message_id": "727b42e5-2cf5-4fc5-8722-185e8ae97dca",
+  "conversation_id": "d6d85424-1073-4bbc-9370-78a8abd9eed7",
+  "mode": "advanced-chat",
+  "answer": "原告，案由已定：被告为周一，涉嫌周一恶意到访罪。AB-010规定，周一携带会议、早高峰及未读邮件，致打工人情绪低落，即构成该罪；周一本体还可缺席审判。你此前起诉「原告的猫」，本院曾判其宠物夜间蹦迪罪。现在请补明周一到访频率、早高峰影响及是否造成会议与邮件积压。🔨\n\n📜 **本庭援引**\n- `AB-010`《周一恶意到访罪》 · 量刑 1–7 天\n\n🧠 **记忆回响**：上次你起诉「原告的猫」，本院曾判其宠物夜间蹦迪及打翻水杯罪，判10天并赔偿小鱼干三条；这次倒好，被告改成了星期本身。\n\n📊 **你的档案**：初犯旁听生 · 已起诉 2 次 · 前科 1 次 · 累计刑期 10 天\n\n> 请补充周一的到访时间、持续频率，以及会议、早高峰、未读邮件造成的具体影响。",
+  "metadata": {
+    "annotation_reply": null,
+    "retriever_resources": [],
+    "usage": {
+      "prompt_tokens": 0,
+      "prompt_unit_price": "0.0",
+      "prompt_price_unit": "0.0",
+      "prompt_price": "0.0",
+      "completion_tokens": 0,
+      "completion_unit_price": "0.0",
+      "completion_price_unit": "0.0",
+      "completion_price": "0.0",
+      "total_tokens": 0,
+      "total_price": "0.0",
+      "currency": "USD",
+      "latency": 0.0,
+      "time_to_first_token": 5.966,
+      "time_to_generate": 0.0
+    },
+    "reasoning": {}
+  },
+  "created_at": 1793798775
+}

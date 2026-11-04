@@ -1,0 +1,31 @@
+{
+  "event": "message",
+  "task_id": "b3451a9c-d730-41d3-8fa7-dd260a73cfb3",
+  "id": "96ab5907-6dc9-4a27-ba53-3a936dfd6d51",
+  "message_id": "96ab5907-6dc9-4a27-ba53-3a936dfd6d51",
+  "conversation_id": "89f0b565-2ef0-479f-bb36-e25d7ed77f3d",
+  "mode": "advanced-chat",
+  "answer": "原告，足印可证明踩脸，凌晨三点可落入休眠时段；但水杯尚在滴水，只能证明近期倾覆，尚不足以证明是猫以爪、尾或头主动推落。且水未明示落在键盘上，不得先按从重情节。请补交夜间录像、带时间戳照片及杯具摆放图，并说明水杯倾覆时猫的位置。猫保持沉默，态度记为沉默。🔨\n\n📜 **本庭援引**\n- `AB-001`《宠物夜间蹦迪罪》 · 量刑 3–15 天\n- `AB-002`《猫主子打翻水杯罪》 · 量刑 1–7 天\n\n📊 **你的档案**：法庭新鲜人 · 已起诉 1 次 · 前科 0 次 · 累计刑期 0 天\n\n> 请提交凌晨三点前后的连续录像或设备记录，并证明水杯由猫主动推落及水杯是否落在键盘上。",
+  "metadata": {
+    "annotation_reply": null,
+    "retriever_resources": [],
+    "usage": {
+      "prompt_tokens": 0,
+      "prompt_unit_price": "0.0",
+      "prompt_price_unit": "0.0",
+      "prompt_price": "0.0",
+      "completion_tokens": 0,
+      "completion_unit_price": "0.0",
+      "completion_price_unit": "0.0",
+      "completion_price": "0.0",
+      "total_tokens": 0,
+      "total_price": "0.0",
+      "currency": "USD",
+      "latency": 0.0,
+      "time_to_first_token": 5.009,
+      "time_to_generate": 0.0
+    },
+    "reasoning": {}
+  },
+  "created_at": 1793798761
+}

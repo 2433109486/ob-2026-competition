@@ -1,4 +1,4 @@
-"""本地回放：按 Dify Chatflow 的节点顺序调用后端与模型，产出可提交的运行证据。
+﻿"""本地回放：按 Dify Chatflow 的节点顺序调用后端与模型，产出可提交的运行证据。
 
 流程与 DSL 完全一致：
     intake HTTP  →  组装提示词  →  LLM  →  解析 JSON  →  commit HTTP  →  渲染
@@ -103,7 +103,7 @@ class LLM:
         self.provider = provider
         if provider == "minimax":
             self.url = os.environ.get("LLM_BASE_URL", "https://api.minimax.chat/v1/text/chatcompletion_v2")
-            self.model = os.environ.get("LLM_MODEL", "MiniMax-Text-01")
+            self.model = os.environ.get("LLM_MODEL", "MiniMax-M2.5")
         else:
             self.url = os.environ.get("LLM_BASE_URL", "https://api.openai.com/v1/chat/completions")
             self.model = os.environ.get("LLM_MODEL", "gpt-4o-mini")
@@ -324,3 +324,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

@@ -4,63 +4,64 @@
 
 | 文件 | 用途 | 导入顺序 |
 | --- | --- | --- |
-| `absurd-court.chatflow.yml` | 主应用（Chatflow，8 节点） | 唯一文件，直接导入 |
+| `absurd-court.chatflow.yml` | 主应用（Chatflow，11 节点） | 唯一文件，直接导入 |
 
-本应用不依赖知识库、不依赖自定义插件、不依赖 Dify 内置工具，因此**只需要导入这一个 DSL**。
-法典数据由后端在启动时写入 seekdb，不走 Dify 知识库。
+本应用不依赖知识库、不依赖自定义插件、不依赖 Dify 内置工具、**也不依赖 Dify 的模型供应商插件**，
+因此只需要导入这一个 DSL。法典数据由后端写入 seekdb，模型调用由后端 `/api/v1/llm/chat` 代理。
 
 ## 导入步骤
 
 1. Dify 控制台 → 创建应用 → **导入 DSL 文件** → 选择 `absurd-court.chatflow.yml`；
-2. 打开 `③ 法官包大仁`，绑定你工作区可用的对话模型（默认 `minimax / MiniMax-Text-01`）；
-3. 确认 `① 立案检索`、`⑤ 落库与量刑` 的 URL 指向庭审后端：
-   - Dify 在 Docker 中：`http://host.docker.internal:8088`
-   - Dify 与后端同机直跑：`http://127.0.0.1:8088`
-4. 保存 → 发布 → 打开聊天。
+2. 确认三个 HTTP 节点地址：
+   - `① 立案检索` → `http://host.docker.internal:8088/api/v1/court/intake`
+   - `④ 法官包大仁` → `http://host.docker.internal:8088/api/v1/llm/chat`
+   - `⑤ 落库与量刑` → `http://host.docker.internal:8088/api/v1/court/commit`
+3. 保存 → 发布 → 打开聊天。
 
-> **模型供应商**：Dify 1.x 的模型供应商以插件形式安装。若你的工作区没有 MiniMax，
-> 在「设置 → 模型供应商」安装 MiniMax 并填入 Key（录制证据时用的就是 `MiniMax-Text-01`）；
-> 也可以直接把 LLM 节点换成已安装的任意模型（OpenAI / DeepSeek / Qwen / Claude 均可），
-> 提示词与输出契约不依赖具体模型。
->
-> DSL 版本为 `0.1.5`。Dify 1.x 导入时可能提示「版本较低，将自动迁移」，确认即可；
-> 节点、边、变量引用都会保留。
+Dify 1.17.1 实测导入结果为 `completed-with-warnings`（0.1.5 → 0.7.0 自动迁移），11 个节点全部保留并成功运行。
 
 ## 节点地图
 
 ```text
-start ──▶ ① http_intake ──▶ ② code_intake ──▶ ③ llm_judge
+start ─▶ ① code_intake_payload ─▶ http_intake ─▶ code_intake
                                                    │
                                                    ▼
-        answer ◀── ⑦ code_render ◀── ⑥ http_commit ◀── ④ code_verdict
+        answer ◀─ code_render ◀─ http_commit ◀─ code_commit_payload
+              ▲                        ▲
+              │                        │
+        code_verdict ◀─ llm_judge ◀─ code_prompt
 ```
 
-| 节点 | 说明 | 需要改的地方 |
+| 节点 | 类型 | 说明 |
 | --- | --- | --- |
-| start | 可选输入 `player_id`；留空用 `sys.user_id` | 无 |
-| http_intake | 调 `/api/v1/court/intake` | 后端地址 |
-| code_intake | 解析检索结果，拼提示词区块 | 一般不用改 |
-| llm_judge | 法官人格 + 输出 JSON 约束 | **模型**；可调温度/长度 |
-| code_verdict | 提取 JSON，失败降级 | 一般不用改 |
-| http_commit | 调 `/api/v1/court/commit` | 后端地址 |
-| code_render | 渲染判决书 | 可改文案/表情 |
-| answer | 输出 | 无 |
+| start | start | 可选输入 `player_id`；留空用 `sys.user_id` |
+| code_intake_payload | code | 构造立案请求 JSON（raw-text） |
+| http_intake | http | 调后端 `/api/v1/court/intake` |
+| code_intake | code | 解析检索结果，拼提示词区块 |
+| code_prompt | code | 组装 system/user 消息（与 `backend/app/prompt.py` 一致） |
+| llm_judge | http | 调后端 `/api/v1/llm/chat`，由后端代理模型 |
+| code_verdict | code | 解析法官 JSON，失败降级 |
+| code_commit_payload | code | 构造结案请求 JSON（raw-text） |
+| http_commit | http | 调后端 `/api/v1/court/commit` |
+| code_render | code | 渲染判决书 |
+| answer | answer | 输出 |
 
 ## 换模型
 
-提示词不依赖任何特定模型，只要求：
+不需要改 DSL。改后端环境变量：
 
-- 支持中文；
-- 能稳定输出 JSON（Claude、GPT、DeepSeek、Qwen、MiniMax 均可）；
-- 上下文 ≥ 8k（提示词里含 3 条法条 + 至多 5 条记忆 + 判例，通常 < 3k tokens）。
+```bash
+LLM_BASE_URL=https://api.deepseek.com/v1/chat/completions
+LLM_MODEL=deepseek-chat
+LLM_API_KEY=sk-REPLACE_ME
+```
 
-换模型后建议先跑一轮「立案」，确认 `code_verdict.parse_ok = 1`。如果模型经常不输出 JSON，
-可以在 LLM 节点里把温度降到 0.6，或启用 Dify 的「结构化输出」功能（新版支持）。
+然后重启后端即可。Dify 工作流保持原样。
 
 ## 换后端地址
 
-Dify 的 HTTP 节点地址在节点面板里改，改完保存并**重新发布**。
-如果 Dify 在 Linux Docker 里，除了改地址，也可以给 `api`/`worker` 加：
+在 Dify 的节点面板里改三个 HTTP 节点的 URL，保存并**重新发布**。
+如果 Dify 在 Linux Docker 里，可以给 `api`/`worker` 加：
 
 ```yaml
 extra_hosts:
@@ -69,7 +70,7 @@ extra_hosts:
 
 ## 调试建议
 
-- 单节点测试：Dify 支持对单个节点「运行」，可先测 `http_intake` 是否返回 200；
-- 看变量：在 `code_intake` 节点里临时加 `return {"debug": raw}` 不方便，推荐直接看 Dify 的节点执行详情；
+- 单节点测试：先测 `http_intake` 是否 200；
 - 看后端：`docker compose -f deploy/docker-compose.yml logs -f court-api`；
+- 看 Dify：`docker compose logs -f api`；
 - 看数据：`mysql -h 127.0.0.1 -P 2881 -u root -D absurd_court -e "SELECT ..."`。

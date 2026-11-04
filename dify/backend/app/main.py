@@ -1,4 +1,4 @@
-"""FastAPI 服务：Dify 通过 HTTP Request 节点调用。
+﻿"""FastAPI 服务：Dify 通过 HTTP Request 节点调用。
 
 端点：
 - GET  /api/v1/health                 健康检查（含 seekdb / PowerContext / embedding 配置）
@@ -14,6 +14,7 @@ import json
 import logging
 import os
 import time
+import urllib.request
 from contextlib import asynccontextmanager
 from typing import Any
 
@@ -107,6 +108,21 @@ class CommitRequest(BaseModel):
         return value
 
 
+class LLMChatRequest(BaseModel):
+    """给 Dify HTTP 节点用的模型代理，避免把 API Key 写进 DSL。"""
+
+    messages: list[dict[str, str]] | str
+    temperature: float = 0.9
+    max_tokens: int = 1200
+
+    @field_validator("messages")
+    @classmethod
+    def _parse_messages(cls, value: Any) -> Any:
+        if isinstance(value, str):
+            return json.loads(value)
+        return value
+
+
 @app.get("/api/v1/health")
 def health() -> dict[str, Any]:
     status: dict[str, Any] = {"ok": True, "config": settings.masked()}
@@ -166,6 +182,40 @@ def dossier(player_id: str) -> dict[str, Any]:
     return {"ok": True, "player": store.profile(player_id)}
 
 
+@app.post("/api/v1/llm/chat")
+def llm_chat(payload: LLMChatRequest) -> dict[str, Any]:
+    """OpenAI 兼容的对话代理，供 Dify HTTP 节点调用。
+
+    模型 Key 只存在于服务端环境变量，DSL 与导出文件都不包含凭据。
+    """
+
+    api_key = os.environ.get("LLM_API_KEY", "")
+    if not api_key:
+        raise HTTPException(status_code=503, detail="LLM_API_KEY is not configured")
+    base_url = os.environ.get("LLM_BASE_URL", "https://api.minimax.chat/v1/text/chatcompletion_v2")
+    model = os.environ.get("LLM_MODEL", "MiniMax-M2.5")
+    body = {
+        "model": model,
+        "messages": payload.messages,
+        "temperature": payload.temperature,
+        "max_tokens": payload.max_tokens,
+    }
+    request = urllib.request.Request(
+        base_url,
+        data=json.dumps(body, ensure_ascii=False).encode("utf-8"),
+        headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=120) as response:
+            data = json.loads(response.read().decode("utf-8"))
+        content = data["choices"][0]["message"]["content"]
+        return {"ok": True, "content": content, "usage": data.get("usage") or {}, "model": model}
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail=f"LLM request failed: {exc}") from exc
+
+
 @app.get("/api/v1/court/stats")
 def stats() -> dict[str, Any]:
     return {"ok": True, **store.docket_stats()}
+

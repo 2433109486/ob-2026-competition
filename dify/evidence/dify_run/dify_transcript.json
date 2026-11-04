@@ -1,0 +1,288 @@
+{
+  "generated_at": "2026-11-04 21:25:54",
+  "app_id": "949f939c-26a8-49b6-a1a7-64b84281da86",
+  "scenarios": [
+    {
+      "id": "A",
+      "title": "第一案：起诉一只凌晨蹦迪的猫",
+      "player_id": "p-dify-1001",
+      "turns": [
+        {
+          "turn": 1,
+          "message": "我要起诉我的猫。它每天凌晨三点在我脸上蹦迪，还打翻了我的水杯。",
+          "conversation_id": "89f0b565-2ef0-479f-bb36-e25d7ed77f3d",
+          "message_id": "44bed01b-5977-4630-b92a-91fce6c6ed83",
+          "answer": "原告，猫已到庭却一言不发，态度暂记沉默。凌晨三点踩脸蹦迪，疑似触犯《宠物夜间蹦迪罪》；若水杯由猫主动推落，另涉打翻水杯罪。本官先问：它“每天”如此，是否算累犯？水是否落在键盘上？请呈上杯具、伤情与被扰记录。🔨\n\n📜 **本庭援引**\n- `AB-001`《宠物夜间蹦迪罪》 · 量刑 3–15 天\n- `AB-002`《猫主子打翻水杯罪》 · 量刑 1–7 天\n\n📊 **你的档案**：法庭新鲜人 · 已起诉 1 次 · 前科 0 次 · 累计刑期 0 天\n\n> 请说明猫每日凌晨扰民的持续时间，并提交水杯落地位置、键盘受损情况及被吵醒记录。",
+          "metadata": {
+            "annotation_reply": null,
+            "retriever_resources": [],
+            "usage": {
+              "prompt_tokens": 0,
+              "prompt_unit_price": "0.0",
+              "prompt_price_unit": "0.0",
+              "prompt_price": "0.0",
+              "completion_tokens": 0,
+              "completion_unit_price": "0.0",
+              "completion_price_unit": "0.0",
+              "completion_price": "0.0",
+              "total_tokens": 0,
+              "total_price": "0.0",
+              "currency": "USD",
+              "latency": 0.0,
+              "time_to_first_token": 6.731,
+              "time_to_generate": 0.0
+            },
+            "reasoning": {}
+          },
+          "latency_seconds": 6.87
+        },
+        {
+          "turn": 2,
+          "message": "证据？它踩我脸的时候留下了脚印，而且水杯现在还在滴水。",
+          "conversation_id": "89f0b565-2ef0-479f-bb36-e25d7ed77f3d",
+          "message_id": "96ab5907-6dc9-4a27-ba53-3a936dfd6d51",
+          "answer": "原告，足印可证明踩脸，凌晨三点可落入休眠时段；但水杯尚在滴水，只能证明近期倾覆，尚不足以证明是猫以爪、尾或头主动推落。且水未明示落在键盘上，不得先按从重情节。请补交夜间录像、带时间戳照片及杯具摆放图，并说明水杯倾覆时猫的位置。猫保持沉默，态度记为沉默。🔨\n\n📜 **本庭援引**\n- `AB-001`《宠物夜间蹦迪罪》 · 量刑 3–15 天\n- `AB-002`《猫主子打翻水杯罪》 · 量刑 1–7 天\n\n📊 **你的档案**：法庭新鲜人 · 已起诉 1 次 · 前科 0 次 · 累计刑期 0 天\n\n> 请提交凌晨三点前后的连续录像或设备记录，并证明水杯由猫主动推落及水杯是否落在键盘上。",
+          "metadata": {
+            "annotation_reply": null,
+            "retriever_resources": [],
+            "usage": {
+              "prompt_tokens": 0,
+              "prompt_unit_price": "0.0",
+              "prompt_price_unit": "0.0",
+              "prompt_price": "0.0",
+              "completion_tokens": 0,
+              "completion_unit_price": "0.0",
+              "completion_price_unit": "0.0",
+              "completion_price": "0.0",
+              "total_tokens": 0,
+              "total_price": "0.0",
+              "currency": "USD",
+              "latency": 0.0,
+              "time_to_first_token": 5.009,
+              "time_to_generate": 0.0
+            },
+            "reasoning": {}
+          },
+          "latency_seconds": 5.1
+        },
+        {
+          "turn": 3,
+          "message": "请判决。",
+          "conversation_id": "89f0b565-2ef0-479f-bb36-e25d7ed77f3d",
+          "message_id": "b3acd8c1-f6d5-49ee-9e87-fd422812c1f1",
+          "answer": "原告，足印可证凌晨踩脸，蹦迪罪成立；水杯仅见倾覆，未证明猫主动接触，故打翻水杯罪不成立。本案无前科，按初犯量刑，并令被告公开道歉。🔨\n\n📜 **本庭援引**\n- `AB-001`《宠物夜间蹦迪罪》 · 量刑 3–15 天\n\n⚖️ **判决** · （3026）离民初字第0001号\n- 被告：原告的猫\n- 罪名：宠物夜间蹦迪及打翻水杯罪\n- 刑期：**10 天**（法定 3–15 天，上限 15 天）\n- 赔偿：赔偿小鱼干三条\n- 执行：不缓刑；自判决次日起连续十日，于凌晨三点在原告床前公开道歉并原地蹦迪一次\n- 理由：踩脸足印足以证明宠物在休眠时段实施扰民蹦迪；每日实施且无前科，仍属本案初犯。打翻水杯缺少猫以爪、尾、头主动接触的证据，不予认定。\n\n📊 **你的档案**：初犯旁听生 · 已起诉 1 次 · 前科 1 次 · 累计刑期 10 天\n\n> 原告可执行道歉并补收小鱼干；如有夜间录像，可另循程序申请复核水杯部分。",
+          "metadata": {
+            "annotation_reply": null,
+            "retriever_resources": [],
+            "usage": {
+              "prompt_tokens": 0,
+              "prompt_unit_price": "0.0",
+              "prompt_price_unit": "0.0",
+              "prompt_price": "0.0",
+              "completion_tokens": 0,
+              "completion_unit_price": "0.0",
+              "completion_price_unit": "0.0",
+              "completion_price": "0.0",
+              "total_tokens": 0,
+              "total_price": "0.0",
+              "currency": "USD",
+              "latency": 0.0,
+              "time_to_first_token": 8.671,
+              "time_to_generate": 0.0
+            },
+            "reasoning": {}
+          },
+          "latency_seconds": 8.73
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "title": "第二案：同一玩家，新会话，起诉周一",
+      "player_id": "p-dify-1001",
+      "turns": [
+        {
+          "turn": 1,
+          "message": "又是我。这次我要告周一，它每周都恶意到访，还带来早高峰。",
+          "conversation_id": "d6d85424-1073-4bbc-9370-78a8abd9eed7",
+          "message_id": "727b42e5-2cf5-4fc5-8722-185e8ae97dca",
+          "answer": "原告，案由已定：被告为周一，涉嫌周一恶意到访罪。AB-010规定，周一携带会议、早高峰及未读邮件，致打工人情绪低落，即构成该罪；周一本体还可缺席审判。你此前起诉「原告的猫」，本院曾判其宠物夜间蹦迪罪。现在请补明周一到访频率、早高峰影响及是否造成会议与邮件积压。🔨\n\n📜 **本庭援引**\n- `AB-010`《周一恶意到访罪》 · 量刑 1–7 天\n\n🧠 **记忆回响**：上次你起诉「原告的猫」，本院曾判其宠物夜间蹦迪及打翻水杯罪，判10天并赔偿小鱼干三条；这次倒好，被告改成了星期本身。\n\n📊 **你的档案**：初犯旁听生 · 已起诉 2 次 · 前科 1 次 · 累计刑期 10 天\n\n> 请补充周一的到访时间、持续频率，以及会议、早高峰、未读邮件造成的具体影响。",
+          "metadata": {
+            "annotation_reply": null,
+            "retriever_resources": [],
+            "usage": {
+              "prompt_tokens": 0,
+              "prompt_unit_price": "0.0",
+              "prompt_price_unit": "0.0",
+              "prompt_price": "0.0",
+              "completion_tokens": 0,
+              "completion_unit_price": "0.0",
+              "completion_price_unit": "0.0",
+              "completion_price": "0.0",
+              "total_tokens": 0,
+              "total_price": "0.0",
+              "currency": "USD",
+              "latency": 0.0,
+              "time_to_first_token": 5.966,
+              "time_to_generate": 0.0
+            },
+            "reasoning": {}
+          },
+          "latency_seconds": 6.07
+        },
+        {
+          "turn": 2,
+          "message": "证据是今早我的闹钟响了五次，我仍然迟到了。",
+          "conversation_id": "d6d85424-1073-4bbc-9370-78a8abd9eed7",
+          "message_id": "30eac993-ef60-4f12-bc39-c13e344aff43",
+          "answer": "原告，闹钟响五次只能证明你迟到，尚须证明周一于休息日结束后携会议、早高峰及未读邮件强行到访，并致你情绪低落。被告周一可以缺席，本庭记其沉默。请补明每周次数、迟到影响及未读邮件数量。🔨\n\n📜 **本庭援引**\n- `AB-010`《周一恶意到访罪》 · 量刑 1–7 天\n\n🧠 **记忆回响**：上回你告“原告的猫”时，本官评道：“踩脸足印足以证明宠物在休眠时段实施扰民蹦迪；每日实施且无前科，仍属本案初犯。”\n\n📊 **你的档案**：初犯旁听生 · 已起诉 2 次 · 前科 1 次 · 累计刑期 10 天\n\n> 请说明周一每周到访几次、具体造成何种迟到，以及未读邮件数量。",
+          "metadata": {
+            "annotation_reply": null,
+            "retriever_resources": [],
+            "usage": {
+              "prompt_tokens": 0,
+              "prompt_unit_price": "0.0",
+              "prompt_price_unit": "0.0",
+              "prompt_price": "0.0",
+              "completion_tokens": 0,
+              "completion_unit_price": "0.0",
+              "completion_price_unit": "0.0",
+              "completion_price": "0.0",
+              "total_tokens": 0,
+              "total_price": "0.0",
+              "currency": "USD",
+              "latency": 0.0,
+              "time_to_first_token": 6.996,
+              "time_to_generate": 0.0
+            },
+            "reasoning": {}
+          },
+          "latency_seconds": 7.06
+        },
+        {
+          "turn": 3,
+          "message": "直接判吧。",
+          "conversation_id": "d6d85424-1073-4bbc-9370-78a8abd9eed7",
+          "message_id": "c3e47c2e-f924-413a-8b5e-06cad7bc243e",
+          "answer": "🔨本官判令：周一恶意到访罪成立。初犯建议刑期7天，赔偿一个完整周末；周一可缺席，但缺席不等于免罪。旧账未清：上回那只猫已因夜间蹦迪获赔小鱼干三条，本案证据虽像闹钟的闹钟，仍不妨碍定罪。\n\n📜 **本庭援引**\n- `AB-010`《周一恶意到访罪》 · 量刑 1–7 天\n\n⚖️ **判决** · （3026）离民初字第0002号\n- 被告：周一\n- 罪名：周一恶意到访罪\n- 刑期：**7 天**（法定 1–7 天，上限 10 天（累犯加刑））\n- 赔偿：赔偿原告一个完整周末\n- 执行：不设缓刑；周一缺席期间仍须执行赔偿，并连续七天接受到访检查\n- 理由：依据AB-010，周一于休息日结束后携带会议、早高峰及未读邮件到访，致打工人情绪低落，构成恶意到访罪。其缺席审理记为沉默，不影响定罪；原告关于周周到访及造成迟到的陈述足以支持判决。\n\n🧠 **记忆回响**：第1次上庭：原告起诉「原告的猫」——宠物夜间蹦迪及打翻水杯罪，判10天，赔偿小鱼干三条；法官评语：踩脸足印足以证明宠物在休眠时段实施扰民蹦迪。\n\n📊 **你的档案**：法庭常客 · 已起诉 2 次 · 前科 2 次 · 累计刑期 17 天\n\n> 请书记员将赔偿执行单送达周一，并核验一个完整周末是否足额返还。",
+          "metadata": {
+            "annotation_reply": null,
+            "retriever_resources": [],
+            "usage": {
+              "prompt_tokens": 0,
+              "prompt_unit_price": "0.0",
+              "prompt_price_unit": "0.0",
+              "prompt_price": "0.0",
+              "completion_tokens": 0,
+              "completion_unit_price": "0.0",
+              "completion_price_unit": "0.0",
+              "completion_price": "0.0",
+              "total_tokens": 0,
+              "total_price": "0.0",
+              "currency": "USD",
+              "latency": 0.0,
+              "time_to_first_token": 13.189,
+              "time_to_generate": 0.0
+            },
+            "reasoning": {}
+          },
+          "latency_seconds": 13.28
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "title": "对照组：全新玩家，与第一案相同的猫",
+      "player_id": "p-dify-2002",
+      "turns": [
+        {
+          "turn": 1,
+          "message": "我要起诉我的猫。它每天凌晨三点在我脸上蹦迪，还打翻了我的水杯。",
+          "conversation_id": "2445b1e2-47d1-446b-b808-12c0b78a0dc2",
+          "message_id": "04d1a72b-6315-4660-b05d-c7d441289b93",
+          "answer": "原告，状纸收悉。凌晨三点踩脸属夜间蹦迪，水杯倾覆另涉打翻水杯；请补告水杯落点及猫的惯犯证据。🔨\n\n📜 **本庭援引**\n- `AB-001`《宠物夜间蹦迪罪》 · 量刑 3–15 天\n- `AB-002`《猫主子打翻水杯罪》 · 量刑 1–7 天\n\n📊 **你的档案**：法庭新鲜人 · 已起诉 1 次 · 前科 0 次 · 累计刑期 0 天\n\n> 请提交水杯落点、购水记录及猫的既往扰民记录。",
+          "metadata": {
+            "annotation_reply": null,
+            "retriever_resources": [],
+            "usage": {
+              "prompt_tokens": 0,
+              "prompt_unit_price": "0.0",
+              "prompt_price_unit": "0.0",
+              "prompt_price": "0.0",
+              "completion_tokens": 0,
+              "completion_unit_price": "0.0",
+              "completion_price_unit": "0.0",
+              "completion_price": "0.0",
+              "total_tokens": 0,
+              "total_price": "0.0",
+              "currency": "USD",
+              "latency": 0.0,
+              "time_to_first_token": 5.772,
+              "time_to_generate": 0.0
+            },
+            "reasoning": {}
+          },
+          "latency_seconds": 5.86
+        },
+        {
+          "turn": 2,
+          "message": "证据？它踩我脸的时候留下了脚印，而且水杯现在还在滴水。",
+          "conversation_id": "2445b1e2-47d1-446b-b808-12c0b78a0dc2",
+          "message_id": "03cd8e8a-8456-43d6-983e-1756aeade087",
+          "answer": "原告，脚印可佐证凌晨踩脸；杯子仍在滴水，却不能单独证明猫曾以爪、尾、头主动接触并致其倾覆。请补交水杯落点、倾覆前后照片或目击证言；若落在键盘上，本官可从重认定。🔨\n\n📜 **本庭援引**\n- `AB-001`《宠物夜间蹦迪罪》 · 量刑 3–15 天\n- `AB-002`《猫主子打翻水杯罪》 · 量刑 1–7 天\n\n📊 **你的档案**：法庭新鲜人 · 已起诉 1 次 · 前科 0 次 · 累计刑期 0 天\n\n> 请说明水杯落在何处，并提交照片、视频或证人证据。",
+          "metadata": {
+            "annotation_reply": null,
+            "retriever_resources": [],
+            "usage": {
+              "prompt_tokens": 0,
+              "prompt_unit_price": "0.0",
+              "prompt_price_unit": "0.0",
+              "prompt_price": "0.0",
+              "completion_tokens": 0,
+              "completion_unit_price": "0.0",
+              "completion_price_unit": "0.0",
+              "completion_price": "0.0",
+              "total_tokens": 0,
+              "total_price": "0.0",
+              "currency": "USD",
+              "latency": 0.0,
+              "time_to_first_token": 6.23,
+              "time_to_generate": 0.0
+            },
+            "reasoning": {}
+          },
+          "latency_seconds": 6.33
+        },
+        {
+          "turn": 3,
+          "message": "请判决。",
+          "conversation_id": "2445b1e2-47d1-446b-b808-12c0b78a0dc2",
+          "message_id": "db3872af-2370-444d-9bd9-9b34e3a93310",
+          "answer": "🔨本官宣判：涉事猫犯宠物夜间蹦迪罪，判处五日凌晨蹦迪刑，并到原告枕边公开道歉；打翻水杯因证据不足，不另定罪。赔偿小鱼干三条。此猫若再凌晨踩脸，本院将严惩不贷。\n\n📜 **本庭援引**\n- `AB-001`《宠物夜间蹦迪罪》 · 量刑 3–15 天\n- `AB-002`《猫主子打翻水杯罪》 · 量刑 1–7 天\n\n⚖️ **判决** · （3026）离民初字第0003号\n- 被告：涉事猫（姓名待定）\n- 罪名：宠物夜间蹦迪罪及猫主子打翻水杯罪\n- 刑期：**5 天**（法定 3–15 天，上限 15 天）\n- 赔偿：向原告赔偿小鱼干三条\n- 执行：不缓刑；自判决次日起，连续五日凌晨三点在原告枕边以爪轻叩三下并公开道歉\n- 理由：踩脸发生于人类休眠时段，构成夜间蹦迪罪；现有证据不能证明猫主动接触水杯致其倾覆，故该部分不予定罪。\n\n📊 **你的档案**：初犯旁听生 · 已起诉 1 次 · 前科 1 次 · 累计刑期 5 天\n\n> 原告负责监督涉事猫的蹦迪刑执行，并清点三条小鱼干。",
+          "metadata": {
+            "annotation_reply": null,
+            "retriever_resources": [],
+            "usage": {
+              "prompt_tokens": 0,
+              "prompt_unit_price": "0.0",
+              "prompt_price_unit": "0.0",
+              "prompt_price": "0.0",
+              "completion_tokens": 0,
+              "completion_unit_price": "0.0",
+              "completion_price_unit": "0.0",
+              "completion_price": "0.0",
+              "total_tokens": 0,
+              "total_price": "0.0",
+              "currency": "USD",
+              "latency": 0.0,
+              "time_to_first_token": 14.348,
+              "time_to_generate": 0.0
+            },
+            "reasoning": {}
+          },
+          "latency_seconds": 14.49
+        }
+      ]
+    }
+  ]
+}

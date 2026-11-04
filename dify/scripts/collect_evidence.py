@@ -1,4 +1,4 @@
-"""抓取运行证据：后端健康、seekdb 落库、PowerContext 记忆。
+﻿"""抓取运行证据：后端健康、seekdb 落库、PowerContext 记忆。
 
 在跑完 scripts/run_demo.py 之后执行：
     python scripts/collect_evidence.py --out evidence
@@ -133,7 +133,7 @@ def main() -> int:
     # PowerContext 记忆
     pc_records: dict[str, object] = {"scopes": [], "memories_by_scope": {}}
     pc_records["scopes"] = get(PC + "/v1/scopes").get("items", [])
-    targets = ["p-1001", "p-2002"]
+    targets = ["p-dify-1001", "p-dify-2002"]
     for player in targets:
         scope_row = next((p for p in records["players"] if p["player_id"] == player), None)
         if not scope_row or not scope_row.get("pc_scope_id"):
@@ -162,3 +162,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

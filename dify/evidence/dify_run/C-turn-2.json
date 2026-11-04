@@ -1,0 +1,31 @@
+{
+  "event": "message",
+  "task_id": "14bec957-a07d-4bbb-a118-c5e1486873a7",
+  "id": "03cd8e8a-8456-43d6-983e-1756aeade087",
+  "message_id": "03cd8e8a-8456-43d6-983e-1756aeade087",
+  "conversation_id": "2445b1e2-47d1-446b-b808-12c0b78a0dc2",
+  "mode": "advanced-chat",
+  "answer": "原告，脚印可佐证凌晨踩脸；杯子仍在滴水，却不能单独证明猫曾以爪、尾、头主动接触并致其倾覆。请补交水杯落点、倾覆前后照片或目击证言；若落在键盘上，本官可从重认定。🔨\n\n📜 **本庭援引**\n- `AB-001`《宠物夜间蹦迪罪》 · 量刑 3–15 天\n- `AB-002`《猫主子打翻水杯罪》 · 量刑 1–7 天\n\n📊 **你的档案**：法庭新鲜人 · 已起诉 1 次 · 前科 0 次 · 累计刑期 0 天\n\n> 请说明水杯落在何处，并提交照片、视频或证人证据。",
+  "metadata": {
+    "annotation_reply": null,
+    "retriever_resources": [],
+    "usage": {
+      "prompt_tokens": 0,
+      "prompt_unit_price": "0.0",
+      "prompt_price_unit": "0.0",
+      "prompt_price": "0.0",
+      "completion_tokens": 0,
+      "completion_unit_price": "0.0",
+      "completion_price_unit": "0.0",
+      "completion_price": "0.0",
+      "total_tokens": 0,
+      "total_price": "0.0",
+      "currency": "USD",
+      "latency": 0.0,
+      "time_to_first_token": 6.23,
+      "time_to_generate": 0.0
+    },
+    "reasoning": {}
+  },
+  "created_at": 1793798807
+}

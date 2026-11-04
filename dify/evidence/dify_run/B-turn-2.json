@@ -1,0 +1,31 @@
+{
+  "event": "message",
+  "task_id": "699d04d3-efb1-4a9c-97b8-67a2056dd747",
+  "id": "30eac993-ef60-4f12-bc39-c13e344aff43",
+  "message_id": "30eac993-ef60-4f12-bc39-c13e344aff43",
+  "conversation_id": "d6d85424-1073-4bbc-9370-78a8abd9eed7",
+  "mode": "advanced-chat",
+  "answer": "原告，闹钟响五次只能证明你迟到，尚须证明周一于休息日结束后携会议、早高峰及未读邮件强行到访，并致你情绪低落。被告周一可以缺席，本庭记其沉默。请补明每周次数、迟到影响及未读邮件数量。🔨\n\n📜 **本庭援引**\n- `AB-010`《周一恶意到访罪》 · 量刑 1–7 天\n\n🧠 **记忆回响**：上回你告“原告的猫”时，本官评道：“踩脸足印足以证明宠物在休眠时段实施扰民蹦迪；每日实施且无前科，仍属本案初犯。”\n\n📊 **你的档案**：初犯旁听生 · 已起诉 2 次 · 前科 1 次 · 累计刑期 10 天\n\n> 请说明周一每周到访几次、具体造成何种迟到，以及未读邮件数量。",
+  "metadata": {
+    "annotation_reply": null,
+    "retriever_resources": [],
+    "usage": {
+      "prompt_tokens": 0,
+      "prompt_unit_price": "0.0",
+      "prompt_price_unit": "0.0",
+      "prompt_price": "0.0",
+      "completion_tokens": 0,
+      "completion_unit_price": "0.0",
+      "completion_price_unit": "0.0",
+      "completion_price": "0.0",
+      "total_tokens": 0,
+      "total_price": "0.0",
+      "currency": "USD",
+      "latency": 0.0,
+      "time_to_first_token": 6.996,
+      "time_to_generate": 0.0
+    },
+    "reasoning": {}
+  },
+  "created_at": 1793798781
+}

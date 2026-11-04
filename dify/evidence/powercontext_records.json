@@ -1,43 +1,25 @@
 {
   "scopes": [
     {
-      "scope_id": "scp_2qg90gakwaqjbvx3z8cmfc5hdt",
-      "title": "离谱法庭 · p-1001",
-      "summary": "玩家 p-1001 的庭审记忆：法庭新鲜人",
+      "scope_id": "scp_2v0sq7xaqkns107x17k89n84ek",
+      "title": "离谱法庭 · p-dify-2002",
+      "summary": "玩家 p-dify-2002 的庭审记忆：法庭新鲜人",
       "parent_scope_id": null,
       "context_references": [],
       "external_references": [],
       "version": 1
     },
     {
-      "scope_id": "scp_4jar311sz142d61m135nzp2zbw",
-      "title": "离谱法庭 · p-1001",
-      "summary": "玩家 p-1001 的庭审记忆：法庭新鲜人",
+      "scope_id": "scp_74kep4766kvpnqa9g1zara414g",
+      "title": "离谱法庭 · p-dify-1001",
+      "summary": "玩家 p-dify-1001 的庭审记忆：法庭新鲜人",
       "parent_scope_id": null,
       "context_references": [],
       "external_references": [],
       "version": 1
     },
     {
-      "scope_id": "scp_4vmqz9z9mffxsajzh803x5n9ck",
-      "title": "离谱法庭 · p-2002",
-      "summary": "玩家 p-2002 的庭审记忆：法庭新鲜人",
-      "parent_scope_id": null,
-      "context_references": [],
-      "external_references": [],
-      "version": 1
-    },
-    {
-      "scope_id": "scp_4xws7wfjzz8h7c5r74y0tze7f1",
-      "title": "离谱法庭 · p-2002",
-      "summary": "玩家 p-2002 的庭审记忆：法庭新鲜人",
-      "parent_scope_id": null,
-      "context_references": [],
-      "external_references": [],
-      "version": 1
-    },
-    {
-      "scope_id": "scp_7prmbqp03223qy3bhpd23c3pp0",
+      "scope_id": "scp_7r9q7z8gbv120abrmpmajxbgz7",
       "title": "Default",
       "summary": "Default context",
       "parent_scope_id": null,
@@ -47,28 +29,28 @@
     }
   ],
   "memories_by_scope": {
-    "p-1001": {
-      "scope_id": "scp_4jar311sz142d61m135nzp2zbw",
+    "p-dify-1001": {
+      "scope_id": "scp_74kep4766kvpnqa9g1zara414g",
       "hits": [
         {
-          "text": "第2次上庭：原告起诉「周一」——周一恶意到访罪，援引 AB-010，判 1 天，赔偿「赔偿一个完整周末」。法官评语：周一携早高峰、会议与未读邮件恶意到访，已严重扰民，需赔偿并接受缓刑。",
+          "text": "第2次上庭：原告起诉「周一」——周一恶意到访罪，援引 AB-010，判 7 天，赔偿「赔偿原告一个完整周末」。法官评语：依据AB-010，周一于休息日结束后携带会议、早高峰及未读邮件到访，致打工人情绪低落，构成恶意到访罪。其缺席审理记为沉默",
           "kind": "state",
           "space": null,
           "score": 0.01639344262295082
         },
         {
-          "text": "第1次上庭：原告起诉「原告的猫」——宠物夜间蹦迪罪，猫主子打翻水杯罪，援引 AB-001/AB-002，判 7 天，赔偿「一块新键盘垫」。法官评语：被告猫咪夜间踩脸蹦迪及打翻水杯行为已严重扰民，影响原告睡眠质量，故需接受惩罚并赔偿损失。",
+          "text": "第1次上庭：原告起诉「原告的猫」——宠物夜间蹦迪及打翻水杯罪，援引 AB-001，判 10 天，赔偿「赔偿小鱼干三条」。法官评语：踩脸足印足以证明宠物在休眠时段实施扰民蹦迪；每日实施且无前科，仍属本案初犯。打翻水杯缺少猫以爪、尾、头主动接触的证据，不",
           "kind": "state",
           "space": null,
           "score": 0.016129032258064516
         }
       ]
     },
-    "p-2002": {
-      "scope_id": "scp_4vmqz9z9mffxsajzh803x5n9ck",
+    "p-dify-2002": {
+      "scope_id": "scp_2v0sq7xaqkns107x17k89n84ek",
       "hits": [
         {
-          "text": "第1次上庭：原告起诉「原告的猫」——宠物夜间蹦迪罪、猫主子打翻水杯罪，援引 AB-001/AB-002，判 7 天，赔偿「一块新键盘垫」。法官评语：被告于夜间实施蹦迪与打翻水杯之恶行，情节严重，必须严惩以儆效尤。",
+          "text": "第1次上庭：原告起诉「涉事猫（姓名待定）」——宠物夜间蹦迪罪及猫主子打翻水杯罪，援引 AB-001/AB-002，判 5 天，赔偿「向原告赔偿小鱼干三条」。法官评语：踩脸发生于人类休眠时段，构成夜间蹦迪罪；现有证据不能证明猫主动接触水杯致其倾覆，故该部分不予定罪。",
           "kind": "state",
           "space": null,
           "score": 0.01639344262295082

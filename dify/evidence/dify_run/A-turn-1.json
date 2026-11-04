@@ -1,0 +1,31 @@
+{
+  "event": "message",
+  "task_id": "3a728bc5-da3d-4f24-9ec6-a97feb4e7d51",
+  "id": "44bed01b-5977-4630-b92a-91fce6c6ed83",
+  "message_id": "44bed01b-5977-4630-b92a-91fce6c6ed83",
+  "conversation_id": "89f0b565-2ef0-479f-bb36-e25d7ed77f3d",
+  "mode": "advanced-chat",
+  "answer": "原告，猫已到庭却一言不发，态度暂记沉默。凌晨三点踩脸蹦迪，疑似触犯《宠物夜间蹦迪罪》；若水杯由猫主动推落，另涉打翻水杯罪。本官先问：它“每天”如此，是否算累犯？水是否落在键盘上？请呈上杯具、伤情与被扰记录。🔨\n\n📜 **本庭援引**\n- `AB-001`《宠物夜间蹦迪罪》 · 量刑 3–15 天\n- `AB-002`《猫主子打翻水杯罪》 · 量刑 1–7 天\n\n📊 **你的档案**：法庭新鲜人 · 已起诉 1 次 · 前科 0 次 · 累计刑期 0 天\n\n> 请说明猫每日凌晨扰民的持续时间，并提交水杯落地位置、键盘受损情况及被吵醒记录。",
+  "metadata": {
+    "annotation_reply": null,
+    "retriever_resources": [],
+    "usage": {
+      "prompt_tokens": 0,
+      "prompt_unit_price": "0.0",
+      "prompt_price_unit": "0.0",
+      "prompt_price": "0.0",
+      "completion_tokens": 0,
+      "completion_unit_price": "0.0",
+      "completion_price_unit": "0.0",
+      "completion_price": "0.0",
+      "total_tokens": 0,
+      "total_price": "0.0",
+      "currency": "USD",
+      "latency": 0.0,
+      "time_to_first_token": 6.731,
+      "time_to_generate": 0.0
+    },
+    "reasoning": {}
+  },
+  "created_at": 1793798755
+}
