@@ -63,6 +63,10 @@ Dify 默认在 `http://localhost:80`。首次进入需设置管理员账号。
 > - macOS / Windows Docker Desktop：开箱可用；
 > - Linux：在 Dify 的 `docker-compose.yaml` 里给 `api` 与 `worker` 服务加
 >   `extra_hosts: ["host.docker.internal:host-gateway"]`，或把 DSL 里的地址改成宿主机局域网 IP。
+>
+> **还要放行 Dify 的 SSRF 代理**：默认 Squid 会拒绝私网目标，HTTP 节点会 403。
+> 在 Dify 的 `.env` 里设 `SSRF_PROXY_HTTP_URL=` / `SSRF_PROXY_HTTPS_URL=`（置空）并重建 api/worker，
+> 或按 `docs/02-运行说明.md` 4.2.1 放行私网。
 
 ### 2.3 导入 DSL
 
