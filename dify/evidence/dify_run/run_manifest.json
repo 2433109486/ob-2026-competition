@@ -1,0 +1,62 @@
+{
+  "captured_at": "2026-11-04T21:25:54+08:00",
+  "dify": {
+    "version": "1.17.1",
+    "deployment": "official docker compose on Docker Desktop (Windows 11)",
+    "base_url": "http://localhost:8080",
+    "entry": "POST /v1/chat-messages (Dify application API)",
+    "app_id": "949f939c-26a8-49b6-a1a7-64b84281da86",
+    "dsl_import_status": "completed-with-warnings (0.1.5 -> 0.7.0)"
+  },
+  "workflow": {
+    "node_count": 11,
+    "edge_count": 10,
+    "nodes": [
+      "start",
+      "code_intake_payload",
+      "http_intake",
+      "code_intake",
+      "code_prompt",
+      "llm_judge",
+      "code_verdict",
+      "code_commit_payload",
+      "http_commit",
+      "code_render",
+      "answer"
+    ],
+    "runs_total": 11,
+    "runs_succeeded": 10,
+    "runs_failed": 1,
+    "failure_note": "first attempt used MiniMax-Text-01, which the provider had retired; backend returned 502 and the run aborted at llm_judge. After switching to MiniMax-M2.5 all runs succeeded."
+  },
+  "scenarios": [
+    {
+      "id": "A",
+      "player": "p-dify-1001",
+      "conversation_id": "89f0b565-2ef0-479f-bb36-e25d7ed77f3d",
+      "verdict": "10 days (AB-001)",
+      "memory_callbacks": 0
+    },
+    {
+      "id": "B",
+      "player": "p-dify-1001",
+      "conversation_id": "d6d85424-1073-4bbc-9370-78a8abd9eed7",
+      "verdict": "7 days (AB-010, recidivism cap 10)",
+      "memory_callbacks": 3
+    },
+    {
+      "id": "C",
+      "player": "p-dify-2002",
+      "conversation_id": "2445b1e2-47d1-446b-b808-12c0b78a0dc2",
+      "verdict": "5 days (AB-001)",
+      "memory_callbacks": 0
+    }
+  ],
+  "files": {
+    "dify_transcript.md": "human-readable A/B/C transcript",
+    "dify_transcript.json": "per-turn responses (answer, metadata, message ids)",
+    "dify_node_executions.json": "Dify workflow_runs + workflow_node_executions exported from Postgres",
+    "dify_api.log": "Dify api container log excerpt",
+    "A-turn-*.json / B-turn-*.json / C-turn-*.json": "raw responses of the 9 calls"
+  }
+}
