@@ -57,12 +57,26 @@ void* seekdb_cuvs_build(const float* base, long n, long dim)
   }
   h->ip->graph_degree = 128;
   h->ip->intermediate_graph_degree = 256;
-  if (cuvsCagraIndexCreate(&h->idx)      != CUVS_SUCCESS) goto fail_ip;
-  if (cuvsCagraBuild(h->res, h->ip, &dset, h->idx) != CUVS_SUCCESS) goto fail_idx;
+  if (cuvsCagraIndexCreate(&h->idx) != CUVS_SUCCESS) goto fail_ip;
+  if (cuvsCagraBuild(h->res, h->ip, &dset, h->idx) != CUVS_SUCCESS) {
+    /*
+     * Safety net: if the hipVS build does not implement IVF-PQ on this ROCm
+     * version, fall back to NN-Descent with the cuVS default 20 iterations
+     * (instead of the baseline's 100), so CREATE INDEX still succeeds.
+     */
+    fprintf(stderr, "[seekdb_cuvs] IVF-PQ build failed (%s); retrying NN-Descent(20)\n",
+            cuvsGetLastErrorText());
+    cuvsCagraIndexDestroy(h->idx);
+    h->idx = NULL;
+    h->ip->build_algo = NN_DESCENT;
+    h->ip->nn_descent_niter = 20;
+    if (cuvsCagraIndexCreate(&h->idx) != CUVS_SUCCESS) goto fail_ip;
+    if (cuvsCagraBuild(h->res, h->ip, &dset, h->idx) != CUVS_SUCCESS) goto fail_idx;
+  }
   h->n = n; h->dim = dim;
   return h;
 
-fail_idx: cuvsCagraIndexDestroy(h->idx);
+fail_idx: if (h->idx != NULL) { cuvsCagraIndexDestroy(h->idx); }
 fail_ip:  cuvsCagraIndexParamsDestroy(h->ip);
 fail_res: cuvsResourcesDestroy(h->res); free(h);
   fprintf(stderr, "[seekdb_cuvs] build failed: %s\n", cuvsGetLastErrorText());
