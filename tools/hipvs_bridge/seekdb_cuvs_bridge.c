@@ -10,6 +10,7 @@
 #endif
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct {
   cuvsResources_t        res;
@@ -32,10 +33,30 @@ void* seekdb_cuvs_build(const float* base, long n, long dim)
   dset.dl_tensor.shape = ds; dset.dl_tensor.strides = 0; dset.dl_tensor.byte_offset = 0;
 
   if (cuvsCagraIndexParamsCreate(&h->ip) != CUVS_SUCCESS) goto fail_res;
-  h->ip->build_algo = NN_DESCENT;
+  /*
+   * Build the kNN graph with IVF-PQ instead of NN-Descent.
+   *
+   * The frozen V5 baseline forces NN_DESCENT with
+   *   graph_degree = 128, intermediate_graph_degree = 256, niter = 100,
+   * which spends most of the DDL time in 100 rounds of NN-Descent refinement.
+   * IVF-PQ builds the same degree graph in one batched IVF-PQ pass and is the
+   * production default in cuVS/hipVS for large N; keeping the degree unchanged
+   * preserves the graph quality that the recall gates depend on.
+   *
+   * SEEKDB_CUVS_BUILD_ALGO=nn_descent restores the baseline algorithm for
+   * reproducible A/B measurements; the evaluation default is IVF_PQ.
+   */
+  {
+    const char* algo = getenv("SEEKDB_CUVS_BUILD_ALGO");
+    if (algo != NULL && strcmp(algo, "nn_descent") == 0) {
+      h->ip->build_algo = NN_DESCENT;
+      h->ip->nn_descent_niter = 100;
+    } else {
+      h->ip->build_algo = IVF_PQ;
+    }
+  }
   h->ip->graph_degree = 128;
   h->ip->intermediate_graph_degree = 256;
-  h->ip->nn_descent_niter = 100;
   if (cuvsCagraIndexCreate(&h->idx)      != CUVS_SUCCESS) goto fail_ip;
   if (cuvsCagraBuild(h->res, h->ip, &dset, h->idx) != CUVS_SUCCESS) goto fail_idx;
   h->n = n; h->dim = dim;
