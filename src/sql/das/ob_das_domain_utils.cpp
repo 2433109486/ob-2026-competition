@@ -296,12 +296,35 @@ int ObDASDomainUtils::build_ft_doc_word_infos(
                                                              const bool is_fts_index_aux,
                                                              ObDomainIndexRow &word_rows)
 {
+  static constexpr int64_t FT_MAX_WORD_BUCKET = 997;
+  int ret = OB_SUCCESS;
+  ObFTWordMap ft_word_map;
+  const int64_t ft_word_bkt_cnt = MIN(MAX(fulltext.length() / 10, 2), FT_MAX_WORD_BUCKET);
+  if (OB_FAIL(ft_word_map.create(ft_word_bkt_cnt, common::ObMemAttr("FTWordMap")))) {
+  } else if (OB_FAIL(generate_fulltext_word_rows(allocator,
+                                                 helper,
+                                                 ft_obj_meta,
+                                                 doc_id_datum,
+                                                 fulltext,
+                                                 is_fts_index_aux,
+                                                 ft_word_map,
+                                                 word_rows))) {
+  }
+  return ret;
+}
+
+/*static*/ int ObDASDomainUtils::generate_fulltext_word_rows(common::ObIAllocator &allocator,
+                                                             storage::ObFTParseHelper *helper,
+                                                             const common::ObObjMeta &ft_obj_meta,
+                                                             const ObDatum &doc_id_datum,
+                                                             const ObString &fulltext,
+                                                             const bool is_fts_index_aux,
+                                                             ObFTWordMap &ft_word_map,
+                                                             ObDomainIndexRow &word_rows)
+{
   int ret = OB_SUCCESS;
   static int64_t FT_WORD_DOC_COL_CNT = 4;
-  static constexpr int64_t FT_MAX_WORD_BUCKET = 997;
-  const int64_t ft_word_bkt_cnt = MIN(MAX(fulltext.length() / 10, 2), FT_MAX_WORD_BUCKET);
   int64_t doc_length = 0;
-  ObFTWordMap ft_word_map;
   void *rows_buf = nullptr;
   blocksstable::ObDatumRow *rows = nullptr;
   if (OB_ISNULL(helper) || OB_UNLIKELY(!ft_obj_meta.is_valid())) {
@@ -309,7 +332,9 @@ int ObDASDomainUtils::build_ft_doc_word_infos(
     LOG_WARN("invalid arguments", K(ret), KPC(helper), K(ft_obj_meta), K(doc_id_datum));
   } else if (0 == fulltext.length()) {
     ret = OB_ITER_END;
-  } else if (OB_FAIL(ft_word_map.create(ft_word_bkt_cnt, common::ObMemAttr("FTWordMap")))) {
+  } else if (OB_UNLIKELY(!ft_word_map.created())) {
+    ret = OB_NOT_INIT;
+  } else if (FALSE_IT(ft_word_map.reuse())) {
   } else if (OB_FAIL(segment_and_calc_word_count(allocator,
                                                  helper,
                                                  ft_obj_meta,
@@ -892,6 +917,9 @@ void ObFTDMLIterator::reset()
   is_inited_ = false;
   data_plane::reset_ft_doc_word_iterator(ft_doc_word_iter_);
   ft_parse_helper_.reset();
+  if (ft_word_map_.created()) {
+    ft_word_map_.reuse();
+  }
   ObDomainDMLIterator::reset();
 }
 
@@ -960,6 +988,8 @@ int ObFTDMLIterator::init(
     switch (mode_) {
       case ObDomainDMLMode::DOMAIN_DML_MODE_DEFAULT: {
         if (OB_FAIL(ft_parse_helper_.init(&allocator_, parser_name, parser_properties))) {
+        } else if (!ft_word_map_.created()
+                   && OB_FAIL(ft_word_map_.create(997, common::ObMemAttr("FTWordMap")))) {
         }
         break;
       }
@@ -1101,6 +1131,7 @@ int ObFTDMLIterator::generate_ft_word_rows(const ObChunkDatumStore::StoredRow *s
                                                                    doc_id_datum,
                                                                    ft,
                                                                    is_fts_index_aux,
+                                                                   ft_word_map_,
                                                                    rows_))) {
     if (OB_UNLIKELY(OB_ITER_END != ret)) {
       LOG_WARN("fail to generate fulltext word rows",
