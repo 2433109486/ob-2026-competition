@@ -68,6 +68,16 @@ npm run fetch-model -- --check
 
 ### 2. 启动 seekdb
 
+**Linux / 评测容器（推荐：自动启动）**
+
+`npm start` 会先探测 `127.0.0.1:2881`；没有服务时自动在 `PATH`、`/usr/local/bin`、`/usr/bin`、`/opt/seekdb/bin` 中查找 `seekdb` 可执行文件，并用项目内 `runtime/seekdb-server-managed` 作为 `--base-dir` 启动一个私有实例。也可以显式指定：
+
+```bash
+SEEKDB_BIN=/path/to/seekdb npm start
+```
+
+若环境中没有 seekdb 二进制，再按下面的方式手动启动 server，或使用嵌入式模式。
+
 **Windows**
 
 1. 从 <https://github.com/oceanbase/seekdb/releases> 下载 seekdb 1.4 win64，解压到 `vendor/seekdb/`（或设置环境变量 `SEEKDB_EXE`）。

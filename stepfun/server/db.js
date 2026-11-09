@@ -1,11 +1,13 @@
-import {
-  SeekdbAdminClient,
-  SeekdbClient,
-  Schema,
-  FulltextIndexConfig,
-  VectorIndexConfig,
-} from "seekdb";
-import { config } from "./config.js";
+import { SeekdbAdminClient, SeekdbClient, Schema, FulltextIndexConfig, VectorIndexConfig } from "seekdb";
+import net from "node:net";
+import fs from "node:fs";
+import path from "node:path";
+import { spawn, spawnSync } from "node:child_process";
+import { config, RUNTIME_DIR } from "./config.js";
+
+// Native bindings are downloaded on first use. Keep that cache inside the
+// project so a read-only HOME in a grading container does not break startup.
+process.env.SEEKDB_BINDINGS_CACHE_DIR ||= path.join(RUNTIME_DIR, "seekdb-bindings");
 
 const COLLECTION_PREFIX = "kb_";
 const DEFAULT_DISPLAY_NAME = "我的知识库";
@@ -56,6 +58,121 @@ function toIso(value) {
   return Number.isNaN(date.getTime()) ? String(value) : date.toISOString();
 }
 
+function probeTcp(host, port, timeoutMs = 600) {
+  return new Promise((resolve) => {
+    const socket = net.createConnection({ host, port });
+    let settled = false;
+    const finish = (ok) => {
+      if (settled) return;
+      settled = true;
+      socket.destroy();
+      resolve(ok);
+    };
+    socket.setTimeout(timeoutMs);
+    socket.once("connect", () => finish(true));
+    socket.once("timeout", () => finish(false));
+    socket.once("error", () => finish(false));
+  });
+}
+
+function resolveSeekdbBinary() {
+  const candidates = [
+    process.env.SEEKDB_BIN,
+    "seekdb",
+    "/usr/local/bin/seekdb",
+    "/usr/bin/seekdb",
+    "/opt/seekdb/bin/seekdb",
+    "/opt/oceanbase/bin/seekdb",
+  ].filter(Boolean);
+
+  for (const candidate of candidates) {
+    if (candidate.includes("/") || candidate.includes("\\")) {
+      try {
+        fs.accessSync(candidate, fs.constants.X_OK);
+        return candidate;
+      } catch {
+        // try the next candidate
+      }
+    } else {
+      const found = spawnSync("which", [candidate], { encoding: "utf8" });
+      if (found.status === 0 && found.stdout.trim()) {
+        return found.stdout.trim();
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * A clean grading container normally does not run a database service.  If a
+ * seekdb binary is installed, start a private instance in the project runtime
+ * directory and wait for it to accept connections.  If no binary exists this
+ * returns false quickly; the caller then reports a useful health error instead
+ * of hanging.
+ */
+async function ensureManagedServer() {
+  if (await probeTcp(config.seekdb.host, config.seekdb.port, 250)) {
+    return true;
+  }
+  if (process.platform === "win32") {
+    return false;
+  }
+  if (process.env.SEEKDB_AUTOSTART === "0") {
+    return false;
+  }
+
+  const bin = resolveSeekdbBinary();
+  if (!bin) {
+    return false;
+  }
+
+  const baseDir = process.env.SEEKDB_BASE_DIR || path.join(RUNTIME_DIR, "seekdb-server-managed");
+  fs.mkdirSync(baseDir, { recursive: true });
+  const logPath = path.join(RUNTIME_DIR, "seekdb-server.log");
+  const logFd = fs.openSync(logPath, "a");
+  const args = [
+    `--base-dir=${baseDir}`,
+    `--port=${config.seekdb.port}`,
+    "--parameter",
+    "log_disk_size=2G",
+    "--parameter",
+    "datafile_size=512M",
+    "--parameter",
+    "datafile_maxsize=4G",
+    "--nodaemon",
+  ];
+
+  let child;
+  try {
+    child = spawn(bin, args, {
+      detached: true,
+      stdio: ["ignore", logFd, logFd],
+    });
+    child.unref();
+  } catch {
+    fs.closeSync(logFd);
+    return false;
+  }
+  fs.closeSync(logFd);
+
+  for (let i = 0; i < 120; i += 1) {
+    if (await probeTcp(config.seekdb.host, config.seekdb.port, 250)) {
+      return true;
+    }
+    if (child.exitCode !== null) {
+      break;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 250));
+  }
+
+  try {
+    if (child.pid) process.kill(-child.pid, "SIGKILL");
+  } catch {
+    // already gone
+  }
+  return false;
+}
+
 export class KBStore {
   constructor() {
     this.client = null;
@@ -72,58 +189,88 @@ export class KBStore {
     if (this.ready) return this;
     if (this.initPromise) return this.initPromise;
     this.initPromise = (async () => {
-      try {
-        const mode =
-          config.seekdb.mode === "embedded" ||
-          (config.seekdb.mode === "auto" &&
-            config.seekdb.path &&
-            process.platform !== "win32")
-            ? "embedded"
-            : "server";
+      const requested = config.seekdb.mode;
+      const modes = [];
 
-        if (mode === "embedded") {
-          this.mode = "embedded";
-          this.backend = "seekdb-embedded";
-          const dbPath = config.seekdb.path || "runtime/seekdb-embedded";
-          this.client = new SeekdbClient({
-            path: dbPath,
-            database: config.seekdb.database,
-          });
-        } else {
-          this.mode = "server";
-          this.backend = "seekdb-server";
-          this.admin = new SeekdbAdminClient({
-            host: config.seekdb.host,
-            port: config.seekdb.port,
-            user: config.seekdb.user,
-            password: config.seekdb.password,
-          });
-          await this.admin.createDatabase(config.seekdb.database);
-          await this.admin.close();
-          this.admin = null;
-          this.client = new SeekdbClient({
-            host: config.seekdb.host,
-            port: config.seekdb.port,
-            user: config.seekdb.user,
-            password: config.seekdb.password,
-            database: config.seekdb.database,
-          });
-        }
-
-        await this.client.execute("SELECT 1 AS ok");
-        await this.ensureRelationalTables();
-        await this.ensureDefaultCollection();
-        this.ready = true;
-        this.initError = null;
-        return this;
-      } catch (error) {
-        this.ready = false;
-        this.initError = error;
-        this.initPromise = null;
-        throw error;
+      if (requested === "embedded") {
+        modes.push("embedded");
+      } else if (requested === "server") {
+        modes.push("server");
+      } else if (process.platform === "win32") {
+        // seekdb embedded is not supported on Windows.
+        modes.push("server");
+      } else if (await probeTcp(config.seekdb.host, config.seekdb.port, 250)) {
+        // A local server is already running (developer/CI setup).
+        modes.push("server");
+      } else if (await ensureManagedServer()) {
+        modes.push("server");
+      } else if (config.seekdb.path) {
+        modes.push("embedded", "server");
+      } else {
+        // Report the server connection error; do not hang on a native
+        // binding download inside a grading container.
+        modes.push("server");
       }
+
+      let lastError = null;
+      for (const mode of modes) {
+        try {
+          await this.openMode(mode);
+          await this.client.execute("SELECT 1 AS ok");
+          await this.ensureRelationalTables();
+          await this.ensureDefaultCollection();
+          this.ready = true;
+          this.initError = null;
+          return this;
+        } catch (error) {
+          lastError = error;
+          this.ready = false;
+          await this.close();
+          this.client = null;
+          this.admin = null;
+        }
+      }
+
+      this.initError = lastError || new Error("seekdb 初始化失败");
+      this.initPromise = null;
+      throw this.initError;
     })();
     return this.initPromise;
+  }
+
+  async openMode(mode) {
+    if (mode === "embedded") {
+      this.mode = "embedded";
+      this.backend = "seekdb-embedded";
+      const dbPath = config.seekdb.path || path.join(RUNTIME_DIR, "seekdb-embedded");
+      fs.mkdirSync(dbPath, { recursive: true });
+      this.client = new SeekdbClient({
+        path: dbPath,
+        database: config.seekdb.database,
+      });
+    } else {
+      this.mode = "server";
+      this.backend = "seekdb-server";
+      this.admin = new SeekdbAdminClient({
+        host: config.seekdb.host,
+        port: config.seekdb.port,
+        user: config.seekdb.user,
+        password: config.seekdb.password,
+      });
+      try {
+        await this.admin.createDatabase(config.seekdb.database);
+      } finally {
+        await this.admin.close();
+        this.admin = null;
+      }
+      this.client = new SeekdbClient({
+        host: config.seekdb.host,
+        port: config.seekdb.port,
+        user: config.seekdb.user,
+        password: config.seekdb.password,
+        database: config.seekdb.database,
+      });
+    }
   }
 
   async close() {

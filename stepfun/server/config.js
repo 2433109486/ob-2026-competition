@@ -46,6 +46,9 @@ export const config = {
     database: process.env.SEEKDB_DATABASE || "stepfun_kb",
     // Embedded mode is supported on Linux/macOS. On Windows use a local
     // seekdb server (server mode); embedded mode is not supported there.
+    // In auto mode the app first probes 127.0.0.1:2881, then tries to launch
+    // an installed `seekdb` binary, and only uses embedded mode when an
+    // explicit SEEKDB_PATH was supplied.
     path: process.env.SEEKDB_PATH || "",
     mode: process.env.SEEKDB_MODE || "auto",
   },
