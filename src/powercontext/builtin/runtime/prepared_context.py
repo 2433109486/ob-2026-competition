@@ -860,12 +860,27 @@ def select_evidence_fragments(
     if candidates[0].score <= 0.0:
         candidates = candidates[:1]
 
-    chosen: tuple[PreparedContextFragment, ...] = ()
+    # One claim is answered by evidence inside one of the supplied abstracts, and the
+    # request carries several of them. Give every entry its best sentence before
+    # spending the rest of the budget deepening a single entry: otherwise a long
+    # contiguous merge in the first abstract consumes the whole budget and every
+    # other candidate is never even considered.
+    ranked: list[_EvidenceCandidate] = []
+    covered: set[tuple[str, str, str]] = set()
     for candidate in candidates:
+        key = (candidate.address.memory.scope_id, candidate.address.entry_id, candidate.address.entry_version_id)
+        if key not in covered:
+            covered.add(key)
+            ranked.append(candidate)
+    placed = set(id(candidate) for candidate in ranked)
+    ranked.extend(candidate for candidate in candidates if id(candidate) not in placed)
+
+    chosen: tuple[PreparedContextFragment, ...] = ()
+    for candidate in ranked:
         trial = _merge_fragments((*chosen, _fragment(candidate, candidate.start, candidate.end)))
         if len(render_evidence_fragments(trial).encode("utf-8")) <= request.max_bytes:
             chosen = trial
-        if len(chosen) >= 12:
+        if len(chosen) >= 32:
             break
     if not chosen:
         trimmed = _trim_candidate(candidates[0], request.max_bytes)
