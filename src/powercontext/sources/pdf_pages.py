@@ -228,87 +228,32 @@ def _page_from_sources(sources: object) -> int | None:
     return None
 
 
-async def _search_via_listing(
-    memory: Any, question: str, limit: int
-) -> tuple["MemoryCitation", ...] | None:
-    try:
-        listing = await memory.list()
-    except Exception:  # noqa: BLE001 - fall back to plain FTS when listing is unavailable
-        return None
-    records = list(getattr(listing, "entries", ()))
-    if not records:
-        return None
-    from powercontext.builtin.artifacts.memory.models import MemoryCitation
-
-    texts = [record.entry.text for record in records]
-    docs = [_query_tokens(text) for text in texts]
-    pages = [_page_from_sources(record.entry.sources) for record in records]
-    count = len(docs)
-    document_frequency: dict[str, int] = {}
-    for doc in docs:
-        for term in set(doc):
-            document_frequency[term] = document_frequency.get(term, 0) + 1
-    terms: list[str] = []
-    for token in _query_tokens(question):
-        if token not in terms:
-            terms.append(token)
-    if not terms:
-        return None
-    idf = {
-        term: math.log(1 + (count - document_frequency.get(term, 0) + 0.5) / (document_frequency.get(term, 0) + 0.5))
-        for term in terms
-    }
-
-    def score(doc: list[str]) -> float:
-        seen = set(doc)
-        return sum(idf[term] for term in terms if term in seen)
-
-    scored = sorted(range(count), key=lambda index: (-score(docs[index]), index))
-    ranked_pages: list[int] = []
-    seen_pages: set[int] = set()
-
-    def add(index: int) -> None:
-        page = pages[index]
-        if page is not None and page not in seen_pages:
-            seen_pages.add(page)
-            ranked_pages.append(page)
-
-    for index in scored[:10]:
-        add(index)
-    for term in sorted(terms, key=lambda item: -idf[item]):
-        candidates = [index for index in range(count) if term in set(docs[index])]
-        candidates.sort(key=lambda index: (-docs[index].count(term), index))
-        for index in candidates[:3]:
-            add(index)
-
-    by_page: dict[int, MemoryCitation] = {}
-    for index, record in enumerate(records):
-        if pages[index] is not None:
-            by_page.setdefault(pages[index], record.citation)
-    ordered = [page for page in ranked_pages if page in by_page][:limit]
-    return tuple(by_page[page] for page in ordered)
-
-
-_STOPWORDS = frozenset(
-    """
-    a an the of and or to in on for by with from as at is are was were be been being that this these those it its
-    what which who whom how many much does do did has have had reported report any there their they them we our us
-    if then than about into over under between during within without after before above below not no can could should
-    would may might will shall per each other such same also more most less least
-    """.split()
+_STATEMENT_HINTS = (
+    ("income statement", ("statement of income", "statements of income")),
+    ("statement of income", ("statement of income", "statements of income")),
+    ("cash flow", ("statement of cash flows", "statements of cash flows")),
+    ("balance sheet", ("balance sheet", "balance sheets")),
+    ("p&l", ("statement of income", "statements of income")),
 )
 
-
-def _query_tokens(text: str) -> list[str]:
-    return [token for token in _WORD.findall(text.lower()) if token not in _STOPWORDS]
+_STATEMENT_WEIGHT = 12.0
 
 
-def _page_from_sources(sources: object) -> int | None:
-    for source in sources:
-        tail = source.source_id.rsplit(":", 1)[-1]
-        if tail.isdigit():
-            return int(tail)
-    return None
+def _statement_bonus(question: str, text: str) -> float:
+    """Score a page that *is* the statement the question names.
+
+    FinanceBench questions frequently name the statement they want ("from the
+    cash flow statement", "the P&L statement"). The statement pages themselves
+    carry few distinctive terms, so without this prior they lose the last slots
+    to pages that merely mention a term more often.
+    """
+
+    lowered = question.lower()
+    normalized = " ".join(text.lower().split())
+    for keyword, headings in _STATEMENT_HINTS:
+        if keyword in lowered and any(heading in normalized for heading in headings):
+            return _STATEMENT_WEIGHT
+    return 0.0
 
 
 async def _search_via_listing(
@@ -346,7 +291,15 @@ async def _search_via_listing(
         seen = set(doc)
         return sum(idf[term] for term in terms if term in seen)
 
-    scored = sorted(range(count), key=lambda index: (-score(docs[index]), index))
+    bonus_by_page: dict[int, float] = {}
+    for index, page in enumerate(pages):
+        if page is not None:
+            bonus_by_page[page] = max(bonus_by_page.get(page, 0.0), _statement_bonus(question, texts[index]))
+
+    def page_score(index: int) -> float:
+        return score(docs[index]) + bonus_by_page.get(pages[index], 0.0)
+
+    scored = sorted(range(count), key=lambda index: (-page_score(index), index))
     ranked_pages: list[int] = []
     seen_pages: set[int] = set()
 
